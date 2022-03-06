@@ -37,7 +37,13 @@ Also ack-nestjs-mongoose have some objective
 
 ## Documentation
 
-Documentation will write with [gitbook][ack-gitbook-kafka].
+Documentation will write with gitbook.
+
+- [Kafka Documentation][ack-gitbook-kafka]
+
+## Endpoints
+
+All endpoints in [endpoints.json][endpoints] and need import to PostMan. [Follow this step for import into Postman][ref-postman-import-export]
 
 ## License
 
@@ -103,6 +109,7 @@ Distributed under [MIT licensed][license].
 
 <!-- license -->
 [license]: LICENSE.md
+[endpoints]: endpoints.json
 
 <!-- Documents -->
 [ack-gitbook-setup]: https://acks.gitbook.io/ack-nestjs-mongoose
@@ -122,3 +129,4 @@ Distributed under [MIT licensed][license].
 [ref-docker]: https://docs.docker.com
 [ref-yarn]: https://yarnpkg.com
 [ref-kafka]: https://kafka.apache.org/quickstart
+[ref-postman-import-export]: https://learning.postman.com/docs/getting-started/importing-and-exporting-data/
