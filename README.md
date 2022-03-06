@@ -11,9 +11,10 @@
 [![JWT][jwt-shield]][ref-jwt]
 [![Jest][jest-shield]][ref-jest]
 [![Yarn][yarn-shield]][ref-yarn]
+[![Kafka][kafka-shield]][ref-kafka]
 [![Docker][docker-shield]][ref-docker]
 
-# ACK NestJs Boilerplate 🔥 🚀
+# ACK Microservice NestJs Mongoose Boilerplate 🔥 🚀
 
 > Before go in the deep, we recommend to see [ack-nestjs-mongoose][ack-repo] first.
 
@@ -71,6 +72,7 @@ Distributed under [MIT licensed][license].
 [jest-shield]: https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white
 [yarn-shield]: https://img.shields.io/badge/yarn-%232C8EBB.svg?style=for-the-badge&logo=yarn&logoColor=white
 [docker-shield]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+[kafka-shield]: https://img.shields.io/badge/kafka-0000?style=for-the-badge&logo=apachekafka&logoColor=black&color=white
 
 [github-shield]: https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white
 [linkedin-shield]: https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white
@@ -118,3 +120,4 @@ Distributed under [MIT licensed][license].
 [ref-jest]: https://jestjs.io/docs/getting-started
 [ref-docker]: https://docs.docker.com
 [ref-yarn]: https://yarnpkg.com
+[ref-kafka]: https://kafka.apache.org/quickstart
