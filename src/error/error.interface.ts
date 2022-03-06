@@ -9,3 +9,9 @@ export interface IErrorHttpException {
     errors?: IErrors[];
     data?: Record<string, any>;
 }
+
+export type IErrorKafka = {
+    errors?: IErrors[];
+    statusCode: number;
+    message: string;
+};

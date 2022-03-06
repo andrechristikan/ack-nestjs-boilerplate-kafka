@@ -1,8 +1,31 @@
+import { applyDecorators, UseFilters, UsePipes } from '@nestjs/common';
+import { ClassConstructor } from 'class-transformer';
 import {
     registerDecorator,
     ValidationArguments,
     ValidationOptions,
 } from 'class-validator';
+import { MessagePattern, Transport } from '@nestjs/microservices';
+import { RequestKafkaValidationPipe } from './pipe/request.kafka.validation.pipe';
+import { ErrorRcpFilter } from 'src/error/error.filter';
+
+export function KafkaRequest(
+    topic: string,
+    classValidation?: ClassConstructor<any>
+): any {
+    if (classValidation) {
+        return applyDecorators(
+            MessagePattern(topic, Transport.KAFKA),
+            UseFilters(ErrorRcpFilter),
+            UsePipes(RequestKafkaValidationPipe(classValidation))
+        );
+    }
+
+    return applyDecorators(
+        MessagePattern(topic, Transport.KAFKA),
+        UseFilters(ErrorRcpFilter)
+    );
+}
 
 export function IsPasswordStrong(
     minLength = 8,

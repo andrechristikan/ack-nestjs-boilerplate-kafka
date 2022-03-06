@@ -1,7 +1,8 @@
 import { NestApplication, NestFactory } from '@nestjs/core';
-import { Logger, VersioningType, VERSION_NEUTRAL } from '@nestjs/common';
+import { Logger, VersioningType } from '@nestjs/common';
 import { AppModule } from 'src/app/app.module';
 import { ConfigService } from '@nestjs/config';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule);
@@ -23,8 +24,40 @@ async function bootstrap() {
     if (versioning) {
         app.enableVersioning({
             type: VersioningType.URI,
-            defaultVersion: VERSION_NEUTRAL,
         });
+    }
+
+    // kafka
+    if (env !== 'testing') {
+        const brokers: string[] = configService.get<string[]>('kafka.brokers');
+        const clientId: string = configService.get<string>('kafka.clientId');
+        const consumerGroup: string = configService.get<string>(
+            'kafka.consumerGroup'
+        );
+        const retries: number = configService.get<number>('kafka.retries');
+
+        app.connectMicroservice<MicroserviceOptions>({
+            transport: Transport.KAFKA,
+            options: {
+                client: {
+                    clientId,
+                    brokers,
+                },
+                consumer: {
+                    groupId: consumerGroup,
+                    allowAutoTopicCreation: false,
+                    retry: {
+                        retries: retries,
+                    },
+                },
+            },
+        });
+
+        await app.startAllMicroservices();
+        logger.log(
+            `Kafka server connected on brokers ${brokers.join(', ')}`,
+            'NestApplication'
+        );
     }
 
     // Listen

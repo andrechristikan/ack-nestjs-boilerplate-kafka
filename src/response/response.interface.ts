@@ -1,3 +1,5 @@
+import { IncomingMessage } from 'http';
+
 export type IResponse = Record<string, any>;
 
 export interface IResponsePaging {
@@ -7,3 +9,8 @@ export interface IResponsePaging {
     perPage: number;
     data: Record<string, any>[];
 }
+
+export type IResponseKafka = {
+    firstValue?: IncomingMessage;
+    lastValue?: IncomingMessage;
+};

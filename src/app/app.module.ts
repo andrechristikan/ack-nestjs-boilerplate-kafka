@@ -7,6 +7,8 @@ import { RouterPublicModule } from 'src/router/router.public.module';
 import { RouterAdminModule } from 'src/router/router.admin.module';
 import { RouterCallbackModule } from 'src/router/router.callback.module';
 import { CoreModule } from 'src/core/core.module';
+import { RouterKafkaModule } from 'src/router/router.kafka.module';
+import { KafkaAdminModule } from 'src/kafka/admin/kafka.admin.module';
 
 @Module({
     controllers: [],
@@ -14,6 +16,10 @@ import { CoreModule } from 'src/core/core.module';
     imports: [
         // Core
         CoreModule,
+
+        // Kafka
+        KafkaAdminModule,
+        RouterKafkaModule,
 
         // Router
         RouterCommonModule,
