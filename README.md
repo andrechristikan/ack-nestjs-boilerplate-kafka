@@ -16,10 +16,11 @@
 
 # ACK Microservice NestJs Mongoose Boilerplate 🔥 🚀
 
-> Before go in the deep, we recommend to see [ack-nestjs-mongoose][ack-repo] first.
+> Forked project from ack-nestjs-mongoose. Before go in the deep, we recommend to see [ack-nestjs-mongoose][ack-repo] first.
 
-ack-microservice-nestjs-mongoose is [NestJs][ref-nestjs] boilerplate that combine [NestJs Http][ref-nestjs] and [NestJs Kafka Microservice][ref-nestjs-kafka-microservice]
-forked project from [ack-nestjs-mongoose][ack-repo].
+ack-microservice-nestjs-mongoose is a [NestJs][ref-nestjs] Microservice Boilerplate with Mongoose and MongoDB as Database.
+ack-microservice-nestjs-mongoose combine [NestJs Http][ref-nestjs] and [NestJs Kafka Microservice][ref-nestjs-kafka-microservice].
+Best uses for build an API Project or Microservice Project.
 
 *You can [Request Feature][ack-microservice-issues] or [Report Bug][ack-microservice-issues] with following this link*
 
