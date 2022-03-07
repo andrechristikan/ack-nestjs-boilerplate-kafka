@@ -17,7 +17,7 @@ import {
 import { IResponseKafka } from 'src/response/response.interface';
 import { KAFKA_TOPICS } from '../kafka.constant';
 import {
-    KAFKA_PRODUCER_ACKS,
+    ENUM_KAFKA_PRODUCER_ACKS,
     KAFKA_PRODUCER_INSYNC_SERVICE_NAME,
     KAFKA_PRODUCER_LEADER_SYNC_SERVICE_NAME,
 } from './kafka.producer.constant';
@@ -59,7 +59,7 @@ export class KafkaProducerService
     async send<T>(
         topic: string,
         data: T,
-        acks: KAFKA_PRODUCER_ACKS,
+        acks: ENUM_KAFKA_PRODUCER_ACKS,
         options?: IKafkaProducerOptions
     ): Promise<IResponseKafka> {
         const request: IRequestKafka<T> = {
@@ -70,7 +70,7 @@ export class KafkaProducerService
 
         let kafka = this.kafkaInsync;
 
-        if (acks === KAFKA_PRODUCER_ACKS.LEADER_SYNC) {
+        if (acks === ENUM_KAFKA_PRODUCER_ACKS.LEADER_SYNC) {
             kafka = this.kafkaLeaderSync;
         }
 
