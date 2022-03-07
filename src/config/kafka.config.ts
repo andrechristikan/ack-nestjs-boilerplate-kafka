@@ -8,7 +8,6 @@ export default registerAs(
             : ['localhost:9092'],
         consumerGroup: process.env.KAFKA_CONSUMER_GROUP || 'nestjs.ack',
         clientId: 'KAFKA_ACK_CLIENT_ID',
-        acks: -1,
         retries: 3,
 
         admin: {
