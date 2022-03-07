@@ -1,5 +1,6 @@
 import { DynamicModule, Module } from '@nestjs/common';
 import { KafkaAdminModule } from 'src/kafka/admin/kafka.admin.module';
+import { KafkaProducerModule } from 'src/kafka/producer/kafka.producer.module';
 
 @Module({})
 export class RouterKafkaModule {
@@ -19,7 +20,7 @@ export class RouterKafkaModule {
             controllers: [],
             providers: [],
             exports: [],
-            imports: [KafkaAdminModule],
+            imports: [KafkaAdminModule, KafkaProducerModule],
         };
     }
 }

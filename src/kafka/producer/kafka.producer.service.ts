@@ -4,7 +4,6 @@ import {
     Logger,
     OnApplicationBootstrap,
     OnModuleDestroy,
-    Optional,
 } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom, lastValueFrom, timeout } from 'rxjs';
@@ -30,10 +29,8 @@ export class KafkaProducerService
 
     constructor(
         @Helper() private readonly helperService: HelperService,
-        @Optional()
         @Inject(KAFKA_PRODUCER_INSYNC_SERVICE_NAME)
         private readonly kafkaInsync: ClientKafka,
-        @Optional()
         @Inject(KAFKA_PRODUCER_LEADER_SYNC_SERVICE_NAME)
         private readonly kafkaLeaderSync: ClientKafka
     ) {}
