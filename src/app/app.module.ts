@@ -8,7 +8,6 @@ import { RouterAdminModule } from 'src/router/router.admin.module';
 import { RouterCallbackModule } from 'src/router/router.callback.module';
 import { CoreModule } from 'src/core/core.module';
 import { RouterKafkaModule } from 'src/router/router.kafka.module';
-import { KafkaAdminModule } from 'src/kafka/admin/kafka.admin.module';
 
 @Module({
     controllers: [],
@@ -18,8 +17,9 @@ import { KafkaAdminModule } from 'src/kafka/admin/kafka.admin.module';
         CoreModule,
 
         // Kafka
-        KafkaAdminModule,
-        RouterKafkaModule,
+        RouterKafkaModule.register({
+            env: process.env.APP_ENV,
+        }),
 
         // Router
         RouterCommonModule,
