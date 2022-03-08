@@ -1,8 +1,18 @@
+import { applyDecorators, UseFilters } from '@nestjs/common';
 import {
     registerDecorator,
     ValidationArguments,
     ValidationOptions,
 } from 'class-validator';
+import { MessagePattern, Transport } from '@nestjs/microservices';
+import { ErrorRcpFilter } from 'src/error/error.filter';
+
+export function Topic(topic: string): any {
+    return applyDecorators(
+        MessagePattern(topic, Transport.KAFKA),
+        UseFilters(ErrorRcpFilter)
+    );
+}
 
 export function IsPasswordStrong(
     minLength = 8,
