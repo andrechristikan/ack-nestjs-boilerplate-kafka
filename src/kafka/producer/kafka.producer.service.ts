@@ -12,7 +12,7 @@ import { Helper } from 'src/helper/helper.decorator';
 import { HelperService } from 'src/helper/helper.service';
 import { IRequestKafka } from 'src/request/request.interface';
 import { IResponseKafka } from 'src/response/response.interface';
-import { KAFKA_TOPICS } from '../kafka.constant';
+import { KAFKA_TOPICS_SUBSCRIBE } from '../kafka.constant';
 import {
     ENUM_KAFKA_PRODUCER_ACKS,
     KAFKA_PRODUCER_INSYNC_SERVICE_NAME,
@@ -39,7 +39,7 @@ export class KafkaProducerService
     }
 
     async onApplicationBootstrap(): Promise<void> {
-        const topics: string[] = [...new Set(KAFKA_TOPICS)];
+        const topics: string[] = [...new Set(KAFKA_TOPICS_SUBSCRIBE)];
         for (const topic of topics) {
             this.kafkaInsync.subscribeToResponseOf(topic);
             this.kafkaLeaderSync.subscribeToResponseOf(topic);

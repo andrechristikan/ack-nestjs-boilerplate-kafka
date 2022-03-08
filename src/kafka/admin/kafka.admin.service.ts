@@ -5,7 +5,10 @@ import { ConfigService } from '@nestjs/config';
 import { ITopicConfig } from '@nestjs/microservices/external/kafka.interface';
 import { Helper } from 'src/helper/helper.decorator';
 import { HelperService } from 'src/helper/helper.service';
-import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
+import {
+    KAFKA_TOPICS_CONSUMER,
+    KAFKA_TOPICS_SUBSCRIBE,
+} from 'src/kafka/kafka.constant';
 
 @Injectable()
 export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
@@ -25,7 +28,9 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
         private readonly configService: ConfigService
     ) {
         this.brokers = this.configService.get<string[]>('kafka.brokers');
-        this.topics = [...new Set(KAFKA_TOPICS)];
+        this.topics = [
+            ...new Set([...KAFKA_TOPICS_SUBSCRIBE, ...KAFKA_TOPICS_CONSUMER]),
+        ];
         this.clientId = this.configService.get<string>('kafka.admin.clientId');
         this.kafkaOptions = {
             clientId: this.clientId,
