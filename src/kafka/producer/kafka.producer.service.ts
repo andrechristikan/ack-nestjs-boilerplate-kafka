@@ -5,14 +5,12 @@ import {
     OnApplicationBootstrap,
     OnModuleDestroy,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom, lastValueFrom, timeout } from 'rxjs';
 import { Helper } from 'src/helper/helper.decorator';
 import { HelperService } from 'src/helper/helper.service';
-import {
-    IKafkaProducerOptions,
-    IRequestKafka,
-} from 'src/request/request.interface';
+import { IRequestKafka } from 'src/request/request.interface';
 import { IResponseKafka } from 'src/response/response.interface';
 import { KAFKA_TOPICS } from '../kafka.constant';
 import {
@@ -20,20 +18,25 @@ import {
     KAFKA_PRODUCER_INSYNC_SERVICE_NAME,
     KAFKA_PRODUCER_LEADER_SYNC_SERVICE_NAME,
 } from './kafka.producer.constant';
+import { IKafkaProducerOptions } from './kafka.producer.interface';
 
 @Injectable()
 export class KafkaProducerService
     implements OnApplicationBootstrap, OnModuleDestroy
 {
     protected logger = new Logger(KafkaProducerService.name);
+    private readonly timeout: number;
 
     constructor(
         @Helper() private readonly helperService: HelperService,
         @Inject(KAFKA_PRODUCER_INSYNC_SERVICE_NAME)
         private readonly kafkaInsync: ClientKafka,
         @Inject(KAFKA_PRODUCER_LEADER_SYNC_SERVICE_NAME)
-        private readonly kafkaLeaderSync: ClientKafka
-    ) {}
+        private readonly kafkaLeaderSync: ClientKafka,
+        private readonly configService: ConfigService
+    ) {
+        this.timeout = this.configService.get<number>('kafka.timeout');
+    }
 
     async onApplicationBootstrap(): Promise<void> {
         const topics: string[] = [...new Set(KAFKA_TOPICS)];
@@ -74,12 +77,12 @@ export class KafkaProducerService
         const firstValue = await firstValueFrom(
             kafka
                 .send<any, IRequestKafka<T>>(topic, request)
-                .pipe(timeout(5000))
+                .pipe(timeout(this.timeout))
         );
         const lastValue = await lastValueFrom(
             kafka
                 .send<any, IRequestKafka<T>>(topic, request)
-                .pipe(timeout(5000))
+                .pipe(timeout(this.timeout))
         );
 
         return {

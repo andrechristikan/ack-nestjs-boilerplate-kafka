@@ -7,7 +7,3 @@ export interface IRequestKafka<T = Record<string, string>> {
     value: T;
     headers?: IRequestKafkaHeader;
 }
-
-export interface IKafkaProducerOptions {
-    headers?: IRequestKafkaHeader;
-}
