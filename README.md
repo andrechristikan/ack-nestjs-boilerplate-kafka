@@ -14,7 +14,11 @@
 [![Kafka][kafka-shield]][ref-kafka]
 [![Docker][docker-shield]][ref-docker]
 
+<<<<<<< HEAD
 # ACK Microservice NestJs Mongoose Boilerplate 🔥 🚀
+=======
+# ACK NestJs Boilerplate Mongoose  🔥 🚀
+>>>>>>> f4971d31a7b459e8e12f55feb7a79d49dfbed6e9
 
 > Forked project from ack-nestjs-boilerplate-mongoose. Before go in the deep, we recommend to see [ack-nestjs-mongoose][ack-repo] first.
 
