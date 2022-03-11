@@ -27,6 +27,24 @@ async function bootstrap() {
         });
     }
 
+    // Listen
+    await app.listen(port, host);
+    logger.log(
+        `Database running on ${configService.get<string>(
+            'database.host'
+        )}/${configService.get<string>('database.name')}`,
+        'NestApplication'
+    );
+    logger.log(
+        `Database options ${configService.get<string>('database.options')}`,
+        'NestApplication'
+    );
+    logger.log(
+        `App Versioning is ${versioning ? 'on' : 'off'}`,
+        'NestApplication'
+    );
+    logger.log(`Server running on ${await app.getUrl()}`, 'NestApplication');
+
     // kafka
     if (env !== 'testing') {
         const brokers: string[] = configService.get<string[]>('kafka.brokers');
@@ -59,23 +77,5 @@ async function bootstrap() {
             'NestApplication'
         );
     }
-
-    // Listen
-    await app.listen(port, host);
-    logger.log(
-        `Database running on ${configService.get<string>(
-            'database.host'
-        )}/${configService.get<string>('database.name')}`,
-        'NestApplication'
-    );
-    logger.log(
-        `Database options ${configService.get<string>('database.options')}`,
-        'NestApplication'
-    );
-    logger.log(
-        `App Versioning is ${versioning ? 'on' : 'off'}`,
-        'NestApplication'
-    );
-    logger.log(`Server running on ${await app.getUrl()}`, 'NestApplication');
 }
 bootstrap();
