@@ -13,6 +13,7 @@ import { HelperModule } from 'src/helper/helper.module';
 import { DATABASE_CONNECTION_NAME } from 'src/database/database.constant';
 import { MiddlewareModule } from 'src/middleware/middleware.module';
 import { AuthModule } from 'src/auth/auth.module';
+import { KafkaModule } from 'src/kafka/kafka.module';
 
 @Module({
     controllers: [],
@@ -44,6 +45,9 @@ import { AuthModule } from 'src/auth/auth.module';
         DebuggerModule,
         HelperModule,
         AuthModule,
+        KafkaModule.register({
+            env: process.env.APP_ENV,
+        }),
     ],
 })
 export class CoreModule {}

@@ -1,11 +1,13 @@
 import { DynamicModule, Module } from '@nestjs/common';
+import { KafkaAdminModule } from './admin/kafka.admin.module';
+import { KafkaProducerModule } from './producer/kafka.producer.module';
 
 @Module({})
-export class RouterKafkaModule {
+export class KafkaModule {
     static register({ env }): DynamicModule {
         if (env === 'testing') {
             return {
-                module: RouterKafkaModule,
+                module: KafkaModule,
                 providers: [],
                 exports: [],
                 controllers: [],
@@ -14,11 +16,11 @@ export class RouterKafkaModule {
         }
 
         return {
-            module: RouterKafkaModule,
+            module: KafkaModule,
             controllers: [],
             providers: [],
             exports: [],
-            imports: [],
+            imports: [KafkaAdminModule, KafkaProducerModule],
         };
     }
 }
