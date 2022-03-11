@@ -16,12 +16,10 @@ import { RouterKafkaModule } from 'src/router/router.kafka.module';
         // Core
         CoreModule,
 
-        // Kafka
+        // Router
         RouterKafkaModule.register({
             env: process.env.APP_ENV,
         }),
-
-        // Router
         RouterCommonModule,
         RouterTestModule,
         RouterEnumModule,
