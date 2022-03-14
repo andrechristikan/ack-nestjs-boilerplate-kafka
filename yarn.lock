@@ -1619,6 +1619,13 @@
     "semver" "^7.3.5"
     "tar" "^6.1.11"
 
+"@nestjs/axios@^0.0.7":
+  "integrity" "sha512-at8nj+1Nb8UleHcIN5QqZYeWX54m4m9s9gxzVE1qWy00neX2rg0+h2TfbWsnDi2tc23zIxqexanxMOJZbzO0CA=="
+  "resolved" "https://registry.npmjs.org/@nestjs/axios/-/axios-0.0.7.tgz"
+  "version" "0.0.7"
+  dependencies:
+    "axios" "0.26.0"
+
 "@nestjs/cli@^8.2.0":
   "integrity" "sha512-f5grQOgrRcfHfOUP94OWsMdVYy6bit0zRSxPZ5+tfsFWkiPWdcx5Ba2M2socTykkiNHruXBu07lYvcKh94do7Q=="
   "resolved" "https://registry.npmjs.org/@nestjs/cli/-/cli-8.2.0.tgz"
@@ -1647,7 +1654,7 @@
     "webpack" "5.66.0"
     "webpack-node-externals" "3.0.0"
 
-"@nestjs/common@*", "@nestjs/common@^5.0.0 || ^6.6.0 || ^7.0.0 || ^8.0.0", "@nestjs/common@^6.0.0 || ^7.0.0 || ^8.0.0", "@nestjs/common@^7.0.0 || ^8.0.0", "@nestjs/common@^8.0.0", "@nestjs/common@^8.2.5":
+"@nestjs/common@*", "@nestjs/common@^5.0.0 || ^6.6.0 || ^7.0.0 || ^8.0.0", "@nestjs/common@^6.0.0 || ^7.0.0 || ^8.0.0", "@nestjs/common@^7.0.0 || ^8.0.0", "@nestjs/common@^8.0.0", "@nestjs/common@^8.2.5", "@nestjs/common@8.x":
   "integrity" "sha512-8VOZmHcCyhBtfvxehDfudsCrNghUoqDpZA5W8d/PUhMgz4Y1eT0M2ENBIuxr3C3j1vLypFOo30La2ymfQlOC8Q=="
   "resolved" "https://registry.npmjs.org/@nestjs/common/-/common-8.2.5.tgz"
   "version" "8.2.5"
@@ -1667,7 +1674,7 @@
     "lodash" "4.17.21"
     "uuid" "8.3.2"
 
-"@nestjs/core@*", "@nestjs/core@^6.0.0 || ^7.0.0 || ^8.0.0", "@nestjs/core@^8.0.0", "@nestjs/core@^8.2.5":
+"@nestjs/core@*", "@nestjs/core@^6.0.0 || ^7.0.0 || ^8.0.0", "@nestjs/core@^8.0.0", "@nestjs/core@^8.2.5", "@nestjs/core@8.x":
   "integrity" "sha512-R0vp0VlAQFP7qBTZMzMspwOCO6MpsMJON/MsrfHVGgZS5Sd5DInfboWhe2COPnAr+VAT0o4FAKObW08Pdb5hMg=="
   "resolved" "https://registry.npmjs.org/@nestjs/core/-/core-8.2.5.tgz"
   "version" "8.2.5"
@@ -1728,6 +1735,13 @@
     "fs-extra" "10.0.0"
     "jsonc-parser" "3.0.0"
     "pluralize" "8.0.0"
+
+"@nestjs/terminus@^8.0.4":
+  "integrity" "sha512-KjeY7VLt0Az6pA2wO67nkL1QbE68yBb+FLZ7+aa+C/g/IKoDR668nqSuFzJarBrnFBTGEwDD09BwsgqkmymrbQ=="
+  "resolved" "https://registry.npmjs.org/@nestjs/terminus/-/terminus-8.0.4.tgz"
+  "version" "8.0.4"
+  dependencies:
+    "check-disk-space" "3.1.0"
 
 "@nestjs/testing@^8.2.5":
   "integrity" "sha512-M0uGfmPb5hc3k8jEHW2/Ilia+BYnxZoZ4MmqrWlLND/zTNSSJZJXUISLDtukka9/GAzGTlyQ3yQJMGL+GjnqXA=="
@@ -2582,6 +2596,13 @@
   dependencies:
     "follow-redirects" "^1.14.4"
 
+"axios@0.26.0":
+  "integrity" "sha512-lKoGLMYtHvFrPVt3r+RBMp9nh34N0M8zEfCWqdWZx6phynIEhQqAdydpyBAAG211zlhX9Rgu08cOamy6XjE5Og=="
+  "resolved" "https://registry.npmjs.org/axios/-/axios-0.26.0.tgz"
+  "version" "0.26.0"
+  dependencies:
+    "follow-redirects" "^1.14.8"
+
 "babel-jest@^27.4.6":
   "integrity" "sha512-qZL0JT0HS1L+lOuH+xC2DVASR3nunZi/ozGhpgauJHgmI7f8rudxf6hUjEHympdQ/J64CdKmPkgfJ+A3U6QCrg=="
   "resolved" "https://registry.npmjs.org/babel-jest/-/babel-jest-27.4.6.tgz"
@@ -2874,6 +2895,11 @@
   "integrity" "sha512-mT8iDcrh03qDGRRmoA2hmBJnxpllMR+0/0qlzjqZES6NdiWDcZkCNAk4rPFZ9Q85r27unkiNNg8ZOiwZXBHwcA=="
   "resolved" "https://registry.npmjs.org/chardet/-/chardet-0.7.0.tgz"
   "version" "0.7.0"
+
+"check-disk-space@3.1.0":
+  "integrity" "sha512-4L3WVw4uPaBJocwnxTCWTTHc8mNu080pjCVBhZeWFdnaQBAremLHpJ1H90G+uEA0rJcW43fghYMsLBXID9X4Zg=="
+  "resolved" "https://registry.npmjs.org/check-disk-space/-/check-disk-space-3.1.0.tgz"
+  "version" "3.1.0"
 
 "chokidar@^3.4.2", "chokidar@^3.5.2", "chokidar@3.5.2":
   "integrity" "sha512-ekGhOnNVPgT77r4K/U3GDhu+FQ2S8TnK/s2KbIGXi0SZWuwkZ2QNyfWdZW+TVfn84DpEP7rLeCt2UI6bJ8GwbQ=="
@@ -3998,7 +4024,7 @@
   "resolved" "https://registry.npmjs.org/fn.name/-/fn.name-1.1.0.tgz"
   "version" "1.1.0"
 
-"follow-redirects@^1.14.4":
+"follow-redirects@^1.14.4", "follow-redirects@^1.14.8":
   "integrity" "sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w=="
   "resolved" "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.14.9.tgz"
   "version" "1.14.9"
@@ -6309,7 +6335,7 @@
   dependencies:
     "resolve" "^1.1.6"
 
-"reflect-metadata@^0.1.12", "reflect-metadata@^0.1.13":
+"reflect-metadata@^0.1.12", "reflect-metadata@^0.1.13", "reflect-metadata@0.1.x":
   "integrity" "sha512-Ts1Y/anZELhSsjMcU605fU9RE4Oi3p5ORujwbIKXfWa+0Zxs510Qrmrce5/Jowq3cHSZSJqBjypxmHarc+vEWg=="
   "resolved" "https://registry.npmjs.org/reflect-metadata/-/reflect-metadata-0.1.13.tgz"
   "version" "0.1.13"
@@ -6401,7 +6427,7 @@
   dependencies:
     "queue-microtask" "^1.2.2"
 
-"rxjs@*", "rxjs@^6.0.0 || ^7.0.0", "rxjs@^6.0.0 || ^7.2.0", "rxjs@^7.1.0", "rxjs@^7.5.2":
+"rxjs@*", "rxjs@^6.0.0 || ^7.0.0", "rxjs@^6.0.0 || ^7.2.0", "rxjs@^7.1.0", "rxjs@^7.5.2", "rxjs@7.x":
   "integrity" "sha512-PwDt186XaL3QN5qXj/H9DGyHhP3/RYYgZZwqBv9Tv8rsAaiwFH1IsJJlcgD37J7UW5a6O67qX0KWKS3/pu0m4w=="
   "resolved" "https://registry.npmjs.org/rxjs/-/rxjs-7.5.2.tgz"
   "version" "7.5.2"
