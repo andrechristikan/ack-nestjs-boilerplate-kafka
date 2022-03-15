@@ -21,7 +21,8 @@ export default registerAs(
 
             allowAutoTopicCreation: false,
             retry: {
-                initialRetryTime: 100,
+                maxRetryTime: 30 * 1000, // 30s
+                initialRetryTime: 1 * 1000, // 1s
                 retries: 8,
             },
         },
@@ -34,7 +35,8 @@ export default registerAs(
             transactionTimeout: 60 * 1000, //60s
             allowAutoTopicCreation: false,
             retry: {
-                initialRetryTime: 100,
+                maxRetryTime: 30 * 1000, // 30s
+                initialRetryTime: 1 * 1000, // 1s
                 retries: 8,
             },
         },
