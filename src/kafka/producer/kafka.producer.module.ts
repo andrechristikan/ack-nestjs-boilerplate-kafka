@@ -29,10 +29,6 @@ import { KafkaProducerService } from './kafka.producer.service';
                         },
                         producer: {
                             allowAutoTopicCreation: false,
-                            retry: {
-                                retries:
-                                    configService.get<number>('kafka.retries'),
-                            },
                         },
                         send: {
                             acks: -1,

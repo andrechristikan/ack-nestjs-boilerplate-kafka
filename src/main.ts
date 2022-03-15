@@ -55,7 +55,6 @@ async function bootstrap() {
         const consumerGroup: string = configService.get<string>(
             'kafka.consumerGroup'
         );
-        const retries: number = configService.get<number>('kafka.retries');
 
         app.connectMicroservice<MicroserviceOptions>({
             transport: Transport.KAFKA,
@@ -67,9 +66,6 @@ async function bootstrap() {
                 consumer: {
                     groupId: consumerGroup,
                     allowAutoTopicCreation: false,
-                    retry: {
-                        retries: retries,
-                    },
                 },
             },
         });
