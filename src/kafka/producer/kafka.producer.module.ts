@@ -1,6 +1,7 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
+import { ProducerConfig } from '@nestjs/microservices/external/kafka.interface';
 import {
     KAFKA_PRODUCER_INSYNC_SERVICE_NAME,
     KAFKA_PRODUCER_LEADER_SYNC_SERVICE_NAME,
@@ -27,10 +28,12 @@ import { KafkaProducerService } from './kafka.producer.service';
                             brokers:
                                 configService.get<string[]>('kafka.brokers'),
                         },
-                        producer: {
-                            allowAutoTopicCreation: false,
-                        },
+                        producer:
+                            configService.get<ProducerConfig>('kafka.producer'),
                         send: {
+                            timeout: configService.get<number>(
+                                'kafka.producerSend.timeout'
+                            ),
                             acks: -1,
                         },
                     },
@@ -51,14 +54,12 @@ import { KafkaProducerService } from './kafka.producer.service';
                             brokers:
                                 configService.get<string[]>('kafka.brokers'),
                         },
-                        producer: {
-                            allowAutoTopicCreation: false,
-                            retry: {
-                                retries:
-                                    configService.get<number>('kafka.retries'),
-                            },
-                        },
+                        producer:
+                            configService.get<ProducerConfig>('kafka.producer'),
                         send: {
+                            timeout: configService.get<number>(
+                                'kafka.producerSend.timeout'
+                            ),
                             acks: 1,
                         },
                     },

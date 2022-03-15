@@ -25,7 +25,8 @@ export class KafkaProducerService
     implements OnApplicationBootstrap, OnModuleDestroy
 {
     protected logger = new Logger(KafkaProducerService.name);
-    private readonly timeout: number;
+    private readonly producerSend: number;
+    private readonly producerMessageResponseSubscription: boolean;
 
     constructor(
         @Helper() private readonly helperService: HelperService,
@@ -35,14 +36,21 @@ export class KafkaProducerService
         private readonly kafkaLeaderSync: ClientKafka,
         private readonly configService: ConfigService
     ) {
-        this.timeout = this.configService.get<number>('kafka.timeout');
+        this.producerSend =
+            this.configService.get<number>('kafka.producerSend');
+        this.producerMessageResponseSubscription =
+            this.configService.get<boolean>(
+                'kafka.producerMessageResponseSubscription'
+            );
     }
 
     async onApplicationBootstrap(): Promise<void> {
-        const topics: string[] = [...new Set(KAFKA_TOPICS_SUBSCRIBE)];
-        for (const topic of topics) {
-            this.kafkaInsync.subscribeToResponseOf(topic);
-            this.kafkaLeaderSync.subscribeToResponseOf(topic);
+        if (this.producerMessageResponseSubscription) {
+            const topics: string[] = [...new Set(KAFKA_TOPICS_SUBSCRIBE)];
+            for (const topic of topics) {
+                this.kafkaInsync.subscribeToResponseOf(topic);
+                this.kafkaLeaderSync.subscribeToResponseOf(topic);
+            }
         }
 
         await this.kafkaInsync.connect();
@@ -77,12 +85,12 @@ export class KafkaProducerService
         const firstValue = await firstValueFrom(
             kafka
                 .send<any, IRequestKafka<T>>(topic, request)
-                .pipe(timeout(this.timeout))
+                .pipe(timeout(this.producerSend))
         );
         const lastValue = await lastValueFrom(
             kafka
                 .send<any, IRequestKafka<T>>(topic, request)
-                .pipe(timeout(this.timeout))
+                .pipe(timeout(this.producerSend))
         );
 
         return {

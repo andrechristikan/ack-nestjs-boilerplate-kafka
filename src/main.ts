@@ -3,10 +3,15 @@ import { Logger, VersioningType } from '@nestjs/common';
 import { AppModule } from 'src/app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import {
+    ConsumerConfig,
+    ConsumerSubscribeTopic,
+} from '@nestjs/microservices/external/kafka.interface';
+import { KafkaAdminService } from './kafka/admin/kafka.admin.service';
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule);
-    const configService = app.get(ConfigService);
+    const configService = app.get<ConfigService>(ConfigService);
     const env: string = configService.get<string>('app.env');
     const tz: string = configService.get<string>('app.timezone');
     const host: string = configService.get<string>('app.http.host');
@@ -30,6 +35,36 @@ async function bootstrap() {
         });
     }
 
+    // kafka
+    const brokers: string[] = configService.get<string[]>('kafka.brokers');
+    const clientId: string = configService.get<string>('kafka.clientId');
+    if (env !== 'testing') {
+        // create topics in init
+        const kafkaAdminService = app.get<KafkaAdminService>(KafkaAdminService);
+        await kafkaAdminService.createTopics();
+
+        const consumer: ConsumerConfig =
+            configService.get<ConsumerConfig>('kafka.consumer');
+        const subscribe: ConsumerSubscribeTopic =
+            configService.get<ConsumerSubscribeTopic>(
+                'kafka.consumerSubscribe'
+            );
+
+        app.connectMicroservice<MicroserviceOptions>({
+            transport: Transport.KAFKA,
+            options: {
+                client: {
+                    clientId,
+                    brokers,
+                },
+                subscribe,
+                consumer,
+            },
+        });
+
+        await app.startAllMicroservices();
+    }
+
     // Listen
     await app.listen(port, host);
     logger.log(
@@ -48,31 +83,11 @@ async function bootstrap() {
     );
     logger.log(`Server running on ${await app.getUrl()}`, 'NestApplication');
 
-    // kafka
     if (env !== 'testing') {
-        const brokers: string[] = configService.get<string[]>('kafka.brokers');
-        const clientId: string = configService.get<string>('kafka.clientId');
-        const consumerGroup: string = configService.get<string>(
-            'kafka.consumerGroup'
-        );
-
-        app.connectMicroservice<MicroserviceOptions>({
-            transport: Transport.KAFKA,
-            options: {
-                client: {
-                    clientId,
-                    brokers,
-                },
-                consumer: {
-                    groupId: consumerGroup,
-                    allowAutoTopicCreation: false,
-                },
-            },
-        });
-
-        await app.startAllMicroservices();
         logger.log(
-            `Kafka server connected on brokers ${brokers.join(', ')}`,
+            `Kafka server ${clientId} connected on brokers ${brokers.join(
+                ', '
+            )}`,
             'NestApplication'
         );
     }

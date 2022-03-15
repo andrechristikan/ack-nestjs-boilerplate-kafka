@@ -3,8 +3,6 @@ import { Admin, Kafka, KafkaConfig } from 'kafkajs';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
 import { ITopicConfig } from '@nestjs/microservices/external/kafka.interface';
-import { Helper } from 'src/helper/helper.decorator';
-import { HelperService } from 'src/helper/helper.service';
 import {
     KAFKA_TOPICS_CONSUMER,
     KAFKA_TOPICS_SUBSCRIBE,
@@ -20,17 +18,15 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
     private readonly clientId: string;
     private readonly kafkaOptions: KafkaConfig;
     private readonly defaultPartition: number;
+    private readonly producerMessageResponseSubscription: boolean;
 
     protected logger = new Logger(KafkaAdminService.name);
 
-    constructor(
-        @Helper() private readonly helperService: HelperService,
-        private readonly configService: ConfigService
-    ) {
+    constructor(private readonly configService: ConfigService) {
         this.brokers = this.configService.get<string[]>('kafka.brokers');
         this.topics = [
             ...new Set([...KAFKA_TOPICS_SUBSCRIBE, ...KAFKA_TOPICS_CONSUMER]),
-        ];
+        ].sort();
         this.clientId = this.configService.get<string>('kafka.admin.clientId');
         this.kafkaOptions = {
             clientId: this.clientId,
@@ -40,10 +36,13 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
         this.defaultPartition = this.configService.get<number>(
             'kafka.admin.defaultPartition'
         );
+        this.producerMessageResponseSubscription =
+            this.configService.get<boolean>(
+                'kafka.producerMessageResponseSubscription'
+            );
 
         this.logger.log(`Starting ${this.name} ...`);
         this.logger.log(`Brokers ${this.brokers}`);
-        this.logger.log(`Topics ${this.topics}`);
 
         this.kafka = new Kafka(this.kafkaOptions);
 
@@ -53,18 +52,8 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
 
     async onModuleInit(): Promise<void> {
         await this.connect();
-        const currentTopicUnique: string[] = await this.getAllTopicUnique();
-
-        if (
-            JSON.stringify(currentTopicUnique) !== JSON.stringify(this.topics)
-        ) {
-            await this.createTopics();
-            await this.helperService.timeDelay(5000); // in ms
-        }
 
         this.logger.log(`${this.name} Admin Connected`);
-        this.logger.log(`${this.name} Topic Created`);
-        this.logger.log(`${this.name} Connected`);
     }
 
     async onModuleDestroy(): Promise<void> {
@@ -89,15 +78,14 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
             .filter((val) => val !== '__consumer_offsets');
     }
 
-    private async createTopics(): Promise<boolean> {
+    async createTopics(): Promise<boolean> {
+        this.logger.log(`Topics ${this.topics}`);
+
         const currentTopic: string[] = await this.getAllTopicUnique();
         const topics: string[] = this.topics;
-        const replyTopic: string[] = this.topics.map((val) => `${val}.reply`);
         const data: ITopicConfig[] = [];
 
-        topics.forEach((val) => {
-            const topic: string = val;
-
+        for (const topic of topics) {
             if (!currentTopic.includes(topic)) {
                 data.push({
                     topic,
@@ -105,26 +93,31 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
                     replicationFactor: this.brokers.length,
                 });
             }
-        });
+        }
 
-        replyTopic.forEach((val) => {
-            const topic: string = val;
-
-            if (!currentTopic.includes(topic)) {
-                data.push({
-                    topic,
-                    numPartitions: this.defaultPartition,
-                    replicationFactor: this.brokers.length,
-                });
+        if (this.producerMessageResponseSubscription) {
+            const replyTopics: string[] = this.topics.map(
+                (val) => `${val}.reply`
+            );
+            for (const replyTopic of replyTopics) {
+                if (!currentTopic.includes(replyTopic)) {
+                    data.push({
+                        topic: replyTopic,
+                        numPartitions: this.defaultPartition,
+                        replicationFactor: this.brokers.length,
+                    });
+                }
             }
-        });
+        }
 
-        if (data && data.length > 0) {
+        if (data.length > 0) {
             this.admin.createTopics({
                 waitForLeaders: true,
                 topics: data,
             });
         }
+
+        this.logger.log(`${this.name} Topic Created`);
 
         return true;
     }
