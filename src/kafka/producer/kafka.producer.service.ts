@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientKafka } from '@nestjs/microservices';
-import { firstValueFrom, lastValueFrom, timeout } from 'rxjs';
+import { lastValueFrom, timeout } from 'rxjs';
 import { Helper } from 'src/helper/helper.decorator';
 import { HelperService } from 'src/helper/helper.service';
 import { IRequestKafka } from 'src/request/request.interface';
@@ -75,21 +75,11 @@ export class KafkaProducerService
             kafka = this.kafkaLeaderSync;
         }
 
-        const firstValue = await firstValueFrom(
+        return lastValueFrom(
             kafka
                 .send<any, IRequestKafka<T>>(topic, request)
                 .pipe(timeout(this.producerSend.timeout))
         );
-        const lastValue = await lastValueFrom(
-            kafka
-                .send<any, IRequestKafka<T>>(topic, request)
-                .pipe(timeout(this.producerSend.timeout))
-        );
-
-        return {
-            firstValue,
-            lastValue,
-        };
     }
 
     private async createId(): Promise<string> {
