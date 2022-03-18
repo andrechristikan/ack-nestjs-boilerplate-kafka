@@ -18,7 +18,6 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
     private readonly clientId: string;
     private readonly kafkaOptions: KafkaConfig;
     private readonly defaultPartition: number;
-    private readonly producerMessageResponseSubscription: boolean;
 
     protected logger = new Logger(KafkaAdminService.name);
 
@@ -36,10 +35,6 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
         this.defaultPartition = this.configService.get<number>(
             'kafka.admin.defaultPartition'
         );
-        this.producerMessageResponseSubscription =
-            this.configService.get<boolean>(
-                'kafka.producerMessageResponseSubscription'
-            );
 
         this.logger.log(`Brokers ${this.brokers}`);
         this.kafka = new Kafka(this.kafkaOptions);
@@ -98,18 +93,14 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
             }
         }
 
-        if (this.producerMessageResponseSubscription) {
-            const replyTopics: string[] = this.topics.map(
-                (val) => `${val}.reply`
-            );
-            for (const replyTopic of replyTopics) {
-                if (!currentTopic.includes(replyTopic)) {
-                    data.push({
-                        topic: replyTopic,
-                        numPartitions: this.defaultPartition,
-                        replicationFactor: this.brokers.length,
-                    });
-                }
+        const replyTopics: string[] = this.topics.map((val) => `${val}.reply`);
+        for (const replyTopic of replyTopics) {
+            if (!currentTopic.includes(replyTopic)) {
+                data.push({
+                    topic: replyTopic,
+                    numPartitions: this.defaultPartition,
+                    replicationFactor: this.brokers.length,
+                });
             }
         }
 

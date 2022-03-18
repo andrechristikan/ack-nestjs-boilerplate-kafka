@@ -40,7 +40,6 @@ export default registerAs(
                 retries: 8,
             },
         },
-        producerMessageResponseSubscription: true,
         producerSend: {
             timeout: 10 * 1000, // 10s
         },
