@@ -20,7 +20,7 @@ export class KafkaModule {
             controllers: [],
             providers: [],
             exports: [],
-            imports: [KafkaProducerModule, KafkaAdminModule],
+            imports: [KafkaAdminModule, KafkaProducerModule],
         };
     }
 }

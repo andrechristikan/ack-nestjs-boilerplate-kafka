@@ -3,10 +3,7 @@ import { Admin, Kafka, KafkaConfig } from 'kafkajs';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
 import { ITopicConfig } from '@nestjs/microservices/external/kafka.interface';
-import {
-    KAFKA_TOPICS_CONSUMER,
-    KAFKA_TOPICS_SUBSCRIBE,
-} from 'src/kafka/kafka.constant';
+import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
 
 @Injectable()
 export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
@@ -14,7 +11,6 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
     private readonly admin: Admin;
     private readonly topics: string[];
     private readonly brokers: string[];
-    private readonly name: string;
     private readonly clientId: string;
     private readonly kafkaOptions: KafkaConfig;
     private readonly defaultPartition: number;
@@ -22,16 +18,16 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
     protected logger = new Logger(KafkaAdminService.name);
 
     constructor(private readonly configService: ConfigService) {
-        this.brokers = this.configService.get<string[]>('kafka.brokers');
-        this.topics = [
-            ...new Set([...KAFKA_TOPICS_SUBSCRIBE, ...KAFKA_TOPICS_CONSUMER]),
-        ].sort();
         this.clientId = this.configService.get<string>('kafka.admin.clientId');
+        this.brokers = this.configService.get<string[]>('kafka.brokers');
+
+        this.topics = [...new Set(KAFKA_TOPICS)];
+
         this.kafkaOptions = {
             clientId: this.clientId,
             brokers: this.brokers,
         };
-        this.name = KafkaAdminService.name;
+
         this.defaultPartition = this.configService.get<number>(
             'kafka.admin.defaultPartition'
         );
@@ -43,19 +39,19 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
     }
 
     async onModuleInit(): Promise<void> {
-        this.logger.log(`Connecting ${this.name} Admin`);
+        this.logger.log(`Connecting ${KafkaAdminService.name} Admin`);
 
         await this.connect();
 
-        this.logger.log(`${this.name} Admin Connected`);
+        this.logger.log(`${KafkaAdminService.name} Admin Connected`);
     }
 
     async onModuleDestroy(): Promise<void> {
-        this.logger.log(`Disconnecting ${this.name} Admin`);
+        this.logger.log(`Disconnecting ${KafkaAdminService.name} Admin`);
 
         await this.disconnect();
 
-        this.logger.log(`${this.name} Admin Disconnected`);
+        this.logger.log(`${KafkaAdminService.name} Admin Disconnected`);
     }
 
     private async connect(): Promise<void> {
@@ -71,9 +67,9 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
     }
 
     private async getAllTopicUnique(): Promise<string[]> {
-        return [...new Set(await this.getAllTopic())]
-            .sort()
-            .filter((val) => val !== '__consumer_offsets');
+        return [...new Set(await this.getAllTopic())].filter(
+            (val) => val !== '__consumer_offsets'
+        );
     }
 
     async createTopics(): Promise<boolean> {
@@ -84,9 +80,9 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
         const data: ITopicConfig[] = [];
 
         for (const topic of topics) {
-            if (!currentTopic.includes(topic)) {
+            if (!currentTopic.includes(topic.toLocaleLowerCase())) {
                 data.push({
-                    topic,
+                    topic: topic.toLocaleLowerCase(),
                     numPartitions: this.defaultPartition,
                     replicationFactor: this.brokers.length,
                 });
@@ -95,9 +91,9 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
 
         const replyTopics: string[] = this.topics.map((val) => `${val}.reply`);
         for (const replyTopic of replyTopics) {
-            if (!currentTopic.includes(replyTopic)) {
+            if (!currentTopic.includes(replyTopic.toLocaleLowerCase())) {
                 data.push({
-                    topic: replyTopic,
+                    topic: replyTopic.toLocaleLowerCase(),
                     numPartitions: this.defaultPartition,
                     replicationFactor: this.brokers.length,
                 });
@@ -111,7 +107,7 @@ export class KafkaAdminService implements OnModuleInit, OnModuleDestroy {
             });
         }
 
-        this.logger.log(`${this.name} Topic Created`);
+        this.logger.log(`${KafkaAdminService.name} Topic Created`);
 
         return true;
     }

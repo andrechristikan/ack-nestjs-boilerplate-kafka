@@ -12,12 +12,8 @@ import { Helper } from 'src/helper/helper.decorator';
 import { HelperService } from 'src/helper/helper.service';
 import { IRequestKafka } from 'src/request/request.interface';
 import { IResponseKafka } from 'src/response/response.interface';
-import { KAFKA_TOPICS_SUBSCRIBE } from '../kafka.constant';
-import {
-    ENUM_KAFKA_PRODUCER_ACKS,
-    KAFKA_PRODUCER_INSYNC_SERVICE_NAME,
-    KAFKA_PRODUCER_LEADER_SYNC_SERVICE_NAME,
-} from './kafka.producer.constant';
+import { KAFKA_TOPICS } from '../kafka.constant';
+import { KAFKA_PRODUCER_SERVICE_NAME } from './kafka.producer.constant';
 import { IKafkaProducerOptions } from './kafka.producer.interface';
 
 @Injectable()
@@ -29,10 +25,8 @@ export class KafkaProducerService
 
     constructor(
         @Helper() private readonly helperService: HelperService,
-        @Inject(KAFKA_PRODUCER_INSYNC_SERVICE_NAME)
-        private readonly kafkaInsync: ClientKafka,
-        @Inject(KAFKA_PRODUCER_LEADER_SYNC_SERVICE_NAME)
-        private readonly kafkaLeaderSync: ClientKafka,
+        @Inject(KAFKA_PRODUCER_SERVICE_NAME)
+        private readonly clientKafka: ClientKafka,
         private readonly configService: ConfigService
     ) {
         this.producerSend =
@@ -40,27 +34,23 @@ export class KafkaProducerService
     }
 
     async onApplicationBootstrap(): Promise<void> {
-        const topics: string[] = [...new Set(KAFKA_TOPICS_SUBSCRIBE)];
+        const topics: string[] = [...new Set(KAFKA_TOPICS)];
         for (const topic of topics) {
-            this.kafkaInsync.subscribeToResponseOf(topic);
-            this.kafkaLeaderSync.subscribeToResponseOf(topic);
+            this.clientKafka.subscribeToResponseOf(topic.toLowerCase());
         }
 
-        await this.kafkaInsync.connect();
-        await this.kafkaLeaderSync.connect();
+        await this.clientKafka.connect();
 
         this.logger.log('Kafka Client Connected');
     }
 
     async onModuleDestroy(): Promise<void> {
-        await this.kafkaInsync.close();
-        await this.kafkaLeaderSync.close();
+        await this.clientKafka.close();
     }
 
     async send<T>(
         topic: string,
         data: T,
-        acks: ENUM_KAFKA_PRODUCER_ACKS,
         options?: IKafkaProducerOptions
     ): Promise<IResponseKafka> {
         const request: IRequestKafka<T> = {
@@ -69,14 +59,8 @@ export class KafkaProducerService
             headers: options && options.headers ? options.headers : undefined,
         };
 
-        let kafka = this.kafkaInsync;
-
-        if (acks === ENUM_KAFKA_PRODUCER_ACKS.LEADER_SYNC) {
-            kafka = this.kafkaLeaderSync;
-        }
-
         return lastValueFrom(
-            kafka
+            this.clientKafka
                 .send<any, IRequestKafka<T>>(topic, request)
                 .pipe(timeout(this.producerSend.timeout))
         );
