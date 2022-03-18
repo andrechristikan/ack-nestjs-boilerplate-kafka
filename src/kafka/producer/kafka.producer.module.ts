@@ -28,6 +28,9 @@ import { KafkaProducerService } from './kafka.producer.service';
                         producer:
                             configService.get<ProducerConfig>('kafka.producer'),
                         send: {
+                            timeout: configService.get<number>(
+                                'kafka.producerSend.timeout'
+                            ),
                             acks: -1,
                         },
                     },

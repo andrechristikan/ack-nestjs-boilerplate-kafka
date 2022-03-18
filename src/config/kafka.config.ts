@@ -22,7 +22,7 @@ export default registerAs(
             allowAutoTopicCreation: false,
             retry: {
                 maxRetryTime: 30 * 1000, // 30s
-                initialRetryTime: 1 * 1000, // 1s
+                initialRetryTime: 3 * 1000, // 1s
                 retries: 8,
             },
         },
@@ -36,12 +36,12 @@ export default registerAs(
             allowAutoTopicCreation: false,
             retry: {
                 maxRetryTime: 30 * 1000, // 30s
-                initialRetryTime: 1 * 1000, // 1s
+                initialRetryTime: 3 * 1000, // 1s
                 retries: 8,
             },
         },
         producerSend: {
-            timeout: 60 * 1000, // 10s
+            timeout: 10 * 1000, // 10s
         },
 
         // admin
