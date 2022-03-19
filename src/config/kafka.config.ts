@@ -10,7 +10,7 @@ export default registerAs(
 
         // consumer
         consumer: {
-            group: process.env.KAFKA_CONSUMER_GROUP || 'nestjs.ack',
+            groupId: process.env.KAFKA_CONSUMER_GROUP || 'nestjs.ack',
             sessionTimeout: 30 * 1000, // 30s
             rebalanceTimeout: 60 * 1000, //60s
             heartbeatInterval: 5 * 1000, // 5s

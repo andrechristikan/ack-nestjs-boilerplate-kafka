@@ -45,9 +45,7 @@ import { KafkaModule } from 'src/kafka/kafka.module';
         DebuggerModule,
         HelperModule,
         AuthModule,
-        KafkaModule.register({
-            env: process.env.APP_ENV,
-        }),
+        KafkaModule,
     ],
 })
 export class CoreModule {}

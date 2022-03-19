@@ -1,5 +1,4 @@
 import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
-
 import { Response } from 'src/response/response.decorator';
 
 @Controller({

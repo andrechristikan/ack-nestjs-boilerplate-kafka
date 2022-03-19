@@ -17,9 +17,7 @@ import { RouterKafkaModule } from 'src/router/router.kafka.module';
         CoreModule,
 
         // Router
-        RouterKafkaModule.register({
-            env: process.env.APP_ENV,
-        }),
+        RouterKafkaModule,
         RouterCommonModule,
         RouterTestModule,
         RouterEnumModule,
