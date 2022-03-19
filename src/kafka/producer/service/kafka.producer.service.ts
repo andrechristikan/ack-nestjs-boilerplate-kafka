@@ -63,7 +63,7 @@ export class KafkaProducerService implements OnApplicationBootstrap {
     }
 
     private async createId(): Promise<string> {
-        const rand: string = await this.helperStringService.random(10);
+        const rand: string = this.helperStringService.random(10);
         const timestamp = `${new Date().valueOf()}`;
         return `${timestamp}-${rand}`;
     }
