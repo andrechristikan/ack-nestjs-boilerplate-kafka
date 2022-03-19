@@ -3,10 +3,15 @@ import { Logger, VersioningType } from '@nestjs/common';
 import { AppModule } from 'src/app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import {
+    ConsumerConfig,
+    ConsumerSubscribeTopic,
+} from '@nestjs/microservices/external/kafka.interface';
+import { KafkaAdminService } from './kafka/admin/service/kafka.admin.service';
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule);
-    const configService = app.get(ConfigService);
+    const configService = app.get<ConfigService>(ConfigService);
     const env: string = configService.get<string>('app.env');
     const tz: string = configService.get<string>('app.timezone');
     const host: string = configService.get<string>('app.http.host');
@@ -27,55 +32,76 @@ async function bootstrap() {
         });
     }
 
-    // kafka
-    if (env !== 'testing') {
-        const brokers: string[] = configService.get<string[]>('kafka.brokers');
-        const clientId: string = configService.get<string>('kafka.clientId');
-        const consumerGroup: string = configService.get<string>(
-            'kafka.consumerGroup'
-        );
-        const retries: number = configService.get<number>('kafka.retries');
-
-        app.connectMicroservice<MicroserviceOptions>({
-            transport: Transport.KAFKA,
-            options: {
-                client: {
-                    clientId,
-                    brokers,
-                },
-                consumer: {
-                    groupId: consumerGroup,
-                    allowAutoTopicCreation: false,
-                    retry: {
-                        retries: retries,
-                    },
-                },
-            },
-        });
-
-        await app.startAllMicroservices();
-        logger.log(
-            `Kafka server connected on brokers ${brokers.join(', ')}`,
-            'NestApplication'
-        );
-    }
-
     // Listen
     await app.listen(port, host);
+
+    // kafka
+    const brokers: string[] = configService.get<string[]>('kafka.brokers');
+    const clientId: string = configService.get<string>('kafka.clientId');
+    const consumerGroup: string = configService.get<string>(
+        'kafka.consumer.groupId'
+    );
+
+    // create topics in init
+    const kafkaAdminService = app.get<KafkaAdminService>(KafkaAdminService);
+    await kafkaAdminService.createTopics();
+
+    const consumer: ConsumerConfig =
+        configService.get<ConsumerConfig>('kafka.consumer');
+    const subscribe: ConsumerSubscribeTopic =
+        configService.get<ConsumerSubscribeTopic>('kafka.consumerSubscribe');
+
+    app.connectMicroservice<MicroserviceOptions>({
+        transport: Transport.KAFKA,
+        options: {
+            client: {
+                clientId,
+                brokers,
+            },
+            subscribe,
+            consumer,
+        },
+    });
+
+    await app.startAllMicroservices();
+
+    logger.log(`==========================================================`);
+    logger.log(`App Environment is ${env}`, 'NestApplication');
+    logger.log(
+        `App Language is ${configService.get<string>('app.language')}`,
+        'NestApplication'
+    );
+    logger.log(
+        `App Debug is ${configService.get<boolean>('app.debug')}`,
+        'NestApplication'
+    );
+    logger.log(`App Timezone is ${tz}`, 'NestApplication');
+    logger.log(
+        `App Versioning is ${versioning ? 'on' : 'off'}`,
+        'NestApplication'
+    );
+    logger.log(
+        `Database Debug is ${configService.get<boolean>('database.debug')}`,
+        'NestApplication'
+    );
+
+    logger.log(`==========================================================`);
+
     logger.log(
         `Database running on ${configService.get<string>(
             'database.host'
         )}/${configService.get<string>('database.name')}`,
         'NestApplication'
     );
+
     logger.log(
-        `Database options ${configService.get<string>('database.options')}`,
+        `Kafka server ${clientId} connected on brokers ${brokers.join(', ')}`,
         'NestApplication'
     );
-    logger.log(
-        `App Versioning is ${versioning ? 'on' : 'off'}`,
-        'NestApplication'
-    );
+    logger.log(`Kafka consume group ${consumerGroup}`, 'NestApplication');
+
     logger.log(`Server running on ${await app.getUrl()}`, 'NestApplication');
+
+    logger.log(`==========================================================`);
 }
 bootstrap();

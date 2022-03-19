@@ -1,21 +1,26 @@
+import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
-import { AuthController } from 'src/auth/auth.controller';
+import { TerminusModule } from '@nestjs/terminus';
 import { AuthModule } from 'src/auth/auth.module';
-import { LoggerModule } from 'src/logger/logger.module';
+import { AuthCommonController } from 'src/auth/controller/auth.common.controller';
+import { HealthCommonController } from 'src/health/controller/health.common.controller';
+import { HealthModule } from 'src/health/health.module';
 import { PermissionModule } from 'src/permission/permission.module';
 import { RoleModule } from 'src/role/role.module';
 import { UserModule } from 'src/user/user.module';
 
 @Module({
-    controllers: [AuthController],
+    controllers: [AuthCommonController, HealthCommonController],
     providers: [],
     exports: [],
     imports: [
         UserModule,
         AuthModule,
         RoleModule,
-        LoggerModule,
         PermissionModule,
+        TerminusModule,
+        HttpModule,
+        HealthModule,
     ],
 })
 export class RouterCommonModule {}

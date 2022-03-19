@@ -1,14 +1,14 @@
 {
-  "name": "ack-nestjs-boilerplate-mongoose",
-  "version": "0.2.0",
-  "description": "Ack NestJs BoilerPlate Mongoose",
+  "name": "ack-microservice-nestjs-boilerplate-mongoose",
+  "version": "0.0.3",
+  "description": "Ack Microservice NestJs BoilerPlate Mongoose",
   "repository": {
     "type": "git",
-    "url": "https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose.git"
+    "url": "https://github.com/andrechristikan/ackk-microservice-nestjs-boilerplate-mongoose.git"
   },
   "author": {
     "name": "andrechristikan",
-    "email": "ack@baibay.com"
+    "email": "ack@baibay.id"
   },
   "private": true,
   "license": "MIT",
@@ -37,6 +37,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.47.0",
     "@faker-js/faker": "^6.0.0-alpha.3",
+    "@nestjs/axios": "^0.0.7",
     "@nestjs/common": "^8.2.5",
     "@nestjs/config": "^1.1.6",
     "@nestjs/core": "^8.2.5",
@@ -45,6 +46,7 @@
     "@nestjs/mongoose": "^9.0.2",
     "@nestjs/passport": "^8.1.0",
     "@nestjs/platform-express": "^8.2.5",
+    "@nestjs/terminus": "^8.0.4",
     "bcrypt": "^5.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.13.2",
@@ -78,6 +80,7 @@
     "@types/express": "^4.17.13",
     "@types/express-rate-limit": "^6.0.0",
     "@types/jest": "^27.4.0",
+    "@types/lodash": "^4.14.180",
     "@types/morgan": "^1.9.3",
     "@types/multer": "^1.4.7",
     "@types/node": "^17.0.8",

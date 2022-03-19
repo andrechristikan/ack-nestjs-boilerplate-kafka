@@ -1,14 +1,13 @@
 import { Module } from '@nestjs/common';
-import { RouterCommonModule } from 'src/router/router.common.module';
 import { RouterModule } from '@nestjs/core';
-import { RouterTestModule } from 'src/router/router.test.module';
-import { RouterEnumModule } from 'src/router/router.enum.module';
-import { RouterPublicModule } from 'src/router/router.public.module';
-import { RouterAdminModule } from 'src/router/router.admin.module';
-import { RouterCallbackModule } from 'src/router/router.callback.module';
 import { CoreModule } from 'src/core/core.module';
+import { KafkaModule } from 'src/kafka/kafka.module';
+import { RouterAdminModule } from 'src/router/router.admin.module';
+import { RouterCommonModule } from 'src/router/router.common.module';
+import { RouterEnumModule } from 'src/router/router.enum.module';
 import { RouterKafkaModule } from 'src/router/router.kafka.module';
-
+import { RouterPublicModule } from 'src/router/router.public.module';
+import { RouterTestModule } from 'src/router/router.test.module';
 @Module({
     controllers: [],
     providers: [],
@@ -17,9 +16,8 @@ import { RouterKafkaModule } from 'src/router/router.kafka.module';
         CoreModule,
 
         // Kafka
-        RouterKafkaModule.register({
-            env: process.env.APP_ENV,
-        }),
+        KafkaModule,
+        RouterKafkaModule,
 
         // Router
         RouterCommonModule,
@@ -27,7 +25,6 @@ import { RouterKafkaModule } from 'src/router/router.kafka.module';
         RouterEnumModule,
         RouterPublicModule,
         RouterAdminModule,
-        RouterCallbackModule,
         RouterModule.register([
             {
                 path: '/',
@@ -48,10 +45,6 @@ import { RouterKafkaModule } from 'src/router/router.kafka.module';
             {
                 path: '/public',
                 module: RouterPublicModule,
-            },
-            {
-                path: '/callback',
-                module: RouterCallbackModule,
             },
         ]),
     ],
