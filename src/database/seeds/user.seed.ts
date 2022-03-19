@@ -1,17 +1,17 @@
 import { Command } from 'nestjs-command';
 import { Injectable } from '@nestjs/common';
-import { Logger as DebuggerService } from 'winston';
-import { Debugger } from 'src/debugger/debugger.decorator';
 
-import { RoleService } from 'src/role/role.service';
-import { UserBulkService, UserService } from 'src/user/user.service';
-import { AuthService } from 'src/auth/auth.service';
 import { RoleDocument } from 'src/role/role.schema';
+import { DebuggerService } from 'src/debugger/debugger.service';
+import { UserService } from 'src/user/service/user.service';
+import { UserBulkService } from 'src/user/service/user.bulk.service';
+import { RoleService } from 'src/role/service/role.service';
+import { AuthService } from 'src/auth/service/auth.service';
 
 @Injectable()
 export class UserSeed {
     constructor(
-        @Debugger() private readonly debuggerService: DebuggerService,
+        private readonly debuggerService: DebuggerService,
         private readonly authService: AuthService,
         private readonly userService: UserService,
         private readonly userBulkService: UserBulkService,
@@ -45,15 +45,13 @@ export class UserSeed {
                 salt: password.salt,
             });
 
-            this.debuggerService.info('Insert User Succeed', {
-                class: 'UserSeed',
-                function: 'insert',
-            });
+            this.debuggerService.debug(
+                'Insert User Succeed',
+                'UserSeed',
+                'insert'
+            );
         } catch (e) {
-            this.debuggerService.error(e.message, {
-                class: 'UserSeed',
-                function: 'insert',
-            });
+            this.debuggerService.error(e.message, 'UserSeed', 'insert');
         }
     }
 
@@ -65,15 +63,13 @@ export class UserSeed {
         try {
             await this.userBulkService.deleteMany({});
 
-            this.debuggerService.info('Remove User Succeed', {
-                class: 'UserSeed',
-                function: 'remove',
-            });
+            this.debuggerService.debug(
+                'Remove User Succeed',
+                'UserSeed',
+                'remove'
+            );
         } catch (e) {
-            this.debuggerService.error(e.message, {
-                class: 'UserSeed',
-                function: 'remove',
-            });
+            this.debuggerService.error(e.message, 'UserSeed', 'remove');
         }
     }
 }

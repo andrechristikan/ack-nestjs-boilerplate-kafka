@@ -7,7 +7,7 @@ import {
     ConsumerConfig,
     ConsumerSubscribeTopic,
 } from '@nestjs/microservices/external/kafka.interface';
-import { KafkaAdminService } from './kafka/admin/kafka.admin.service';
+import { KafkaAdminService } from './kafka/admin/service/kafka.admin.service';
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule);
@@ -86,6 +86,7 @@ async function bootstrap() {
     );
 
     logger.log(`==========================================================`);
+
     logger.log(
         `Database running on ${configService.get<string>(
             'database.host'
@@ -100,6 +101,7 @@ async function bootstrap() {
     logger.log(`Kafka consume group ${consumerGroup}`, 'NestApplication');
 
     logger.log(`Server running on ${await app.getUrl()}`, 'NestApplication');
+
     logger.log(`==========================================================`);
 }
 bootstrap();

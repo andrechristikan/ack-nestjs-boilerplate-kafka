@@ -1,15 +1,12 @@
 import { PipeTransform, ArgumentMetadata } from '@nestjs/common';
 import { validate } from 'class-validator';
-import { Debugger } from 'src/debugger/debugger.decorator';
 import { Logger as DebuggerService } from 'winston';
 import { plainToInstance } from 'class-transformer';
 import { RpcException } from '@nestjs/microservices';
-import { ENUM_REQUEST_STATUS_CODE_ERROR } from '../request.constant';
+import { ENUM_REQUEST_STATUS_CODE_ERROR } from 'src/utils/request/request.constant';
 
 export class RequestKafkaValidationPipe implements PipeTransform {
-    constructor(
-        @Debugger() private readonly debuggerService: DebuggerService
-    ) {}
+    constructor(private readonly debuggerService: DebuggerService) {}
 
     async transform(
         value: Record<string, any>,

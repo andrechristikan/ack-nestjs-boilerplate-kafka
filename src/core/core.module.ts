@@ -5,14 +5,14 @@ import { DatabaseModule } from 'src/database/database.module';
 import { MessageModule } from 'src/message/message.module';
 import { ConfigModule } from '@nestjs/config';
 import { WinstonModule } from 'nest-winston';
-import { DebuggerService } from 'src/debugger/debugger.service';
+import { DebuggerOptionService } from 'src/debugger/debugger.service';
 import { DebuggerModule } from 'src/debugger/debugger.module';
-import { PaginationModule } from 'src/pagination/pagination.module';
 import Configs from 'src/config/index';
-import { HelperModule } from 'src/helper/helper.module';
 import { DATABASE_CONNECTION_NAME } from 'src/database/database.constant';
-import { MiddlewareModule } from 'src/middleware/middleware.module';
 import { AuthModule } from 'src/auth/auth.module';
+import { PaginationModule } from 'src/utils/pagination/pagination.module';
+import { HelperModule } from 'src/utils/helper/helper.module';
+import { MiddlewareModule } from 'src/utils/middleware/middleware.module';
 import { KafkaModule } from 'src/kafka/kafka.module';
 
 @Module({
@@ -28,9 +28,9 @@ import { KafkaModule } from 'src/kafka/kafka.module';
             envFilePath: ['.env'],
         }),
         WinstonModule.forRootAsync({
-            inject: [DebuggerService],
+            inject: [DebuggerOptionService],
             imports: [DebuggerModule],
-            useFactory: (loggerService: DebuggerService) =>
+            useFactory: (loggerService: DebuggerOptionService) =>
                 loggerService.createLogger(),
         }),
         MongooseModule.forRootAsync({

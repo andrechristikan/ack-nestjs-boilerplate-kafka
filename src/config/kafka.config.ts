@@ -22,7 +22,7 @@ export default registerAs(
             allowAutoTopicCreation: false,
             retry: {
                 maxRetryTime: 30 * 1000, // 30s
-                initialRetryTime: 3 * 1000, // 1s
+                initialRetryTime: 3 * 1000, // 3s
                 retries: 8,
             },
         },
@@ -36,7 +36,7 @@ export default registerAs(
             allowAutoTopicCreation: false,
             retry: {
                 maxRetryTime: 30 * 1000, // 30s
-                initialRetryTime: 3 * 1000, // 1s
+                initialRetryTime: 3 * 1000, // 3s
                 retries: 8,
             },
         },
