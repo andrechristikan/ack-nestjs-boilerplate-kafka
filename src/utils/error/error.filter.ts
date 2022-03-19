@@ -5,17 +5,16 @@ import {
     HttpException,
 } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
-import { Message } from 'src/message/message.decorator';
-import { MessageService } from 'src/message/message.service';
 import { Request, Response } from 'express';
 import { IErrorHttpException } from './error.interface';
 import { IMessage } from 'src/message/message.interface';
+import { MessageService } from 'src/message/service/message.service';
 import { RpcException } from '@nestjs/microservices';
 import { Observable, throwError } from 'rxjs';
 
 @Catch(HttpException)
 export class ErrorHttpFilter implements ExceptionFilter {
-    constructor(@Message() private readonly messageService: MessageService) {}
+    constructor(private readonly messageService: MessageService) {}
 
     async catch(exception: HttpException, host: ArgumentsHost): Promise<void> {
         const ctx: HttpArgumentsHost = host.switchToHttp();
