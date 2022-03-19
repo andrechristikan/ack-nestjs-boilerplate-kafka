@@ -28,16 +28,15 @@ Best uses for build an API Project or Microservice Project. Made with following 
 
 ack-nestjs-boilerplate-mongoose have some objective.
 
-- It's essential to keep things simple
+- Simple and secure
+- Avoid spaghetti code
 - Component-based folder structure
-- Avoid Spaghetti Code
 - Reusable component
 - Easy to maintenance
-- Secure
 
 ## Features
 
-Cool features, [see this for more informations][ack-docs-setup-features] 😎.
+Cool features, [see this for more information][ack-docs-setup-features] 😎.
 
 - Centralize Configuration
 - OAuth2 as Authorization
@@ -103,7 +102,7 @@ Distributed under [MIT licensed][license].
 <!-- CONTACTS -->
 [author-linkedin]: https://linkedin.com/in/andrechristikan
 [author-instagram]: https://www.instagram.com/___ac.k
-[author-email]: mailto:ack@baibay.com
+[author-email]: mailto:ack@baibay.id
 [author-github]: https://github.com/andrechristikan
 
 <!-- Repo LINKS -->
