@@ -17,7 +17,7 @@ export class RequestKafkaValidationPipe implements PipeTransform {
         }
 
         const request = plainToInstance(metatype, value);
-        this.debuggerService.info('Request Kafka Data', {
+        this.debuggerService.debug('Request Kafka Data', {
             class: 'RequestKafkaValidationPipe',
             function: 'transform',
             request: request,
