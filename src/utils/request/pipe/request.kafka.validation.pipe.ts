@@ -1,9 +1,9 @@
 import { PipeTransform, ArgumentMetadata, Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
-import { Logger as DebuggerService } from 'winston';
 import { plainToInstance } from 'class-transformer';
 import { RpcException } from '@nestjs/microservices';
 import { ENUM_REQUEST_STATUS_CODE_ERROR } from 'src/utils/request/request.constant';
+import { DebuggerService } from 'src/debugger/service/debugger.service';
 
 @Injectable()
 export class RequestKafkaValidationPipe implements PipeTransform {
@@ -18,19 +18,21 @@ export class RequestKafkaValidationPipe implements PipeTransform {
         }
 
         const request = plainToInstance(metatype, value);
-        this.debuggerService.debug('Request Kafka Data', {
-            class: 'RequestKafkaValidationPipe',
-            function: 'transform',
-            request: request,
-        });
+        this.debuggerService.debug(
+            'Request Kafka Data',
+            'RequestKafkaValidationPipe',
+            'transform',
+            request
+        );
 
         const rawErrors: Record<string, any>[] = await validate(request);
         if (rawErrors.length > 0) {
-            this.debuggerService.error('Request Kafka Errors', {
-                class: 'RequestKafkaValidationPipe',
-                function: 'transform',
-                errors: rawErrors,
-            });
+            this.debuggerService.error(
+                'Request Kafka Errors',
+                'RequestKafkaValidationPipe',
+                'transform',
+                rawErrors
+            );
 
             throw new RpcException({
                 statusCode:
