@@ -1,10 +1,11 @@
-import { PipeTransform, ArgumentMetadata } from '@nestjs/common';
+import { PipeTransform, ArgumentMetadata, Injectable } from '@nestjs/common';
 import { validate } from 'class-validator';
 import { Logger as DebuggerService } from 'winston';
 import { plainToInstance } from 'class-transformer';
 import { RpcException } from '@nestjs/microservices';
 import { ENUM_REQUEST_STATUS_CODE_ERROR } from 'src/utils/request/request.constant';
 
+@Injectable()
 export class RequestKafkaValidationPipe implements PipeTransform {
     constructor(private readonly debuggerService: DebuggerService) {}
 
