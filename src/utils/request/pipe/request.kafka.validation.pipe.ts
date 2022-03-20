@@ -42,7 +42,7 @@ export class RequestKafkaValidationPipe implements PipeTransform {
             });
         }
 
-        return value;
+        return request;
     }
 
     private toValidate(metatype: Record<string, any>): boolean {
