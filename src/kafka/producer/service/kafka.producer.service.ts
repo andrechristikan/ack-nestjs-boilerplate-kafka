@@ -4,8 +4,9 @@ import {
     Logger,
     OnApplicationBootstrap,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { ClientKafka } from '@nestjs/microservices';
-import { Observable } from 'rxjs';
+import { Observable, timeout } from 'rxjs';
 import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
 import { HelperStringService } from 'src/utils/helper/service/helper.string.service';
 import { IRequestKafka } from 'src/utils/request/request.interface';
@@ -15,13 +16,19 @@ import { IKafkaProducerOptions } from '../kafka.producer.interface';
 
 @Injectable()
 export class KafkaProducerService implements OnApplicationBootstrap {
+    private readonly timeout: number;
     protected logger = new Logger(KafkaProducerService.name);
 
     constructor(
         private readonly helperStringService: HelperStringService,
         @Inject(KAFKA_PRODUCER_SERVICE_NAME)
-        private readonly clientKafka: ClientKafka
-    ) {}
+        private readonly clientKafka: ClientKafka,
+        private readonly configService: ConfigService
+    ) {
+        this.timeout = this.configService.get<number>(
+            'kafka.producerSend.timeout'
+        );
+    }
 
     async onApplicationBootstrap(): Promise<void> {
         const topics: string[] = [...new Set(KAFKA_TOPICS)];
@@ -45,7 +52,9 @@ export class KafkaProducerService implements OnApplicationBootstrap {
             headers: options && options.headers ? options.headers : undefined,
         };
 
-        return this.clientKafka.send<any, IRequestKafka<T>>(topic, request);
+        return this.clientKafka
+            .send<any, IRequestKafka<T>>(topic, request)
+            .pipe(timeout(this.timeout));
     }
 
     async emit<T>(
@@ -59,7 +68,9 @@ export class KafkaProducerService implements OnApplicationBootstrap {
             headers: options && options.headers ? options.headers : undefined,
         };
 
-        return this.clientKafka.emit<any, IRequestKafka<T>>(topic, request);
+        return this.clientKafka
+            .emit<any, IRequestKafka<T>>(topic, request)
+            .pipe(timeout(this.timeout));
     }
 
     private async createId(): Promise<string> {
