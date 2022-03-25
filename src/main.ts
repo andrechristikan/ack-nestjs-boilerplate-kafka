@@ -7,7 +7,6 @@ import {
     ConsumerConfig,
     ConsumerSubscribeTopic,
 } from '@nestjs/microservices/external/kafka.interface';
-import { KafkaAdminService } from './kafka/admin/service/kafka.admin.service';
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule);
@@ -41,10 +40,6 @@ async function bootstrap() {
     const consumerGroup: string = configService.get<string>(
         'kafka.consumer.groupId'
     );
-
-    // create topics in init
-    const kafkaAdminService = app.get<KafkaAdminService>(KafkaAdminService);
-    await kafkaAdminService.createTopics();
 
     const consumer: ConsumerConfig =
         configService.get<ConsumerConfig>('kafka.consumer');
