@@ -4,6 +4,7 @@ import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
 import { ITopicConfig } from '@nestjs/microservices/external/kafka.interface';
 import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
+import { HelperService } from 'src/utils/helper/service/helper.service';
 
 @Injectable()
 export class KafkaAdminService implements OnModuleInit {
@@ -17,7 +18,10 @@ export class KafkaAdminService implements OnModuleInit {
 
     protected logger = new Logger(KafkaAdminService.name);
 
-    constructor(private readonly configService: ConfigService) {
+    constructor(
+        private readonly configService: ConfigService,
+        private readonly helperService: HelperService
+    ) {
         this.clientId = this.configService.get<string>('kafka.admin.clientId');
         this.brokers = this.configService.get<string[]>('kafka.brokers');
 
@@ -39,10 +43,14 @@ export class KafkaAdminService implements OnModuleInit {
     }
 
     async onModuleInit(): Promise<void> {
+        await this.connect();
+        await this.createTopics();
+        await this.helperService.delay(2000);
+    }
+
+    private async connect() {
         this.logger.log(`Connecting ${KafkaAdminService.name} Admin`);
-
         await this.admin.connect();
-
         this.logger.log(`${KafkaAdminService.name} Admin Connected`);
     }
 
