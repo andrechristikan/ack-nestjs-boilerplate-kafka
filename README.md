@@ -16,13 +16,16 @@
 
 # ACK Microservice NestJs Mongoose Boilerplate 🔥 🚀
 
-> Forked project from ack-nestjs-boilerplate-mongoose. Before go in the deep, we recommend to see [ack-nestjs-mongoose][ack-repo] first.
-
 ack-microservice-nestjs-boilerplate-mongoose is a [NestJs][ref-nestjs] Microservice Boilerplate with Mongoose and MongoDB as Database.
-ack-microservice-nestjs-boilerplate-mongoose combine [NestJs Http][ref-nestjs] and [NestJs Kafka Microservice][ref-nestjs-kafka-microservice].
-Best uses for build an API Project or Microservice Project. Made with following [nodejs-best-practice][ref-nodejs-best-practice] and NestJs Habit as benchmark.
+ack-microservice-nestjs-boilerplate-mongoose combine [NestJs Http][ref-nestjs] and [NestJs Kafka Microservice][ref-nestjs-kafka-microservice]. Made with following [nodejs-best-practice][ref-nodejs-best-practice] and NestJs Habit as benchmark.
 
 *You can [Request Feature][ack-microservice-issues] or [Report Bug][ack-microservice-issues] with following this link*
+
+## Version
+
+- NestJs v8.x
+- Mongoose v6.x
+- MongoDB v5.x
 
 ## Objective
 
@@ -36,20 +39,11 @@ ack-nestjs-boilerplate-mongoose have some objective.
 
 ## Features
 
-Cool features, [see this for more information][ack-docs-setup-features] 😎.
-
-- Centralize Configuration
-- OAuth2 as Authorization
-- User, Role and Permission Management
-- Advance Validate Income Request
-- Advance Mongoose Implementation
-- Catch Every Activity
-- Etc.
+Cool features, [click this for more information][ack-docs-features] 😎.
 
 ## Documentation
 
 - [Documentation][ack-docs]
-- [Usage][ack-docs-usage]
 - [Example][ack-docs-example]
 - [Tips][ack-docs-tips]
 
@@ -57,10 +51,14 @@ Cool features, [see this for more information][ack-docs-setup-features] 😎.
 
 Next development
 
-- [ ] Documentation **_(Ongoing)_**
-- [ ] Swagger
+- [x] Documentation
+- [x] Unit Testing
+- [ ] Docker compose file mongodb replication set  **_(Ongoing)_**
+- [ ] Swagger **_(Ongoing)_**
 
 ## Endpoints
+
+> will replace with swagger
 
 All endpoints in [endpoints.json][endpoints] and need import to PostMan. [Follow this step for import into Postman][ref-postman-import-export].
 
@@ -132,7 +130,7 @@ Distributed under [MIT licensed][license].
 
 <!-- Documents -->
 [ack-docs]: https://andrechristikan.github.io/ack-nestjs-boilerplate-docs/
-[ack-docs-usage]: https://andrechristikan.github.io/ack-nestjs-boilerplate-docs/#/usage/readme
+[ack-docs-features]: https://andrechristikan.github.io/ack-nestjs-boilerplate-docs/#/features/readme
 [ack-docs-example]: https://andrechristikan.github.io/ack-nestjs-boilerplate-docs/#/example
 [ack-docs-tips]: https://andrechristikan.github.io/ack-nestjs-boilerplate-docs/#/tips/readme
 
