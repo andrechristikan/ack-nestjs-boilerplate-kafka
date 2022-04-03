@@ -1,35 +1,5 @@
 version: '3.8'
 services:
-  service:
-    build: .
-    container_name: ack
-    hostname: ack
-    ports:
-      - 3000:3000
-    networks:
-      - app-network
-    volumes:
-      - ./src/:/app/src/
-      - .env/:/app/.env
-    depends_on: 
-      - mongodb
-      - zookeeper
-      - kafka
-  mongodb:
-    image: mongo:latest
-    container_name: mongo
-    hostname: mongo
-    ports:
-      - 27017:27017
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: 123456
-      MONGO_INITDB_DATABASE: ack
-    volumes:
-      - dbdata:/data/db
-    restart: unless-stopped
-    networks:
-      - app-network
   zookeeper:
     container_name: zookeeper
     image: wurstmeister/zookeeper
@@ -43,7 +13,7 @@ services:
       - ALLOW_ANONYMOUS_LOGIN=yes
     restart: unless-stopped
     volumes:
-      - zookeeperdata:/bitnami:z
+      - /app/zookeeper:/bitnami:z
   kafka:
     image: wurstmeister/kafka
     container_name: kafka
@@ -67,12 +37,8 @@ services:
       - zookeeper
     restart: unless-stopped
     volumes:
-      - kafkadata:/bitnami:z
+      - /app/kafka:/bitnami:z
 networks:
   app-network:
     name: app-network
     driver: bridge
-volumes:
-  dbdata:
-  kafkadata:
-  zookeeperdata:
