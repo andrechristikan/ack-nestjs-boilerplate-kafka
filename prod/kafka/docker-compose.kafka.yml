@@ -11,6 +11,7 @@ services:
       - ZOOKEEPER_CLIENT_PORT=2181
       - ZOOKEEPER_TICK_TIME=2000
       - ALLOW_ANONYMOUS_LOGIN=yes
+    restart: unless-stopped
     volumes:
       - /app/zookeeper:/bitnami:z
   kafka:
@@ -25,7 +26,7 @@ services:
     environment:
       - KAFKA_BROKER_ID=1
       - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://172.31.42.2:9092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
       - ALLOW_PLAINTEXT_LISTENER=yes
       - KAFKA_ADVERTISED_HOST_NAME=kafka
       - KAFKA_DELETE_TOPIC_ENABLE=false
@@ -34,6 +35,7 @@ services:
       - KAFKA_ADVERTISED_PORT=9092
     depends_on:
       - zookeeper
+    restart: unless-stopped
     volumes:
       - /app/kafka:/bitnami:z
 networks:
