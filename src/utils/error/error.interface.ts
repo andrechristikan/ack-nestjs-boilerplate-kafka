@@ -1,4 +1,4 @@
-import { IMessageProperties } from 'src/message/message.interface';
+import { IMessageOptionsProperties } from 'src/message/message.interface';
 
 export interface IErrors {
     readonly message: string;
@@ -7,9 +7,10 @@ export interface IErrors {
 
 export interface IErrorHttpException {
     statusCode: number;
-    message: string | IMessageProperties;
+    message: string;
     errors?: IErrors[];
     data?: Record<string, any>;
+    properties?: IMessageOptionsProperties;
 }
 
 export type IErrorKafka = {
