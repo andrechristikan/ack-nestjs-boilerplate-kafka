@@ -54,7 +54,7 @@
     "kafkajs": "^1.16.0",
     "express-rate-limit": "^6.3.0",
     "helmet": "^5.0.2",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "mongoose": "^6.2.9",
     "morgan": "^1.10.0",
     "nest-winston": "^1.6.2",
