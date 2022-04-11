@@ -19,7 +19,12 @@
 > Best uses for API or Microservice Project
 
 ack-microservice-nestjs-boilerplate-mongoose is a [NestJs][ref-nestjs] Microservice Boilerplate with Mongoose and MongoDB as Database.
-ack-microservice-nestjs-boilerplate-mongoose combine [NestJs Http][ref-nestjs] and [NestJs Kafka Microservice][ref-nestjs-kafka-microservice]. Made with following [nodejs-best-practice][ref-nodejs-best-practice] and NestJs Habit as benchmark.
+ack-microservice-nestjs-boilerplate-mongoose combine [NestJs Http][ref-nestjs] and [NestJs Kafka Microservice][ref-nestjs-kafka-microservice].
+
+Made with following
+- [nodejs-best-practice](https://github.com/goldbergyoni/nodebestpractices) 
+- [The Twelve-Factor App](https://12factor.net)
+- NestJs Habit as benchmark.
 
 *You can [Request Feature][ack-microservice-issues] or [Report Bug][ack-microservice-issues] with following this link*
 

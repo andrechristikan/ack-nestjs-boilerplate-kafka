@@ -1,60 +1,82 @@
 name: CI
-
 on:
-  pull_request:
+  push:
     branches: 
     - main
-    
+
 jobs:
-  run-ci:
+  build:
     runs-on: ubuntu-latest
-    environment: baibay
-
-    strategy:
-      matrix:
-        node-version: ['17.x']
-
-    services:
-      mongodb:
-        image: mongo:latest
-        options: >-
-          --health-cmd mongo
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 27017:27017
-
+    env:
+      APP_NAME: ack-nestjs-boilerplate-mongoose
+      DOCKERFILE: ./prod/dockerfile
+    
     steps:
       - name: Git checkout
         uses: actions/checkout@v3
 
-      - name: Setup node version ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-
-      - name: Install dependencies
-        run: yarn --frozen-lockfile
-
-      - name: Migration
-        run: yarn migrate
-
-      - name: Create env file
+      - name: Get commit
+        id: git
         run: |
-          touch .env
-          echo AWS_CREDENTIAL_KEY="$AWS_CREDENTIAL_KEY" >> .env
-          echo AWS_CREDENTIAL_SECRET="$AWS_CREDENTIAL_SECRET" >> .env
-          echo AWS_S3_BUCKET="$AWS_S3_BUCKET" >> .env
-          echo AWS_S3_REGION="$AWS_S3_REGION" >> .env
-        env:
-          AWS_CREDENTIAL_KEY: ${{ secrets.AWS_CREDENTIAL_KEY }}
-          AWS_CREDENTIAL_SECRET: ${{ secrets.AWS_CREDENTIAL_SECRET }}
-          AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-          AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
-          
-      - name: Unit Test
-        run: yarn test
+          echo "::set-output name=short_sha::$(git rev-parse --short HEAD)"
+      
+      - name: Get latest version
+        id: version
+        uses: martinbeentjes/npm-get-version-action@master
 
-      - name: E2E Test
-        run: yarn test:e2e
+      - name: Git
+        run: |
+          echo Branch name is: ${{ github.ref_name }}
+          echo Short sha: ${{ steps.git.outputs.short_sha}}
+          echo Version is: ${{ steps.version.outputs.current-version}}
+
+      - name: Environment
+        run: |
+          echo APP_NAME is: ${{ env.APP_NAME}}
+          echo DOCKERFILE is: ${{ env.DOCKERFILE}}
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - uses: docker/setup-buildx-action@v1
+        id: builder
+
+      - uses: docker/setup-buildx-action@v1
+        id: main
+
+      - name: Builder name
+        run: echo ${{ steps.builder.outputs.name }}
+
+      - name: Main builder name
+        run: echo ${{ steps.main.outputs.name }}
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build against builder
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.builder.outputs.name }}
+          file: ${{ env.DOCKERFILE }}
+          target: builder
+
+      - name: Build against main and push
+        uses: docker/build-push-action@v2
+        with:
+          builder: ${{ steps.main.outputs.name }}
+          file: ${{ env.DOCKERFILE }}
+          target: main
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_NAME }}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_NAME }}:v${{ steps.version.outputs.current-version}}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.APP_NAME }}:v${{ steps.version.outputs.current-version}}_sha-${{ steps.git.outputs.short_sha }}
+          push: true
+
+
+
