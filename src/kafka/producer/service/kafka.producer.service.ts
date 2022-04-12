@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientKafka } from '@nestjs/microservices';
-import { Observable, timeout } from 'rxjs';
+import { lastValueFrom, Observable, timeout } from 'rxjs';
 import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
 import { HelperStringService } from 'src/utils/helper/service/helper.string.service';
 import { IRequestKafka } from 'src/utils/request/request.interface';
@@ -61,16 +61,20 @@ export class KafkaProducerService implements OnApplicationBootstrap {
         topic: string,
         data: T,
         options?: IKafkaProducerOptions
-    ): Promise<Observable<IResponseKafka>> {
+    ): Promise<Observable<void>> {
         const request: IRequestKafka<T> = {
             key: await this.createId(),
             value: data,
             headers: options && options.headers ? options.headers : undefined,
         };
 
-        return this.clientKafka
-            .emit<any, IRequestKafka<T>>(topic, request)
-            .pipe(timeout(this.timeout));
+        await lastValueFrom(
+            this.clientKafka
+                .emit<any, IRequestKafka<T>>(topic, request)
+                .pipe(timeout(this.timeout))
+        );
+
+        return;
     }
 
     private async createId(): Promise<string> {

@@ -1,0 +1,51 @@
+name: Release
+
+on:
+  workflow_run:
+    workflows: ['CI']
+    types:
+      - completed
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Get latest version
+        id: version
+        uses: martinbeentjes/npm-get-version-action@master
+
+      - name: Git
+        run: |
+          echo Branch name is: ${{ github.ref_name }}
+          echo Version is: ${{ steps.version.outputs.current-version}}
+
+      - name: Build changelog
+        id: github_release
+        uses: mikepenz/release-changelog-builder-action@v2
+        with:
+          configuration: ".github/release-configuration.json"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Changelog
+        env:
+          CHANGELOG: ${{ steps.github_release.outputs.changelog }}
+        run: echo "CHANGELOG"
+
+      - name: Create Release
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.current-version}}
+          release_name: v${{ steps.version.outputs.current-version}}
+          body: |
+            ${{ steps.github_release.outputs.changelog }}
+          draft: false
+          prerelease: false
