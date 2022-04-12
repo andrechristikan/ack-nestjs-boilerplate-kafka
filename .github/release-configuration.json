@@ -41,8 +41,7 @@
   "label_extractor": [
     {
       "pattern": "(.) (.+)",
-      "target": "$1",
-      "flags": "gu"
+      "target": "$1"
     },
     {
       "pattern": "\\[Issue\\]",
@@ -50,21 +49,10 @@
       "method": "match"
     }
   ],
-  "duplicate_filter": {
-    "pattern": "\\[ABC-....\\]",
-    "on_property": "title",
-    "method": "match"
-  },
-  "transformers": [
-    {
-      "pattern": "[\\-\\*] (\\[(...|TEST|CI|SKIP)\\])( )?(.+?)\n(.+?[\\-\\*] )(.+)",
-      "target": "- $4\n  - $6"
-    }
-  ],
   "max_tags_to_fetch": 200,
   "max_pull_requests": 200,
   "max_back_track_time_days": 365,
   "base_branches": [
-    "development"
+    "main"
   ]
 }
