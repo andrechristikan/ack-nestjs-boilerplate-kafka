@@ -21,10 +21,11 @@
       ]
     },
     {
-      "title": "## 📝 Dependencies",
+      "title": "## 📦 Dependencies",
       "labels": [
         "javascript" ,
-        "github_actions"
+        "github_actions",
+        "dependencies"
       ]
     },
     {
@@ -63,8 +64,13 @@
       "method": "match"
     }
   ],
+<<<<<<< HEAD
   "max_tags_to_fetch": 200,
   "max_pull_requests": 200,
+=======
+  "max_tags_to_fetch": 100,
+  "max_pull_requests": 100,
+>>>>>>> 05cf1696bd9cb4c57794b50a72222202ab7e81cd
   "max_back_track_time_days": 365,
   "base_branches": [
     "main"
