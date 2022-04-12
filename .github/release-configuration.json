@@ -53,14 +53,9 @@
   "empty_template": "- no changes",
   "label_extractor": [
     {
-      "pattern": "(.) (.+)",
-      "on_property": "title",
-      "target": "$1"
-    },
-    {
       "pattern": ".*(\\[Feature\\]).*",
-      "target": "$1",
-      "on_property": "title"
+      "on_property": "title",
+      "method": "match"
     },
     {
       "pattern": "\\[Issue\\]",
