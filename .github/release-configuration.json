@@ -53,9 +53,9 @@
   "empty_template": "- no changes",
   "label_extractor": [
     {
-      "pattern": ".*(\\[Feature\\]).*",
-      "on_property": "title",
-      "method": "match"
+      "pattern": "(.) (.+)",
+      "target": "$1",
+      "flags": "gu"
     },
     {
       "pattern": "\\[Issue\\]",
@@ -63,9 +63,27 @@
       "method": "match"
     }
   ],
+  "duplicate_filter": {
+    "pattern": "\\[ABC-....\\]",
+    "on_property": "title",
+    "method": "match"
+  },
+  "transformers": [
+    {
+      "pattern": "[\\-\\*] (\\[(...|TEST|CI|SKIP)\\])( )?(.+?)\n(.+?[\\-\\*] )(.+)",
+      "target": "- $4\n  - $6"
+    }
+  ],
   "max_tags_to_fetch": 200,
   "max_pull_requests": 200,
   "max_back_track_time_days": 365,
+  "tag_resolver": {
+    "method": "semver",
+    "filter": {
+      "pattern": "api-(.+)",
+      "flags": "gu"
+    }
+  },
   "base_branches": [
     "main"
   ]
