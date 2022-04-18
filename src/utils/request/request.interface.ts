@@ -1,9 +1,6 @@
-export interface IRequestKafkaHeader {
-    user?: string;
-}
+import { Request } from 'express';
+import { IResult } from 'ua-parser-js';
 
-export interface IRequestKafka<T = Record<string, string>> {
-    key: string;
-    value: T;
-    headers?: IRequestKafkaHeader;
+export interface IRequestApp extends Request {
+    userAgent: IResult;
 }

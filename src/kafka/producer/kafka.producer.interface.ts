@@ -1,5 +1,13 @@
-import { IRequestKafkaHeader } from 'src/utils/request/request.interface';
+export interface IKafkaProducerHeader {
+    user?: string;
+}
 
 export interface IKafkaProducerOptions {
-    headers?: IRequestKafkaHeader;
+    headers?: IKafkaProducerHeader;
+}
+
+export interface IKafkaProducerMessage<T = Record<string, string>> {
+    key: string;
+    value: T;
+    headers?: IKafkaProducerHeader;
 }

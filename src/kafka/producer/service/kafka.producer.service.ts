@@ -9,10 +9,12 @@ import { ClientKafka } from '@nestjs/microservices';
 import { lastValueFrom, Observable, timeout } from 'rxjs';
 import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
 import { HelperStringService } from 'src/utils/helper/service/helper.string.service';
-import { IRequestKafka } from 'src/utils/request/request.interface';
 import { IResponseKafka } from 'src/utils/response/response.interface';
 import { KAFKA_PRODUCER_SERVICE_NAME } from '../kafka.producer.constant';
-import { IKafkaProducerOptions } from '../kafka.producer.interface';
+import {
+    IKafkaProducerMessage,
+    IKafkaProducerOptions,
+} from '../kafka.producer.interface';
 
 @Injectable()
 export class KafkaProducerService implements OnApplicationBootstrap {
@@ -46,14 +48,14 @@ export class KafkaProducerService implements OnApplicationBootstrap {
         data: T,
         options?: IKafkaProducerOptions
     ): Promise<Observable<IResponseKafka>> {
-        const request: IRequestKafka<T> = {
+        const message: IKafkaProducerMessage<T> = {
             key: await this.createId(),
             value: data,
             headers: options && options.headers ? options.headers : undefined,
         };
 
         return this.clientKafka
-            .send<any, IRequestKafka<T>>(topic, request)
+            .send<any, IKafkaProducerMessage<T>>(topic, message)
             .pipe(timeout(this.timeout));
     }
 
@@ -62,7 +64,7 @@ export class KafkaProducerService implements OnApplicationBootstrap {
         data: T,
         options?: IKafkaProducerOptions
     ): Promise<Observable<void>> {
-        const request: IRequestKafka<T> = {
+        const message: IKafkaProducerMessage<T> = {
             key: await this.createId(),
             value: data,
             headers: options && options.headers ? options.headers : undefined,
@@ -70,7 +72,7 @@ export class KafkaProducerService implements OnApplicationBootstrap {
 
         await lastValueFrom(
             this.clientKafka
-                .emit<any, IRequestKafka<T>>(topic, request)
+                .emit<any, IKafkaProducerMessage<T>>(topic, message)
                 .pipe(timeout(this.timeout))
         );
 

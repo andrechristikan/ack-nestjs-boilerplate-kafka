@@ -1,8 +1,8 @@
-[![Contributors][ack-microservice-contributors-shield]][ack-contributors]
-[![Forks][ack-microservice-forks-shield]][ack-forks]
-[![Stargazers][ack-microservice-stars-shield]][ack-stars]
-[![Issues][ack-microservice-issues-shield]][ack-issues]
-[![MIT License][ack-microservice-license-shield]][license]
+[![Contributors][ack-contributors-shield]][ack-contributors]
+[![Forks][ack-forks-shield]][ack-forks]
+[![Stargazers][ack-stars-shield]][ack-stars]
+[![Issues][ack-issues-shield]][ack-issues]
+[![MIT License][ack-license-shield]][license]
 
 [![NestJs][nestjs-shield]][ref-nestjs]
 [![NodeJs][nodejs-shield]][ref-nodejs]
@@ -16,7 +16,13 @@
 
 # ACK Microservice NestJs Mongoose Boilerplate 🔥 🚀
 
-> Best uses for API or Microservice Project
+---
+
+## STILL ONGOING
+
+---
+
+> Best uses for RESTFUL API or [Microservice](https://microservices.io) Project
 
 ack-microservice-nestjs-boilerplate-mongoose is a [NestJs][ref-nestjs] Microservice Boilerplate with Mongoose and MongoDB as Database.
 ack-microservice-nestjs-boilerplate-mongoose combine [NestJs Http][ref-nestjs] and [NestJs Kafka Microservice][ref-nestjs-kafka-microservice].
@@ -24,29 +30,46 @@ ack-microservice-nestjs-boilerplate-mongoose combine [NestJs Http][ref-nestjs] a
 Made with following
 - [nodejs-best-practice](https://github.com/goldbergyoni/nodebestpractices) 
 - [The Twelve-Factor App](https://12factor.net)
-- NestJs Habit as benchmark.
+- NestJs Habit.
 
-*You can [Request Feature][ack-microservice-issues] or [Report Bug][ack-microservice-issues] with following this link*
+*You can [Request Feature][ack-issues] or [Report Bug][ack-issues] with following this link*
+
+## Important
+
+Now ack-microservice-nestjs-boilerplate-mongoose have `required` request headers. For example you can see our `e2e testing file`.
+
+1. `x-timestamp`, tolerant 5 minutes of request.
+2. `user-agent`, whitelist of user agent.
+
+And `we recommendation to use kafka for distribute small message`.
 
 ## Version
 
 - NestJs v8.x
+- NodeJs v17.x
+- Typescript v4.x
 - Mongoose v6.x
 - MongoDB v5.x
+- Yarn v1.x
+- NPM v8.x
+- Docker v20.x
+- Docker Compose v2.x
+- Kafka v3.x
 
 ## Objective
 
-ack-nestjs-boilerplate-mongoose have some objective.
+ack-microservice-nestjs-boilerplate-mongoose have some objective.
 
-- Simple and secure
+- Simple, scalable and secure
 - Avoid spaghetti code
 - Component based
 - Reusable component
 - Easy to maintenance
+- Support for all microservice patterns
 
 ## Features
 
-Cool features, [click this for more information][ack-docs-features] 😎.
+[Click this for more information][ack-docs-features] 😎.
 
 ## Documentation
 
@@ -60,8 +83,21 @@ Next development
 
 - [x] Documentation
 - [x] Unit Testing
+- [x] Integration Testing
+- [x] Github action CI/CD
+- [x] Github action Auto Release
+- [x] Jenkins update script
+- [x] Limitation of pagination, available sort - sort - limit page - limit perPage
+- [x] Health Check Separate Endpoint
+- [x] Timestamp Tolerance Middleware
+- [x] Optimize code
 - [ ] Docker compose file mongodb replication set  **_(Ongoing)_**
 - [ ] Swagger **_(Ongoing)_**
+- [ ] Kafka Health Check
+- [ ] Kafka Integration Test
+- [ ] Flag to use NestJs Microservice
+- [ ] Flag to use NestJs Http
+- [ ] Flag to use NestJs Scheduler
 
 ## Endpoints
 
@@ -86,19 +122,12 @@ Thanks goes to these wonderful people
 [![LinkedIn][linkedin-shield]][author-linkedin]
 [![Instagram][instagram-shield]][author-instagram]
 
-<!-- ACK BADGE LINKS -->
-[ack-contributors-shield]: https://img.shields.io/github/contributors/andrechristikan/ack-nestjs-boilerplate-mongoose?style=for-the-badge
-[ack-forks-shield]: https://img.shields.io/github/forks/andrechristikan/ack-nestjs-boilerplate-mongoose?style=for-the-badge
-[ack-stars-shield]: https://img.shields.io/github/stars/andrechristikan/ack-nestjs-boilerplate-mongoose?style=for-the-badge
-[ack-issues-shield]: https://img.shields.io/github/issues/andrechristikan/ack-nestjs-boilerplate-mongoose?style=for-the-badge
-[ack-license-shield]: https://img.shields.io/github/license/andrechristikan/ack-nestjs-boilerplate-mongoose?style=for-the-badge
-
-<!-- ack microservice BADGE LINKS -->
-[ack-microservice-contributors-shield]: https://img.shields.io/github/contributors/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose?style=for-the-badge
-[ack-microservice-forks-shield]: https://img.shields.io/github/forks/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose?style=for-the-badge
-[ack-microservice-stars-shield]: https://img.shields.io/github/stars/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose?style=for-the-badge
-[ack-microservice-issues-shield]: https://img.shields.io/github/issues/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose?style=for-the-badge
-[ack-microservice-license-shield]: https://img.shields.io/github/license/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose?style=for-the-badge
+<!-- BADGE LINKS -->
+[ack-contributors-shield]: https://img.shields.io/github/contributors/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose?style=for-the-badge
+[ack-forks-shield]: https://img.shields.io/github/forks/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose?style=for-the-badge
+[ack-stars-shield]: https://img.shields.io/github/stars/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose?style=for-the-badge
+[ack-issues-shield]: https://img.shields.io/github/issues/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose?style=for-the-badge
+[ack-license-shield]: https://img.shields.io/github/license/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose?style=for-the-badge
 
 [nestjs-shield]: https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white
 [nodejs-shield]: https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
@@ -121,20 +150,12 @@ Thanks goes to these wonderful people
 [author-github]: https://github.com/andrechristikan
 
 <!-- Repo LINKS -->
-[ack-repo]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose
-[ack-issues]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose/issues
-[ack-stars]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose/stargazers
-[ack-forks]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose/network/members
-[ack-contributors]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose/graphs/contributors
-[ack-history]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose/commits/main
-
-<!-- ack microservice -->
-[ack-microservice-repo]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose
-[ack-microservice-issues]:https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/issues
-[ack-microservice-stars]:https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/stargazers
-[ack-microservice-forks]:https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/network/members
-[ack-microservice-contributors]:https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/graphs/contributors
-[ack-microservice-history]:https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/commits/main
+[ack-repo]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose
+[ack-issues]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/issues
+[ack-stars]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/stargazers
+[ack-forks]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/network/members
+[ack-contributors]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/graphs/contributors
+[ack-history]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/commits/main
 
 <!-- license -->
 [license]: LICENSE.md
