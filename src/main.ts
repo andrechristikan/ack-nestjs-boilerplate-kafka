@@ -7,6 +7,7 @@ import {
     ConsumerConfig,
     ConsumerSubscribeTopic,
 } from '@nestjs/microservices/external/kafka.interface';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule);
@@ -23,6 +24,7 @@ async function bootstrap() {
 
     // Global Prefix
     app.setGlobalPrefix('/api');
+    useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
     // Versioning
     if (versioning) {
