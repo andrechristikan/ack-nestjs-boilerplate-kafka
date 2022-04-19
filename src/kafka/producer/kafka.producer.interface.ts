@@ -1,13 +1,13 @@
-export interface IKafkaProducerHeader {
+export interface IKafkaMessageHeader {
     user?: string;
 }
 
-export interface IKafkaProducerOptions {
-    headers?: IKafkaProducerHeader;
+export interface IKafkaProducerMessageOptions {
+    headers?: IKafkaMessageHeader;
 }
 
-export interface IKafkaProducerMessage<T = Record<string, string>> {
+export interface IKafkaMessage<T = Record<string, string>> {
     key: string;
     value: T;
-    headers?: IKafkaProducerHeader;
+    headers?: IKafkaMessageHeader;
 }

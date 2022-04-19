@@ -12,8 +12,8 @@ import { HelperStringService } from 'src/utils/helper/service/helper.string.serv
 import { IResponseKafka } from 'src/utils/response/response.interface';
 import { KAFKA_PRODUCER_SERVICE_NAME } from '../kafka.producer.constant';
 import {
-    IKafkaProducerMessage,
-    IKafkaProducerOptions,
+    IKafkaMessage,
+    IKafkaProducerMessageOptions,
 } from '../kafka.producer.interface';
 
 @Injectable()
@@ -46,25 +46,25 @@ export class KafkaProducerService implements OnApplicationBootstrap {
     async send<T>(
         topic: string,
         data: T,
-        options?: IKafkaProducerOptions
+        options?: IKafkaProducerMessageOptions
     ): Promise<Observable<IResponseKafka>> {
-        const message: IKafkaProducerMessage<T> = {
+        const message: IKafkaMessage<T> = {
             key: await this.createId(),
             value: data,
             headers: options && options.headers ? options.headers : undefined,
         };
 
         return this.clientKafka
-            .send<any, IKafkaProducerMessage<T>>(topic, message)
+            .send<any, IKafkaMessage<T>>(topic, message)
             .pipe(timeout(this.timeout));
     }
 
     async emit<T>(
         topic: string,
         data: T,
-        options?: IKafkaProducerOptions
+        options?: IKafkaProducerMessageOptions
     ): Promise<Observable<void>> {
-        const message: IKafkaProducerMessage<T> = {
+        const message: IKafkaMessage<T> = {
             key: await this.createId(),
             value: data,
             headers: options && options.headers ? options.headers : undefined,
@@ -72,7 +72,7 @@ export class KafkaProducerService implements OnApplicationBootstrap {
 
         await lastValueFrom(
             this.clientKafka
-                .emit<any, IKafkaProducerMessage<T>>(topic, message)
+                .emit<any, IKafkaMessage<T>>(topic, message)
                 .pipe(timeout(this.timeout))
         );
 
