@@ -5,9 +5,9 @@ import { KafkaModule } from 'src/kafka/kafka.module';
 import { RouterAdminModule } from 'src/router/router.admin.module';
 import { RouterCommonModule } from 'src/router/router.common.module';
 import { RouterEnumModule } from 'src/router/router.enum.module';
-import { RouterKafkaModule } from 'src/router/router.kafka.module';
 import { RouterPublicModule } from 'src/router/router.public.module';
 import { RouterTestModule } from 'src/router/router.test.module';
+import { TaskModule } from 'src/task/task.module';
 @Module({
     controllers: [],
     providers: [],
@@ -15,9 +15,11 @@ import { RouterTestModule } from 'src/router/router.test.module';
         // Core
         CoreModule,
 
+        // Task
+        TaskModule,
+
         // Kafka
         KafkaModule,
-        RouterKafkaModule,
 
         // Router
         RouterCommonModule,
