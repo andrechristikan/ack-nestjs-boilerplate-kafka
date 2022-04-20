@@ -39,6 +39,9 @@ jobs:
       - name: Migration
         run: yarn migrate
 
+      - name: Run Kafka Brokers and Zookeepers
+        uses: bbcCorp/kafka-actions@v1
+
       - name: Create env file
         run: |
           touch .env
@@ -51,6 +54,10 @@ jobs:
           AWS_CREDENTIAL_SECRET: ${{ secrets.AWS_CREDENTIAL_SECRET }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
+          KAFKA_CLIENT_ID: KAFKA_ACK
+          KAFKA_ADMIN_CLIENT_ID: KAFKA_ADMIN_ACK
+          KAFKA_BROKERS: localhost:9092
+          KAFKA_CONSUMER_GROUP: nestjs.ack
           
       - name: Unit Test
         run: yarn test
