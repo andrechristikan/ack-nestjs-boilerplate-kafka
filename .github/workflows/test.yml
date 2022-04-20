@@ -63,9 +63,6 @@ jobs:
       - name: Migration
         run: yarn migrate
 
-      - name: Run Kafka Brokers and Zookeepers
-        uses: bbcCorp/kafka-actions@v1
-
       - name: Create env file
         run: |
           touch .env
