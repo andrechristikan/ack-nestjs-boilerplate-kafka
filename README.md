@@ -94,8 +94,8 @@ Next development
 - [ ] Whitelist user agent **_(Ongoing)_**
 - [ ] Docker compose file mongodb replication set  **_(Ongoing)_**
 - [ ] Swagger **_(Ongoing)_**
-- [ ] Kafka Health Check
-- [ ] Kafka Integration Test
+- [x] Kafka Health Check
+- [x] Kafka Integration Test
 - [ ] Flag to use NestJs Microservice
 - [ ] Flag to use NestJs Http
 - [ ] Flag to use NestJs Scheduler

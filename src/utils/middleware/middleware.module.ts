@@ -30,9 +30,9 @@ export class MiddlewareModule implements NestModule {
                 HttpDebuggerResponseMiddleware,
                 HttpDebuggerMiddleware,
                 HelmetMiddleware,
-                RateLimitMiddleware,
-                TimestampMiddleware,
-                UserAgentMiddleware
+                RateLimitMiddleware
+                // TimestampMiddleware,
+                // UserAgentMiddleware
             )
             .forRoutes('*');
     }
