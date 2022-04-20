@@ -7,6 +7,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    container: node:lts-alpine
     environment: baibay
 
     strategy:
@@ -32,11 +33,11 @@ jobs:
           ZOOKEEPER_CLIENT_PORT: 2181
           ZOOKEEPER_TICK_TIME: 2000
           ALLOW_ANONYMOUS_LOGIN: yes
+
       kafka:
         image: wurstmeister/kafka
         ports:
           - 9092:9092
-        
         env:
           KAFKA_BROKER_ID: 1
           KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
@@ -77,8 +78,9 @@ jobs:
           AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
           KAFKA_CLIENT_ID: KAFKA_ACK
           KAFKA_ADMIN_CLIENT_ID: KAFKA_ADMIN_ACK
-          KAFKA_BROKERS: localhost:9092
+          KAFKA_BROKERS: kafka:9092
           KAFKA_CONSUMER_GROUP: nestjs.ack
+          DATABASE_HOST: mongodb://mongodb:27017
           
       - name: Unit Test
         run: yarn test
