@@ -36,7 +36,6 @@ jobs:
         image: wurstmeister/kafka
         ports:
           - 9092:9092
-        depends_on:
         
         env:
           KAFKA_BROKER_ID: 1
