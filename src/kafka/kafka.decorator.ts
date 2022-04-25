@@ -5,17 +5,17 @@ import {
     UseFilters,
     UsePipes,
     ValidationError,
-    ValidationPipe,
 } from '@nestjs/common';
 import { MessagePattern, RpcException, Transport } from '@nestjs/microservices';
 import { ErrorRcpFilter } from 'src/utils/error/error.filter';
+import { KafkaValidationPipe } from 'src/utils/request/pipe/request.kafka-validation.pipe';
 import { ENUM_REQUEST_STATUS_CODE_ERROR } from 'src/utils/request/request.constant';
 
 export function MessageTopic(topic: string): any {
     return applyDecorators(
         MessagePattern(topic, Transport.KAFKA),
         UsePipes(
-            new ValidationPipe({
+            new KafkaValidationPipe({
                 transform: true,
                 skipNullProperties: false,
                 skipUndefinedProperties: false,
@@ -37,7 +37,7 @@ export function MessageTopic(topic: string): any {
 export const MessageValue = createParamDecorator(
     (data: string, ctx: ExecutionContext): Record<string, any> => {
         const context = ctx.switchToRpc().getData();
-        return context.value;
+        return data ? context.value[data] : context.value;
     }
 );
 
