@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import { MessageService } from 'src/message/service/message.service';
-import { ErrorHttpFilter, ErrorRcpFilter } from './error.filter';
+import { ErrorHttpFilter } from './error.filter';
 
 @Module({
     controllers: [],
@@ -11,13 +11,6 @@ import { ErrorHttpFilter, ErrorRcpFilter } from './error.filter';
             inject: [MessageService],
             useFactory: (messageService: MessageService) => {
                 return new ErrorHttpFilter(messageService);
-            },
-        },
-        {
-            provide: APP_FILTER,
-            inject: [],
-            useFactory: () => {
-                return new ErrorRcpFilter();
             },
         },
     ],
