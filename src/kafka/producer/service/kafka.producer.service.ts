@@ -54,9 +54,11 @@ export class KafkaProducerService implements OnApplicationBootstrap {
             headers: options && options.headers ? options.headers : undefined,
         };
 
-        return this.clientKafka
-            .send<any, IKafkaMessage<T>>(topic, message)
-            .pipe(timeout(this.timeout));
+        return lastValueFrom(
+            this.clientKafka
+                .send<any, IKafkaMessage<T>>(topic, message)
+                .pipe(timeout(this.timeout))
+        );
     }
 
     async emit<T>(
