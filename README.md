@@ -1,7 +1,7 @@
-[![Contributors][ack-contributors-shield]][ack-contributors]
-[![Forks][ack-forks-shield]][ack-forks]
-[![Stargazers][ack-stars-shield]][ack-stars]
-[![Issues][ack-issues-shield]][ack-issues]
+[![Contributors][ack-contributors-shield]][ack-microservice-contributors]
+[![Forks][ack-forks-shield]][ack-microservice-forks]
+[![Stargazers][ack-stars-shield]][ack-microservice-stars]
+[![Issues][ack-issues-shield]][ack-microservice-issues]
 [![MIT License][ack-license-shield]][license]
 
 [![NestJs][nestjs-shield]][ref-nestjs]
@@ -23,6 +23,8 @@
 ---
 
 > Best uses for RESTFUL API, [Microservice](https://microservices.io), or SaaS Project
+
+Fork from [ack-nestjs-boilerplate-mongoose][ack-repo]
 
 ack-microservice-nestjs-boilerplate-mongoose is a [NestJs][ref-nestjs] Microservice Boilerplate with Mongoose and MongoDB as Database.
 ack-microservice-nestjs-boilerplate-mongoose combine [NestJs Http][ref-nestjs] and [NestJs Kafka Microservice][ref-nestjs-kafka-microservice].
@@ -93,10 +95,15 @@ ack-microservice-nestjs-boilerplate-mongoose have some objective.
 - Support CI/CD with Github Action or Jenkins
 - Husky GitHook For Check Source Code, and Run Test Before Commit 🐶
 - Linter with EsLint for Typescript
+
+## Kafka Features
+
 - Request Kafka Validation Pipe
 - Integrate with Kafka
 - Kafka auto create topic with custom partition and replication
-- Kafka Producer Service
+- Kafka Producer Service for send message
+- Kafka Consumer and Consumer Group for receive message
+- Kafka Request Validation
 
 ## Prerequisites
 
@@ -130,7 +137,7 @@ Next development
 - [x] Scheduler
 - [x] Flag on / off scheduler
 - [x] Flag on / off http
-- [ ] Flag on / off microservice
+- [x] Flag on / off microservice
 - [ ] Swagger
 
 ## Documentation
@@ -141,7 +148,7 @@ Next development
 
 ## Endpoints
 
-See our [e2e testing][ack-e2e]
+See our [e2e testing][ack-microservice-e2e]
 
 ## License
 
@@ -187,14 +194,23 @@ Thanks goes to these wonderful people
 [author-email]: mailto:ack@baibay.id
 [author-github]: https://github.com/andrechristikan
 
-<!-- Repo LINKS -->
-[ack-repo]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose
+<!-- Repo Microservice LINKS -->
+[ack-repo]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose
 [ack-e2e]: /e2e
-[ack-issues]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/issues
-[ack-stars]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/stargazers
-[ack-forks]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/network/members
-[ack-contributors]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/graphs/contributors
-[ack-history]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/commits/main
+[ack-issues]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose/issues
+[ack-stars]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose/stargazers
+[ack-forks]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose/network/members
+[ack-contributors]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose/graphs/contributors
+[ack-history]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose/commits/main
+
+<!-- Repo Microservice LINKS -->
+[ack-microservice-repo]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose
+[ack-microservice-e2e]: /e2e
+[ack-microservice-issues]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/issues
+[ack-microservice-stars]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/stargazers
+[ack-microservice-forks]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/network/members
+[ack-microservice-contributors]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/graphs/contributors
+[ack-microservice-history]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/commits/main
 
 <!-- license -->
 [license]: LICENSE.md
