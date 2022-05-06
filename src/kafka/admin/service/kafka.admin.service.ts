@@ -1,8 +1,7 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { Admin, Kafka, KafkaConfig } from 'kafkajs';
+import { Admin, ITopicConfig, Kafka, KafkaConfig } from 'kafkajs';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
-import { ITopicConfig } from '@nestjs/microservices/external/kafka.interface';
 import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
 import { HelperService } from 'src/utils/helper/service/helper.service';
 
