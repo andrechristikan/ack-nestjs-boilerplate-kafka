@@ -12,13 +12,13 @@ import { AppRouterModule } from './app.router.module';
         CoreModule,
 
         // Task
-        TaskModule,
+        TaskModule.register(),
 
         // Kafka
-        KafkaModule,
+        KafkaModule.register(),
 
         // Router
-        AppRouterModule,
+        AppRouterModule.register(),
     ],
 })
 export class AppModule {}

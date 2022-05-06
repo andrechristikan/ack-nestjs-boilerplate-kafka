@@ -37,6 +37,8 @@ async function bootstrap() {
     await app.listen(port, host);
 
     // kafka
+    const microservice: boolean =
+        configService.get<boolean>('app.microserviceOn');
     const brokers: string[] = configService.get<string[]>('kafka.brokers');
     const clientId: string = configService.get<string>('kafka.clientId');
     const consumerGroup: string = configService.get<string>(
@@ -48,19 +50,21 @@ async function bootstrap() {
     const subscribe: ConsumerSubscribeTopic =
         configService.get<ConsumerSubscribeTopic>('kafka.consumerSubscribe');
 
-    app.connectMicroservice<MicroserviceOptions>({
-        transport: Transport.KAFKA,
-        options: {
-            client: {
-                clientId,
-                brokers,
+    if (microservice) {
+        app.connectMicroservice<MicroserviceOptions>({
+            transport: Transport.KAFKA,
+            options: {
+                client: {
+                    clientId,
+                    brokers,
+                },
+                subscribe,
+                consumer,
             },
-            subscribe,
-            consumer,
-        },
-    });
+        });
 
-    await app.startAllMicroservices();
+        await app.startAllMicroservices();
+    }
 
     logger.log(`==========================================================`);
     logger.log(`App Environment is ${env}`, 'NestApplication');
@@ -72,15 +76,29 @@ async function bootstrap() {
         `App Debug is ${configService.get<boolean>('app.debug')}`,
         'NestApplication'
     );
-    logger.log(`App Timezone is ${tz}`, 'NestApplication');
+    logger.log(`App Versioning is ${versioning}`, 'NestApplication');
     logger.log(
-        `App Versioning is ${versioning ? 'on' : 'off'}`,
+        `App Http is ${configService.get<boolean>('app.httpOn')}`,
         'NestApplication'
     );
+    logger.log(
+        `App Task is ${configService.get<boolean>('app.taskOn')}`,
+        'NestApplication'
+    );
+    logger.log(`App Microservice is ${microservice}`, 'NestApplication');
+    logger.log(`App Timezone is ${tz}`, 'NestApplication');
     logger.log(
         `Database Debug is ${configService.get<boolean>('database.debug')}`,
         'NestApplication'
     );
+
+    logger.log(`==========================================================`);
+
+    logger.log(
+        `Kafka server ${clientId} connected on brokers ${brokers.join(', ')}`,
+        'NestApplication'
+    );
+    logger.log(`Kafka consume group ${consumerGroup}`, 'NestApplication');
 
     logger.log(`==========================================================`);
 
@@ -90,12 +108,6 @@ async function bootstrap() {
         )}/${configService.get<string>('database.name')}`,
         'NestApplication'
     );
-
-    logger.log(
-        `Kafka server ${clientId} connected on brokers ${brokers.join(', ')}`,
-        'NestApplication'
-    );
-    logger.log(`Kafka consume group ${consumerGroup}`, 'NestApplication');
 
     logger.log(`Server running on ${await app.getUrl()}`, 'NestApplication');
 
