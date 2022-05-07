@@ -129,7 +129,7 @@ Next development
 - [x] Timestamp Tolerance Middleware
 - [x] Optimize code
 - [x] Whitelist user agent
-- [x] Docker Compose File Mongodb Replication Set
+- [ ] Docker Compose File Mongodb Replication Set
 - [x] API Key Guard
 - [x] Kafka Health Check
 - [x] Kafka Integration Test
