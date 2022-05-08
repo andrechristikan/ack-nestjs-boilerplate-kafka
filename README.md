@@ -16,12 +16,6 @@
 
 # ACK Microservice NestJs Mongoose Boilerplate 🔥 🚀
 
----
-
-## STILL ONGOING
-
----
-
 > Best uses for RESTFUL API, [Microservice](https://microservices.io), or SaaS Project
 
 Fork from [ack-nestjs-boilerplate-mongoose][ack-repo]
