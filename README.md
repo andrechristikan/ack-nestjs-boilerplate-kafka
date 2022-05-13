@@ -16,7 +16,7 @@
 
 # ACK Microservice NestJs Mongoose Boilerplate 🔥 🚀
 
-> Best uses for RESTFUL API, [Microservice](https://microservices.io), or SaaS Project
+> Best uses for RESTFUL API, Microservice, or SaaS Project
 
 Fork from [ack-nestjs-boilerplate-mongoose][ack-repo]
 
@@ -26,6 +26,7 @@ ack-microservice-nestjs-boilerplate-mongoose combine [NestJs Http][ref-nestjs] a
 Made with following
 - [nodejs-best-practice](https://github.com/goldbergyoni/nodebestpractices) 
 - [The Twelve-Factor App](https://12factor.net)
+- [Microservice Architecture](https://microservices.io)
 - NestJs Habit.
 
 *You can [Request Feature][ack-issues] or [Report Bug][ack-issues] with following this link*
@@ -69,6 +70,7 @@ ack-microservice-nestjs-boilerplate-mongoose have some objective.
 
 - NestJs v8.x 🥳
 - Hybrid NestJs Project
+- Production Ready 🔥
 - Typescript 🚀
 - Authentication and Authorization (OAuth2, API Key, Basic Auth) 💪
 - Mongodb integrate by using Mongoose Package 🎉
@@ -84,7 +86,7 @@ ack-microservice-nestjs-boilerplate-mongoose have some objective.
 - Multi-language (i18n)
 - Dynamic Setting from Database 🗿
 - Maintenance Mode on / off
-- Support Docker Installation
+- Advance Example 🥶
 - Support Docker Installation
 - Support CI/CD with Github Action or Jenkins
 - Husky GitHook For Check Source Code, and Run Test Before Commit 🐶
@@ -112,26 +114,7 @@ We assume that everyone who comes here is _**`programmer with intermediate knowl
 
 Next development
 
-- [x] Documentation
-- [x] Unit Testing
-- [x] Integration Testing
-- [x] Github action CI/CD
-- [x] Github action Auto Release
-- [x] Jenkins update script
-- [x] Limitation of pagination, available sort - sort - limit page - limit perPage
-- [x] Health Check Separate Endpoint
-- [x] Timestamp Tolerance Middleware
-- [x] Optimize code
-- [x] Whitelist user agent
 - [ ] Docker Compose File Mongodb Replication Set
-- [x] API Key Guard
-- [x] Kafka Health Check
-- [x] Kafka Integration Test
-- [x] Master Settings
-- [x] Scheduler
-- [x] Flag on / off scheduler
-- [x] Flag on / off http
-- [x] Flag on / off microservice
 - [ ] Swagger
 
 ## Documentation
