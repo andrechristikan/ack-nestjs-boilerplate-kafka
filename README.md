@@ -16,7 +16,7 @@
 
 # ACK Microservice NestJs Mongoose Boilerplate 🔥 🚀
 
-> Best uses for RESTFUL API, Microservice, or SaaS Project
+> Best uses for Restful API, Microservice, or SaaS Project
 
 Fork from [ack-nestjs-boilerplate-mongoose][ack-repo]
 
@@ -33,27 +33,31 @@ Made with following
 
 ## Important
 
-If you change env value of `APP_MODE` to `secure` that will trigger more validation.
+If you change env value of `APP_MODE` to `secure` that will trigger more `Middleware` and `Guard`.
 
-1. `x-timestamp`, tolerant 5 minutes of request.
-2. `user-agent`, whitelist of user agent.
-3. `x-api-key`, check api key.
-4. check cors origin
+1. `TimestampMiddleware`, tolerant 5 minutes of request.
+2. `UserAgentMiddleware`, whitelist of user agent.
+3. `ApiKeyGuard`, check api key based on database.
+4. `CorsMiddleware`, check cors
 
 You can see our `e2e testing file` or read the documentation on [section environment][ack-doc-env].
 
 ## Build with
 
-- NestJs v8.x
-- NodeJs v17.x
-- Typescript v4.x
-- Mongoose v6.x
-- MongoDB v5.x
-- Yarn v1.x
-- NPM v8.x
-- Docker v20.x
-- Docker Compose v2.x
-- Kafka v3.x
+Describes which version of the main packages and main tools.
+
+| Name       | Version  |
+| ---------- | -------- |
+| NestJs     | v8.x     |
+| NodeJs     | v17.x    |
+| Typescript | v4.x     |
+| Mongoose   | v6.x     |
+| MongoDB    | v5.x     |
+| Yarn       | v1.x     |
+| NPM        | v8.x     |
+| Docker     | v20.x    |
+| Docker Compose | v2.x |
+| Kafka | v3.x |
 
 ## Objective
 
@@ -118,6 +122,8 @@ Next development
 - [ ] Swagger
 
 ## Documentation
+
+Let's go into deep ! 🚀
 
 - [Documentation][ack-docs]
 - [Example][ack-docs-example]
