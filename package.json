@@ -60,6 +60,7 @@
     "crypto-js": "^4.1.1",
     "exceljs": "^4.3.0",
     "express-rate-limit": "^6.4.0",
+    "geolib": "^3.3.3",
     "helmet": "^5.0.2",
     "kafkajs": "^2.0.0",
     "moment": "^2.29.3",
