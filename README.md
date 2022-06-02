@@ -103,7 +103,6 @@ ack-microservice-nestjs-boilerplate-mongoose have some objective.
 - Kafka auto create topic with custom partition and replication
 - Kafka Producer Service for send message
 - Kafka Consumer and Consumer Group for receive message
-- Kafka Request Validation
 
 ## Prerequisites
 
