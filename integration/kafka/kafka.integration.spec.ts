@@ -6,7 +6,7 @@ import { HealthCommonController } from 'src/health/controller/health.common.cont
 import { HealthModule } from 'src/health/health.module';
 import { HelperDateService } from 'src/utils/helper/service/helper.date.service';
 import request from 'supertest';
-import faker from '@faker-js/faker';
+import { faker } from '@faker-js/faker';
 import { AuthApiService } from 'src/auth/service/auth.api.service';
 import { E2E_KAFKA_INTEGRATION_URL } from './kafka.constant';
 
