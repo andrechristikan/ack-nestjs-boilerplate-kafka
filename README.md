@@ -131,7 +131,11 @@ Let's go into deep ! 🚀
 
 ## Endpoints
 
-See our [e2e testing][ack-microservice-e2e]
+Import [endpoints.json][ack-microservice-endpoint] into postman or see our [e2e testing][ack-microservice-e2e]
+
+## Microservice
+
+Nestjs microservice or Kafka integration will put in separate repo [ack-microservice-nestjs-boilerplate-mongoose][ack-microservice-repo].
 
 ## License
 
@@ -185,6 +189,7 @@ Thanks goes to these wonderful people
 [ack-forks]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose/network/members
 [ack-contributors]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose/graphs/contributors
 [ack-history]: https://github.com/andrechristikan/ack-nestjs-boilerplate-mongoose/commits/main
+[ack-endpoint]: /endpoints.json
 
 <!-- Repo Microservice LINKS -->
 [ack-microservice-repo]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose
@@ -194,6 +199,7 @@ Thanks goes to these wonderful people
 [ack-microservice-forks]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/network/members
 [ack-microservice-contributors]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/graphs/contributors
 [ack-microservice-history]: https://github.com/andrechristikan/ack-microservice-nestjs-boilerplate-mongoose/commits/main
+[ack-microservice-endpoint]: /endpoints.json
 
 <!-- license -->
 [license]: LICENSE.md

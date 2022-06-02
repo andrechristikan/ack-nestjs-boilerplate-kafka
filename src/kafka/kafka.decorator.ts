@@ -4,32 +4,15 @@ import {
     ExecutionContext,
     UseFilters,
     UsePipes,
-    ValidationError,
 } from '@nestjs/common';
-import { MessagePattern, RpcException, Transport } from '@nestjs/microservices';
+import { MessagePattern, Transport } from '@nestjs/microservices';
 import { ErrorRcpFilter } from 'src/utils/error/error.filter';
-import { KafkaValidationPipe } from 'src/utils/request/pipe/request.kafka-validation.pipe';
-import { ENUM_REQUEST_STATUS_CODE_ERROR } from 'src/utils/request/request.constant';
+import { KafkaValidationPipe } from './utils/request/pipe/request.kafka-validation.pipe';
 
 export function MessageTopic(topic: string): any {
     return applyDecorators(
         MessagePattern(topic, Transport.KAFKA),
-        UsePipes(
-            new KafkaValidationPipe({
-                transform: true,
-                skipNullProperties: false,
-                skipUndefinedProperties: false,
-                skipMissingProperties: false,
-                exceptionFactory: async (errors: ValidationError[]) => {
-                    return new RpcException({
-                        statusCode:
-                            ENUM_REQUEST_STATUS_CODE_ERROR.REQUEST_VALIDATION_ERROR,
-                        message: 'http.clientError.unprocessableEntity',
-                        errors,
-                    });
-                },
-            })
-        ),
+        UsePipes(KafkaValidationPipe),
         UseFilters(new ErrorRcpFilter())
     );
 }
