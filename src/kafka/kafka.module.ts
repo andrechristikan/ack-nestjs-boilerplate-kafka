@@ -1,4 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
+import { TestingKafkaController } from 'src/testing/tersing.kafka.controller';
 import { KafkaAdminModule } from './admin/kafka.admin.module';
 import { KafkaProducerModule } from './producer/kafka.producer.module';
 
@@ -8,7 +9,7 @@ export class KafkaModule {
         if (process.env.APP_MICROSERVICE_ON === 'true') {
             return {
                 module: KafkaModule,
-                controllers: [],
+                controllers: [TestingKafkaController],
                 providers: [],
                 exports: [],
                 imports: [KafkaAdminModule, KafkaProducerModule],

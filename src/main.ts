@@ -1,5 +1,5 @@
 import { NestApplication, NestFactory } from '@nestjs/core';
-import { Logger, VersioningType } from '@nestjs/common';
+import { Logger, VersioningType, VERSION_NEUTRAL } from '@nestjs/common';
 import { AppModule } from 'src/app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
@@ -16,20 +16,26 @@ async function bootstrap() {
     const tz: string = configService.get<string>('app.timezone');
     const host: string = configService.get<string>('app.http.host');
     const port: number = configService.get<number>('app.http.port');
-    const versioning: boolean = configService.get<boolean>('app.versioning');
+    const globalPrefix: string = configService.get<string>('app.globalPrefix');
+    const versioning: boolean = configService.get<boolean>('app.versioning.on');
+    const versioningPrefix: string = configService.get<string>(
+        'app.versioning.prefix'
+    );
 
     const logger = new Logger();
     process.env.TZ = tz;
     process.env.NODE_ENV = env;
 
     // Global Prefix
-    app.setGlobalPrefix('/api');
+    app.setGlobalPrefix(globalPrefix);
     useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
     // Versioning
     if (versioning) {
         app.enableVersioning({
             type: VersioningType.URI,
+            defaultVersion: VERSION_NEUTRAL,
+            prefix: versioningPrefix,
         });
     }
 
