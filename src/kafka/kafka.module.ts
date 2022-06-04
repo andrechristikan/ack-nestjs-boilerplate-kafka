@@ -1,5 +1,5 @@
 import { DynamicModule, Module } from '@nestjs/common';
-import { TestingKafkaController } from 'src/testing/tersing.kafka.controller';
+import { TestingKafkaController } from 'src/testing/testing.kafka.controller';
 import { KafkaAdminModule } from './admin/kafka.admin.module';
 import { KafkaProducerModule } from './producer/kafka.producer.module';
 
