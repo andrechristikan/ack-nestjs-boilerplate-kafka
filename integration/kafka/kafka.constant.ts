@@ -1,1 +1,1 @@
-export const E2E_KAFKA_INTEGRATION_URL = '/health/kafka';
+export const INTEGRATION_KAFKA_URL = '/health/kafka';
