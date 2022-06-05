@@ -8,7 +8,7 @@ import { HelperDateService } from 'src/utils/helper/service/helper.date.service'
 import request from 'supertest';
 import { faker } from '@faker-js/faker';
 import { AuthApiService } from 'src/auth/service/auth.api.service';
-import { E2E_KAFKA_INTEGRATION_URL } from './kafka.constant';
+import { INTEGRATION_KAFKA_URL } from './kafka.constant';
 
 describe('Kafka Integration', () => {
     let app: INestApplication;
@@ -44,9 +44,9 @@ describe('Kafka Integration', () => {
         await app.init();
     });
 
-    it(`GET ${E2E_KAFKA_INTEGRATION_URL} Success`, async () => {
+    it(`GET ${INTEGRATION_KAFKA_URL} Success`, async () => {
         const response = await request(app.getHttpServer())
-            .get(E2E_KAFKA_INTEGRATION_URL)
+            .get(INTEGRATION_KAFKA_URL)
             .set('user-agent', faker.internet.userAgent())
             .set('x-timestamp', timestamp.toString())
             .set('x-api-key', xApiKey);
