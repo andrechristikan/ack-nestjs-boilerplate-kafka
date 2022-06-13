@@ -24,7 +24,7 @@ export class KafkaAdminService implements OnModuleInit {
         this.clientId = this.configService.get<string>('kafka.admin.clientId');
         this.brokers = this.configService.get<string[]>('kafka.brokers');
 
-        this.topics = [...new Set(KAFKA_TOPICS)];
+        this.topics = [...new Set(Object.values(KAFKA_TOPICS))];
 
         this.kafkaOptions = {
             clientId: this.clientId,

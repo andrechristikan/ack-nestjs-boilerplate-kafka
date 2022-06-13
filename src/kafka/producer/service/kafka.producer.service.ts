@@ -33,7 +33,7 @@ export class KafkaProducerService implements OnApplicationBootstrap {
     }
 
     async onApplicationBootstrap(): Promise<void> {
-        const topics: string[] = [...new Set(KAFKA_TOPICS)];
+        const topics: string[] = [...new Set(Object.values(KAFKA_TOPICS))];
         topics.forEach((topic) =>
             this.clientKafka.subscribeToResponseOf(topic.toLowerCase())
         );
