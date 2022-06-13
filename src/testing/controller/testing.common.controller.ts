@@ -1,6 +1,7 @@
 import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
 import { ApiKey, AuthExcludeApiKey } from 'src/auth/auth.decorator';
 import { IAuthApiPayload } from 'src/auth/auth.interface';
+import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
 import { UserAgent } from 'src/utils/request/request.decorator';
 import { Response } from 'src/utils/response/response.decorator';
 import { IResponse } from 'src/utils/response/response.interface';
@@ -19,6 +20,10 @@ export class TestingCommonController {
         @ApiKey() apiKey: IAuthApiPayload,
         @GetVersion() version: number
     ): Promise<IResponse> {
-        return { userAgent, apiKey, version };
+        return {
+            userAgent,
+            apiKey,
+            version,
+        };
     }
 }

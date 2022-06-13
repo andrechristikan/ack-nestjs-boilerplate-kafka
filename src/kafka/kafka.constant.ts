@@ -1,1 +1,3 @@
-export const KAFKA_TOPICS = ['nestjs.ack.success'];
+export enum KAFKA_TOPICS {
+    ACK_SUCCESS = 'nestjs.ack.success',
+}
