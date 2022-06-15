@@ -71,9 +71,9 @@ export class KafkaAdminService implements OnModuleInit {
         const data: ITopicConfig[] = [];
 
         for (const topic of topics) {
-            if (!currentTopic.includes(topic.toLocaleLowerCase())) {
+            if (!currentTopic.includes(topic)) {
                 data.push({
-                    topic: topic.toLocaleLowerCase(),
+                    topic,
                     numPartitions: this.defaultPartition,
                     replicationFactor: this.brokers.length,
                 });
@@ -82,9 +82,9 @@ export class KafkaAdminService implements OnModuleInit {
 
         const replyTopics: string[] = this.topics.map((val) => `${val}.reply`);
         for (const replyTopic of replyTopics) {
-            if (!currentTopic.includes(replyTopic.toLocaleLowerCase())) {
+            if (!currentTopic.includes(replyTopic)) {
                 data.push({
-                    topic: replyTopic.toLocaleLowerCase(),
+                    topic: replyTopic,
                     numPartitions: this.defaultPartition,
                     replicationFactor: this.brokers.length,
                 });

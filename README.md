@@ -33,12 +33,14 @@ Made with following
 
 ## Important
 
+> ack-microservice-nestjs-boilerplate-mongoose still on trial and error phase and the test will base on real projects or cases. So there will be have new update and new features.
+
 If you change env value of `APP_MODE` to `secure` that will trigger more `Middleware` and `Guard`.
 
 1. `TimestampMiddleware`, tolerant 5 minutes of request.
 2. `UserAgentMiddleware`, whitelist of user agent.
 3. `ApiKeyGuard`, check api key based on database.
-4. `CorsMiddleware`, check cors
+4. `CorsMiddleware`, check cors based on configs.
 
 You can see our `e2e testing file` or read the documentation on [section environment][ack-doc-env].
 
@@ -112,13 +114,26 @@ We assume that everyone who comes here is _**`programmer with intermediate knowl
 2. Understand[Typescript Fundamental](https://www.typescriptlang.org), Programming Language. It will help us to write and read the code.
 3. Understand [ExpressJs Fundamental](https://nodejs.org), NodeJs Base Framework. It will help us in understanding how the NestJs Framework works.
 4. Understand what NoSql is and how it works as a database, especially [MongoDB.](https://docs.mongodb.com)
+5. Understand about [Kafka Fundamental](ref-kafka)
 
 ## Todo
 
 Next development
 
-- [ ] Docker Compose File Mongodb Replication Set
-- [ ] Swagger
+- [ ] Default Timezone, and custom timezone (by `x-timezone`)
+- [ ] Add response header `x-custom-lang`, `x-timestamp`, and `x-timezone`
+- [ ] Cors optimization allowed header, and allowed method
+- [ ] Versioning Serialization
+- [ ] Update Documentation 
+- [ ] Docker Compose File Mongodb Replication Set (Low Priority)
+- [ ] Swagger (Low Priority)
+
+Kafka Development
+
+- [ ] Make example
+- [ ] Kafka Security
+- [ ] Kafka Optimization
+- [ ] Update Documentation
 
 ## Documentation
 
@@ -131,10 +146,6 @@ Let's go into deep ! 🚀
 ## Endpoints
 
 Import [endpoints.json][ack-microservice-endpoint] into postman or see our [e2e testing][ack-microservice-e2e]
-
-## Microservice
-
-Nestjs microservice or Kafka integration will put in separate repo [ack-microservice-nestjs-boilerplate-mongoose][ack-microservice-repo].
 
 ## License
 
