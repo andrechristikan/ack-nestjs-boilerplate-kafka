@@ -1,6 +1,8 @@
+import { IncomingMessage } from 'http';
 import { ENUM_PAGINATION_TYPE } from '../pagination/pagination.constant';
 
 export type IResponse = Record<string, any>;
+export type IResponseKafka = IncomingMessage;
 
 export interface IResponsePaging {
     totalData: number;
