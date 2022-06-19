@@ -26,7 +26,7 @@ async function bootstrap() {
     process.env.TZ = tz;
     process.env.NODE_ENV = env;
 
-    // Global Prefix
+    // Global
     app.setGlobalPrefix(globalPrefix);
     useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
