@@ -1,4 +1,6 @@
 import { registerAs } from '@nestjs/config';
+import ms from 'ms';
+import bytes from 'bytes';
 
 export default registerAs(
     'kafka',
@@ -11,18 +13,18 @@ export default registerAs(
         // consumer
         consumer: {
             groupId: process.env.KAFKA_CONSUMER_GROUP || 'nestjs.ack',
-            sessionTimeout: 30 * 1000, // 30s
-            rebalanceTimeout: 60 * 1000, //60s
-            heartbeatInterval: 5 * 1000, // 5s
+            sessionTimeout: ms('30s'), // 30s
+            rebalanceTimeout: ms('60s'), //60s
+            heartbeatInterval: ms('5s'), // 5s
 
-            maxBytesPerPartition: 1 * 11048576, // 1mb
-            maxBytes: 5 * 11048576, // 5mb
-            maxWaitTimeInMs: 5 * 1000, // 5s
+            maxBytesPerPartition: bytes('1mb'), // 1mb
+            maxBytes: bytes('5mb'), // 5mb
+            maxWaitTimeInMs: ms('5s'), // 5s
 
             allowAutoTopicCreation: false,
             retry: {
-                maxRetryTime: 30 * 1000, // 30s
-                initialRetryTime: 3 * 1000, // 3s
+                maxRetryTime: ms('30s'), // 30s
+                initialRetryTime: ms('3s'), // 3s
                 retries: 8,
             },
         },
@@ -32,16 +34,16 @@ export default registerAs(
 
         // producer
         producer: {
-            transactionTimeout: 60 * 1000, //60s
+            transactionTimeout: ms('60s'), //60s
             allowAutoTopicCreation: false,
             retry: {
-                maxRetryTime: 30 * 1000, // 30s
-                initialRetryTime: 3 * 1000, // 3s
+                maxRetryTime: ms('30s'), // 30s
+                initialRetryTime: ms('3s'), // 3s
                 retries: 8,
             },
         },
         producerSend: {
-            timeout: 10 * 1000, // 10s
+            timeout: ms('10s'), // 10s
         },
 
         // admin
