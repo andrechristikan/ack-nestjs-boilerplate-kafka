@@ -1,19 +1,52 @@
 {
+    "version": "0.2",
+    "language": "en",
     "words": [
         "nestjs",
         "metatype",
         "virtuals",
         "prebuild",
-        "Logform",
+        "logform",
         "transfomer",
-        "Insync",
-        "acks",
+        "insync",
         "microservices",
         "globby",
         "dockerhub",
         "fifsky",
         "buildx",
+        "exceljs",
+        "milis",
+        "workdir",
+        "dbdata",
+        "initdb",
+        "deadcode",
+        "authapis",
+        "headerapikey",
+        "rebalance",
+        "zookeeperdata",
+        "kafkadata",
+        "kafkajs"
+    ],
+    "ignoreWords": [
+        "Sheon",
+        "aallithioo",
+        "tiaamoo",
+        "qwertyuiop12345zxcvbnmkjh",
+        "opbUwdiS1FBsrDUoPgZdx",
+        "cuwakimacojulawu",
         "baibay",
-        "exceljs"
+        "acks",
+        "andrechristikan",
+        "wurstmeister",
+        "bitnami"
+    ],
+    "ignorePaths": [
+        "node_modules/**", 
+        "endpoints/**",
+        "*coverage/**",
+        ".husky/**",
+        ".github/**",
+        "dist/**",
+        "logs/**"
     ]
 }
