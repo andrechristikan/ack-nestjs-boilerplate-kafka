@@ -28,7 +28,7 @@
         "kafkajs"
     ],
     "ignoreWords": [
-        "Sheon",
+        "psheon",
         "aallithioo",
         "tiaamoo",
         "qwertyuiop12345zxcvbnmkjh",
@@ -47,6 +47,7 @@
         ".husky/**",
         ".github/**",
         "dist/**",
-        "logs/**"
+        "logs/**",
+        "src/database/json/**"
     ]
 }
