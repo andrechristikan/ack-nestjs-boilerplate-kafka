@@ -8,9 +8,9 @@ import { ConfigService } from '@nestjs/config';
 import { ClientKafka } from '@nestjs/microservices';
 import { lastValueFrom, Observable, timeout } from 'rxjs';
 import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
+import { IResponseKafka } from 'src/kafka/request/kafka.request.interface';
 import { HelperDateService } from 'src/utils/helper/service/helper.date.service';
 import { HelperStringService } from 'src/utils/helper/service/helper.string.service';
-import { IResponseKafka } from 'src/utils/response/response.interface';
 import { KAFKA_PRODUCER_SERVICE_NAME } from '../kafka.producer.constant';
 import {
     IKafkaMessage,

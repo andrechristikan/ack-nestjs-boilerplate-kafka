@@ -9,7 +9,7 @@ import { DebuggerService } from 'src/debugger/service/debugger.service';
 import { ENUM_REQUEST_STATUS_CODE_ERROR } from 'src/utils/request/request.constant';
 
 @Injectable()
-export class KafkaValidationPipe extends ValidationPipe {
+export class KafkaRequestValidationPipe extends ValidationPipe {
     constructor(private readonly debuggerService: DebuggerService) {
         super({
             transform: true,
@@ -17,10 +17,13 @@ export class KafkaValidationPipe extends ValidationPipe {
             skipUndefinedProperties: false,
             skipMissingProperties: false,
             exceptionFactory: async (errors: ValidationError[]) => {
-                debuggerService.error(
-                    'Request kafka validation error',
-                    'KafkaValidationPipe',
-                    'constructor',
+                this.debuggerService.error(
+                    KafkaRequestValidationPipe.name,
+                    {
+                        description: 'Request kafka validation error',
+                        class: 'KafkaRequestValidationPipe',
+                        function: 'constructor',
+                    },
                     errors
                 );
 

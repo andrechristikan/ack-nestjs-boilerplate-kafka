@@ -9,8 +9,6 @@ import { Response } from 'express';
 import { IErrorException } from './error.interface';
 import { IMessage } from 'src/message/message.interface';
 import { MessageService } from 'src/message/service/message.service';
-import { RpcException } from '@nestjs/microservices';
-import { Observable, throwError } from 'rxjs';
 import { IRequestApp } from '../request/request.interface';
 
 @Catch(HttpException)
@@ -63,12 +61,5 @@ export class ErrorHttpFilter implements ExceptionFilter {
                 message: rMessage,
             });
         }
-    }
-}
-
-@Catch(RpcException)
-export class ErrorRcpFilter implements ExceptionFilter {
-    catch(exception: RpcException): Observable<any> {
-        return throwError(() => JSON.stringify(exception.getError()));
     }
 }
