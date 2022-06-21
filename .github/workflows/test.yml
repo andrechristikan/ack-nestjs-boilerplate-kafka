@@ -35,11 +35,6 @@ jobs:
           KAFKA_AUTO_CREATE_TOPICS_ENABLE: false
           KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
           KAFKA_ADVERTISED_PORT: 9092
-        options: >-
-          --health-cmd kafka-topics --bootstrap-server localhost:9092 --list
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
         ports:
           - 9092:9092
       zookeeper: 
