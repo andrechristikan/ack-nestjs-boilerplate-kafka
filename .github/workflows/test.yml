@@ -73,11 +73,13 @@ jobs:
           echo AWS_CREDENTIAL_SECRET="$AWS_CREDENTIAL_SECRET" >> .env
           echo AWS_S3_BUCKET="$AWS_S3_BUCKET" >> .env
           echo AWS_S3_REGION="$AWS_S3_REGION" >> .env
+          echo KAFKA_BROKERS="$KAFKA_BROKERS" >> .env
         env:
           AWS_CREDENTIAL_KEY: ${{ secrets.AWS_CREDENTIAL_KEY }}
           AWS_CREDENTIAL_SECRET: ${{ secrets.AWS_CREDENTIAL_SECRET }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           AWS_S3_REGION: ${{ secrets.AWS_S3_REGION }}
+          KAFKA_BROKERS: ${{ secrets.KAFKA_BROKERS }}
           
       - name: Unit Test
         run: yarn test:unit
@@ -87,3 +89,4 @@ jobs:
 
       - name: E2E Test
         run: yarn test:e2e
+
