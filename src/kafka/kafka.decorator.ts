@@ -6,8 +6,8 @@ import {
     UsePipes,
 } from '@nestjs/common';
 import { MessagePattern, Transport } from '@nestjs/microservices';
-import { KafkaErrorFilter } from './error/kafka.error.filter';
-import { KafkaRequestValidationPipe } from './request/pipe/request.kafka-validation.pipe';
+import { KafkaErrorFilter } from './utils/error/filter/kafka.error.filter';
+import { KafkaRequestValidationPipe } from './utils/request/pipe/request.kafka-validation.pipe';
 
 export function MessageTopic(topic: string): any {
     return applyDecorators(

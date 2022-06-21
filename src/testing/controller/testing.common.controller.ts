@@ -1,5 +1,13 @@
-import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
+import {
+    Controller,
+    Get,
+    InternalServerErrorException,
+    Optional,
+    VERSION_NEUTRAL,
+} from '@nestjs/common';
 import { AuthExcludeApiKey } from 'src/auth/auth.decorator';
+import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
+import { KafkaProducerService } from 'src/kafka/producer/service/kafka.producer.service';
 import { ErrorMeta } from 'src/utils/error/error.decorator';
 import { HelperDateService } from 'src/utils/helper/service/helper.date.service';
 import { HelperService } from 'src/utils/helper/service/helper.service';
@@ -19,6 +27,7 @@ import { IResult } from 'ua-parser-js';
 })
 export class TestingCommonController {
     constructor(
+        @Optional() private readonly kafkaProducerService: KafkaProducerService,
         private readonly helperDateService: HelperDateService,
         private readonly helperService: HelperService
     ) {}
@@ -72,5 +81,33 @@ export class TestingCommonController {
                 timezone: timezone,
             }),
         };
+    }
+
+    @Response('test.helloKafka')
+    @AuthExcludeApiKey()
+    @ErrorMeta(TestingCommonController.name, 'helloKafka')
+    @Get('/hello/kafka')
+    async helloKafka(): Promise<IResponse> {
+        await this.kafkaProducerService.emit(KAFKA_TOPICS.ACK_SUCCESS, {
+            test: 'test',
+        });
+
+        return;
+    }
+
+    @Response('test.helloKafkaError')
+    @AuthExcludeApiKey()
+    @ErrorMeta(TestingCommonController.name, 'helloKafkaError')
+    @Get('/hello/kafka-error')
+    async helloKafkaError(): Promise<IResponse> {
+        try {
+            await this.kafkaProducerService.emit(KAFKA_TOPICS.ACK_ERROR, {
+                test: 'test',
+            });
+        } catch (e) {
+            throw new InternalServerErrorException(e);
+        }
+
+        return;
     }
 }
