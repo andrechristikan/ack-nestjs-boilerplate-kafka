@@ -11,23 +11,18 @@ import { IMessage } from 'src/message/message.interface';
 import { MessageService } from 'src/message/service/message.service';
 import { RpcException } from '@nestjs/microservices';
 import { Observable, throwError } from 'rxjs';
-import { CacheService } from 'src/cache/service/cache.service';
+import { IRequestApp } from '../request/request.interface';
 
 @Catch(HttpException)
 export class ErrorHttpFilter implements ExceptionFilter {
-    constructor(
-        private readonly cacheService: CacheService,
-        private readonly messageService: MessageService
-    ) {}
+    constructor(private readonly messageService: MessageService) {}
 
     async catch(exception: HttpException, host: ArgumentsHost): Promise<void> {
         const ctx: HttpArgumentsHost = host.switchToHttp();
         const statusHttp: number = exception.getStatus();
-        const responseHttp: any = ctx.getResponse<Response>();
-
-        const customLanguages: string[] = (
-            await this.cacheService.get<string>('x-custom-lang')
-        ).split(',');
+        const responseExpress: Response = ctx.getResponse<Response>();
+        const { customLang } = ctx.getRequest<IRequestApp>();
+        const customLanguages: string[] = customLang.split(',');
 
         // Restructure
         const response = exception.getResponse() as IErrorException;
@@ -52,7 +47,7 @@ export class ErrorHttpFilter implements ExceptionFilter {
                 });
             }
 
-            responseHttp.status(statusHttp).json({
+            responseExpress.status(statusHttp).json({
                 statusCode,
                 message: rMessage,
                 errors: rErrors,
@@ -63,7 +58,7 @@ export class ErrorHttpFilter implements ExceptionFilter {
                 'response.error.structure',
                 { customLanguages }
             );
-            responseHttp.status(statusHttp).json({
+            responseExpress.status(statusHttp).json({
                 statusCode: 500,
                 message: rMessage,
             });
