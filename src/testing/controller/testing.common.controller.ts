@@ -8,6 +8,8 @@ import {
 import { AuthExcludeApiKey } from 'src/auth/auth.decorator';
 import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
 import { KafkaProducerService } from 'src/kafka/producer/service/kafka.producer.service';
+import { ENUM_LOGGER_ACTION } from 'src/logger/logger.constant';
+import { Logger } from 'src/logger/logger.decorator';
 import { ErrorMeta } from 'src/utils/error/error.decorator';
 import { HelperDateService } from 'src/utils/helper/service/helper.date.service';
 import { HelperService } from 'src/utils/helper/service/helper.service';
@@ -34,6 +36,7 @@ export class TestingCommonController {
 
     @Response('test.hello')
     @AuthExcludeApiKey()
+    @Logger(ENUM_LOGGER_ACTION.TEST, { tags: ['test'] })
     @ErrorMeta(TestingCommonController.name, 'hello')
     @Get('/hello')
     async hello(
@@ -60,27 +63,11 @@ export class TestingCommonController {
     @AuthExcludeApiKey()
     @ResponseTimeout('10s')
     @ErrorMeta(TestingCommonController.name, 'helloTimeout')
-    @Get('/hello-timeout')
-    async helloTimeout(
-        @RequestUserAgent() userAgent: IResult,
-        @RequestTimezone() timezone: string
-    ): Promise<IResponse> {
+    @Get('/hello/timeout')
+    async helloTimeout(): Promise<IResponse> {
         await this.helperService.delay(60000);
 
-        const newDate = this.helperDateService.create({
-            timezone: timezone,
-        });
-        return {
-            userAgent,
-            date: newDate,
-            format: this.helperDateService.format(newDate, {
-                timezone: timezone,
-            }),
-            timestamp: this.helperDateService.timestamp({
-                date: newDate,
-                timezone: timezone,
-            }),
-        };
+        return;
     }
 
     @Response('test.helloKafka')
