@@ -6,14 +6,14 @@ import {
     UsePipes,
 } from '@nestjs/common';
 import { MessagePattern, Transport } from '@nestjs/microservices';
-import { ErrorRcpFilter } from 'src/utils/error/error.filter';
-import { KafkaValidationPipe } from 'src/utils/request/pipe/request.validation.pipe';
+import { KafkaErrorFilter } from './error/kafka.error.filter';
+import { KafkaRequestValidationPipe } from './request/pipe/request.kafka-validation.pipe';
 
 export function MessageTopic(topic: string): any {
     return applyDecorators(
         MessagePattern(topic, Transport.KAFKA),
-        UsePipes(KafkaValidationPipe),
-        UseFilters(new ErrorRcpFilter())
+        UsePipes(KafkaRequestValidationPipe),
+        UseFilters(KafkaErrorFilter)
     );
 }
 

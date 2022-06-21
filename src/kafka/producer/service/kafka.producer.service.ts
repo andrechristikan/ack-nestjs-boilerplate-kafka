@@ -7,11 +7,10 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { ClientKafka } from '@nestjs/microservices';
 import { lastValueFrom, Observable, timeout } from 'rxjs';
-import { CacheService } from 'src/cache/service/cache.service';
 import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
+import { IResponseKafka } from 'src/kafka/request/kafka.request.interface';
 import { HelperDateService } from 'src/utils/helper/service/helper.date.service';
 import { HelperStringService } from 'src/utils/helper/service/helper.string.service';
-import { IResponseKafka } from 'src/utils/response/response.interface';
 import { KAFKA_PRODUCER_SERVICE_NAME } from '../kafka.producer.constant';
 import {
     IKafkaMessage,
@@ -28,8 +27,7 @@ export class KafkaProducerService implements OnApplicationBootstrap {
         @Inject(KAFKA_PRODUCER_SERVICE_NAME)
         private readonly clientKafka: ClientKafka,
         private readonly configService: ConfigService,
-        private readonly helperDateService: HelperDateService,
-        private readonly cacheService: CacheService
+        private readonly helperDateService: HelperDateService
     ) {
         this.timeout = this.configService.get<number>(
             'kafka.producerSend.timeout'
@@ -87,9 +85,7 @@ export class KafkaProducerService implements OnApplicationBootstrap {
 
     private async createId(): Promise<string> {
         const rand: string = this.helperStringService.random(10);
-        const timestamp = `${this.helperDateService.timestamp({
-            timezone: await this.cacheService.getTimezone(),
-        })}`;
+        const timestamp = `${this.helperDateService.timestamp()}`;
         return `${timestamp}-${rand}`;
     }
 }
