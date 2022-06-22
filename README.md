@@ -140,6 +140,7 @@ Next development
 - [x] Add `ErrorLogInterceptor`
 - [x] Add `LoggerInterceptor`
 - [ ] Timezone in serialization and dto
+- [ ] Utils unit test
 - [ ] Add `Redis` Configuration
 - [ ] Update Documentation
 - [ ] Versioning Serialization (Low Priority)
