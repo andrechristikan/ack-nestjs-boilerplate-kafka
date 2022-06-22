@@ -140,6 +140,7 @@ export class HealthCommonController {
 
     @Response('health.check')
     @HealthCheck()
+    @ErrorMeta(HealthCommonController.name, 'kafka')
     @Get('/kafka')
     async kafka(): Promise<IResponse> {
         try {
