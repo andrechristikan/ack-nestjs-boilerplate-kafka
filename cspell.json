@@ -25,7 +25,8 @@
         "rebalance",
         "zookeeperdata",
         "kafkadata",
-        "kafkajs"
+        "kafkajs",
+        "jenkinsfile"
     ],
     "ignoreWords": [
         "psheon",
