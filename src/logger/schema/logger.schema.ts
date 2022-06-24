@@ -1,6 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from 'mongoose';
 import { AuthApiEntity } from 'src/auth/schema/auth.api.schema';
+import { ENUM_KAFKA_REQUEST_METHOD } from 'src/kafka/request/kafka.request.constant';
 import { RoleEntity } from 'src/role/schema/role.schema';
 import { UserEntity } from 'src/user/schema/user.schema';
 import { ENUM_REQUEST_METHOD } from 'src/utils/request/request.constant';
@@ -22,9 +23,9 @@ export class LoggerEntity {
 
     @Prop({
         required: true,
-        enum: ENUM_REQUEST_METHOD,
+        enum: { ...ENUM_REQUEST_METHOD, ...ENUM_KAFKA_REQUEST_METHOD },
     })
-    method: string;
+    method: ENUM_REQUEST_METHOD | ENUM_KAFKA_REQUEST_METHOD;
 
     @Prop({
         required: false,
@@ -65,6 +66,23 @@ export class LoggerEntity {
         required: true,
     })
     description: string;
+
+    @Prop({
+        required: false,
+        type: Object,
+    })
+    params?: Record<string, any>;
+
+    @Prop({
+        required: false,
+        type: Object,
+    })
+    bodies?: Record<string, any>;
+
+    @Prop({
+        required: false,
+    })
+    statusCode?: number;
 
     @Prop({
         required: false,

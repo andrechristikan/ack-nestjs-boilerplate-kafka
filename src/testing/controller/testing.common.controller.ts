@@ -75,11 +75,14 @@ export class TestingCommonController {
     @ErrorMeta(TestingCommonController.name, 'helloKafka')
     @Get('/hello/kafka')
     async helloKafka(): Promise<IResponse> {
-        await this.kafkaProducerService.emit(KAFKA_TOPICS.ACK_SUCCESS, {
-            test: 'test',
-        });
+        const response = await this.kafkaProducerService.send(
+            KAFKA_TOPICS.ACK_SUCCESS,
+            {
+                test: 'test',
+            }
+        );
 
-        return;
+        return response;
     }
 
     @Response('test.helloKafkaError')
@@ -88,7 +91,7 @@ export class TestingCommonController {
     @Get('/hello/kafka-error')
     async helloKafkaError(): Promise<IResponse> {
         try {
-            await this.kafkaProducerService.emit(KAFKA_TOPICS.ACK_ERROR, {
+            await this.kafkaProducerService.send(KAFKA_TOPICS.ACK_ERROR, {
                 test: 'test',
             });
         } catch (e) {

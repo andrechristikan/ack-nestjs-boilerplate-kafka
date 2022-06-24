@@ -12,6 +12,9 @@ import { ILoggerOptions } from '../logger.interface';
 import { ENUM_LOGGER_ACTION, ENUM_LOGGER_LEVEL } from '../logger.constant';
 import { IRequestApp } from 'src/utils/request/request.interface';
 import { ENUM_REQUEST_METHOD } from 'src/utils/request/request.constant';
+import { Response } from 'express';
+import { HttpArgumentsHost, RpcArgumentsHost } from '@nestjs/common/interfaces';
+import { ENUM_KAFKA_REQUEST_METHOD } from 'src/kafka/request/kafka.request.constant';
 
 export function LoggerInterceptor(
     action: ENUM_LOGGER_ACTION,
@@ -26,11 +29,22 @@ export function LoggerInterceptor(
             next: CallHandler
         ): Promise<Observable<Promise<any> | string>> {
             if (context.getType() === 'http') {
-                const { apiKey, method, originalUrl, user, id } = context
-                    .switchToHttp()
-                    .getRequest<IRequestApp>();
+                const ctx: HttpArgumentsHost = context.switchToHttp();
+                const { apiKey, method, originalUrl, user, id, body, params } =
+                    ctx.getRequest<IRequestApp>();
+                const responseExpress = ctx.getResponse<Response>();
+
                 return next.handle().pipe(
-                    tap(async () => {
+                    tap(async (response: Promise<Record<string, any>>) => {
+                        const responseData: Record<string, any> =
+                            await response;
+                        const responseStatus: number =
+                            responseExpress.statusCode;
+                        const statusCode =
+                            responseData && responseData.statusCode
+                                ? responseData.statusCode
+                                : responseStatus;
+
                         if (
                             options &&
                             options.level === ENUM_LOGGER_LEVEL.FATAL
@@ -46,6 +60,9 @@ export function LoggerInterceptor(
                                 requestId: id,
                                 method: method as ENUM_REQUEST_METHOD,
                                 role: user ? user.role : undefined,
+                                params,
+                                bodies: body,
+                                statusCode,
                                 tags:
                                     options && options.tags ? options.tags : [],
                             });
@@ -64,6 +81,9 @@ export function LoggerInterceptor(
                                 requestId: id,
                                 method: method as ENUM_REQUEST_METHOD,
                                 role: user ? user.role : undefined,
+                                params,
+                                bodies: body,
+                                statusCode,
                                 tags:
                                     options && options.tags ? options.tags : [],
                             });
@@ -82,6 +102,9 @@ export function LoggerInterceptor(
                                 requestId: id,
                                 method: method as ENUM_REQUEST_METHOD,
                                 role: user ? user.role : undefined,
+                                params,
+                                bodies: body,
+                                statusCode,
                                 tags:
                                     options && options.tags ? options.tags : [],
                             });
@@ -97,6 +120,83 @@ export function LoggerInterceptor(
                                 requestId: id,
                                 method: method as ENUM_REQUEST_METHOD,
                                 role: user ? user.role : undefined,
+                                params,
+                                bodies: body,
+                                statusCode,
+                                tags:
+                                    options && options.tags ? options.tags : [],
+                            });
+                        }
+                    })
+                );
+            } else if (context.getType() === 'rpc') {
+                const ctx: RpcArgumentsHost = context.switchToRpc();
+                const { value, key, topic } = ctx.getData();
+
+                return next.handle().pipe(
+                    tap(async () => {
+                        if (
+                            options &&
+                            options.level === ENUM_LOGGER_LEVEL.FATAL
+                        ) {
+                            await this.loggerService.fatal({
+                                action,
+                                description:
+                                    options && options.description
+                                        ? options.description
+                                        : `Request ${topic} called, url ${topic}, and action ${action}`,
+                                requestId: key,
+                                method: ENUM_KAFKA_REQUEST_METHOD.RPC,
+                                bodies: value,
+                                statusCode: 200,
+                                tags:
+                                    options && options.tags ? options.tags : [],
+                            });
+                        } else if (
+                            options &&
+                            options.level === ENUM_LOGGER_LEVEL.DEBUG
+                        ) {
+                            await this.loggerService.debug({
+                                action,
+                                description:
+                                    options && options.description
+                                        ? options.description
+                                        : `Request ${topic} called, url ${topic}, and action ${action}`,
+                                requestId: key,
+                                method: ENUM_KAFKA_REQUEST_METHOD.RPC,
+                                bodies: value,
+                                statusCode: 200,
+                                tags:
+                                    options && options.tags ? options.tags : [],
+                            });
+                        } else if (
+                            options &&
+                            options.level === ENUM_LOGGER_LEVEL.WARM
+                        ) {
+                            await this.loggerService.warning({
+                                action,
+                                description:
+                                    options && options.description
+                                        ? options.description
+                                        : `Request ${topic} called, url ${topic}, and action ${action}`,
+                                requestId: key,
+                                method: ENUM_KAFKA_REQUEST_METHOD.RPC,
+                                bodies: value,
+                                statusCode: 200,
+                                tags:
+                                    options && options.tags ? options.tags : [],
+                            });
+                        } else {
+                            await this.loggerService.info({
+                                action,
+                                description:
+                                    options && options.description
+                                        ? options.description
+                                        : `Request ${topic} called, url ${topic}, and action ${action}`,
+                                requestId: key,
+                                method: ENUM_KAFKA_REQUEST_METHOD.RPC,
+                                bodies: value,
+                                statusCode: 200,
                                 tags:
                                     options && options.tags ? options.tags : [],
                             });

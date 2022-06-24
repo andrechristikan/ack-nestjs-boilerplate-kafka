@@ -3,15 +3,18 @@ import {
     createParamDecorator,
     ExecutionContext,
     UseFilters,
+    UseInterceptors,
     UsePipes,
 } from '@nestjs/common';
 import { MessagePattern, Transport } from '@nestjs/microservices';
+import { ErrorLogInterceptor } from 'src/utils/error/interceptor/error.log.interceptor';
 import { KafkaErrorFilter } from './utils/error/filter/kafka.error.filter';
 import { KafkaRequestValidationPipe } from './utils/request/pipe/request.kafka-validation.pipe';
 
 export function MessageTopic(topic: string): any {
     return applyDecorators(
         MessagePattern(topic, Transport.KAFKA),
+        UseInterceptors(ErrorLogInterceptor),
         UsePipes(KafkaRequestValidationPipe),
         UseFilters(KafkaErrorFilter)
     );
