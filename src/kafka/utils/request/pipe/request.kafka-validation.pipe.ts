@@ -15,13 +15,14 @@ export class KafkaRequestValidationPipe extends ValidationPipe {
             skipNullProperties: false,
             skipUndefinedProperties: false,
             skipMissingProperties: false,
-            exceptionFactory: async (errors: ValidationError[]) =>
-                new RpcException({
+            exceptionFactory: async (errors: ValidationError[]) => {
+                throw new RpcException({
                     statusCode:
                         ENUM_REQUEST_STATUS_CODE_ERROR.REQUEST_VALIDATION_ERROR,
                     message: 'http.clientError.unprocessableEntity',
                     errors,
-                }),
+                });
+            },
         });
     }
 

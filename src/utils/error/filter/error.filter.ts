@@ -26,6 +26,7 @@ export class ErrorHttpFilter implements ExceptionFilter {
         const response = exception.getResponse() as IErrorException;
         if (typeof response === 'object') {
             const { statusCode, message, errors, data, properties } = response;
+
             const rErrors = errors
                 ? await this.messageService.getRequestErrorsMessage(
                       errors,

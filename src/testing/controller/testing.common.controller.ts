@@ -5,6 +5,7 @@ import {
     Optional,
     VERSION_NEUTRAL,
 } from '@nestjs/common';
+import { Types } from 'mongoose';
 import { AuthExcludeApiKey } from 'src/auth/auth.decorator';
 import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
 import { KafkaProducerService } from 'src/kafka/producer/service/kafka.producer.service';
@@ -79,6 +80,22 @@ export class TestingCommonController {
             KAFKA_TOPICS.ACK_SUCCESS,
             {
                 test: 'test',
+                testNumber: [],
+                testBoolean: false,
+                testObject: {
+                    dalamObject: 'adsasda',
+                },
+                testArray: ['2', '3', 123, false],
+                testArrayOfObject: [
+                    {
+                        test1: 'test1',
+                    },
+                    {
+                        test2: 'test3',
+                    },
+                ],
+                testDate: new Date(),
+                testObjectId: new Types.ObjectId(),
             }
         );
 
@@ -93,6 +110,22 @@ export class TestingCommonController {
         try {
             await this.kafkaProducerService.send(KAFKA_TOPICS.ACK_ERROR, {
                 test: 'test',
+                testNumber: [],
+                testBoolean: false,
+                testObject: {
+                    dalamObject: 'adsasda',
+                },
+                testArray: ['2', '3', 123, false],
+                testArrayOfObject: [
+                    {
+                        test1: 'test1',
+                    },
+                    {
+                        test2: 'test3',
+                    },
+                ],
+                testDate: new Date(),
+                testObjectId: 12312312,
             });
         } catch (e) {
             throw new InternalServerErrorException(e);
