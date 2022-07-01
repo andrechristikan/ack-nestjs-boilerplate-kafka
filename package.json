@@ -68,7 +68,7 @@
     "exceljs": "^4.3.0",
     "express-rate-limit": "^6.4.0",
     "geolib": "^3.3.3",
-    "kafkajs": "^2.0.2",
+    "kafkajs": "^2.1.0",
     "helmet": "^5.1.0",
     "moment": "^2.29.3",
     "moment-timezone": "^0.5.34",
