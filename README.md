@@ -24,7 +24,7 @@ ack-microservice-nestjs-boilerplate-mongoose is a [NestJs][ref-nestjs] Microserv
 ack-microservice-nestjs-boilerplate-mongoose combine [NestJs Http][ref-nestjs] and [NestJs Kafka Microservice][ref-nestjs-kafka-microservice].
 
 Made with following
-- [nodejs-best-practice](https://github.com/goldbergyoni/nodebestpractices) 
+- [nodejs-best-practice](https://github.com/goldbergyoni/nodebestpractices)
 - [The Twelve-Factor App](https://12factor.net)
 - [Microservice Architecture](https://microservices.io)
 - NestJs Habit.
@@ -50,8 +50,8 @@ Describes which version of the main packages and main tools.
 
 | Name       | Version  |
 | ---------- | -------- |
-| NestJs     | v8.x     |
-| NodeJs     | v17.x    |
+| NestJs     | v9.x     |
+| NodeJs     | v18.x    |
 | Typescript | v4.x     |
 | Mongoose   | v6.x     |
 | MongoDB    | v5.x     |
@@ -119,8 +119,8 @@ We assume that everyone who comes here is _**`programmer with intermediate knowl
 3. Understand [ExpressJs Fundamental](https://nodejs.org), NodeJs Base Framework. It will help us in understanding how the NestJs Framework works.
 4. Understand what NoSql is and how it works as a database, especially [MongoDB.](https://docs.mongodb.com)
 5. Understand about [Kafka Fundamental](ref-kafka)
-6. Understand [Microservice Architecture](https://microservices.io) and the design pattern.
-7. [The Twelve Factor Apps](https://12factor.net)
+6. Optional, Understand [Microservice Architecture](https://microservices.io) and the design pattern.
+7. Optional,[The Twelve Factor Apps](https://12factor.net)
 8. Optional, Understand [Docker](ref-docker) that can help you to run the project
 
 ## Todo
@@ -139,11 +139,11 @@ Next development
 - [x] Add `cSpell`
 - [x] Add `ErrorLogInterceptor`
 - [x] Add `LoggerInterceptor`
-- [ ] Timezone in serialization and dto
 - [ ] Utils unit test
 - [ ] Add `Redis` Configuration
 - [ ] Update Documentation
-- [ ] Versioning Serialization (Low Priority)
+- [ ] Timezone in serialization and dto
+- [ ] Versioning Serialization
 - [ ] Docker Compose File Mongodb Replication Set (Low Priority)
 - [ ] Swagger (Low Priority)
 
