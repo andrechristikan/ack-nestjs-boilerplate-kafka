@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { HttpArgumentsHost } from '@nestjs/common/interfaces';
 import { Response } from 'express';
+import { DebuggerService } from 'src/debugger/service/debugger.service';
 import { IMessage } from 'src/message/message.interface';
 import { MessageService } from 'src/message/service/message.service';
 import { IRequestApp } from 'src/utils/request/request.interface';
@@ -13,17 +14,32 @@ import { IErrorException } from '../error.interface';
 
 @Catch(HttpException)
 export class ErrorHttpFilter implements ExceptionFilter {
-    constructor(private readonly messageService: MessageService) {}
+    constructor(
+        private readonly messageService: MessageService,
+        private readonly debuggerService: DebuggerService
+    ) {}
 
     async catch(exception: HttpException, host: ArgumentsHost): Promise<void> {
         const ctx: HttpArgumentsHost = host.switchToHttp();
         const statusHttp: number = exception.getStatus();
-        const responseExpress: Response = ctx.getResponse<Response>();
+        const request = ctx.getRequest<IRequestApp>();
+        const response = exception.getResponse() as IErrorException;
         const { customLang } = ctx.getRequest<IRequestApp>();
         const customLanguages: string[] = customLang.split(',');
+        const responseExpress: Response = ctx.getResponse<Response>();
+
+        // Debugger
+        this.debuggerService.error(
+            request && request.id ? request.id : ErrorHttpFilter.name,
+            {
+                description: exception.message,
+                class: request.__class,
+                function: request.__function,
+            },
+            exception
+        );
 
         // Restructure
-        const response = exception.getResponse() as IErrorException;
         if (typeof response === 'object') {
             const { statusCode, message, errors, data, properties } = response;
 
@@ -47,7 +63,7 @@ export class ErrorHttpFilter implements ExceptionFilter {
             }
 
             responseExpress.status(statusHttp).json({
-                statusCode,
+                statusCode: statusCode || statusHttp,
                 message: rMessage,
                 errors: rErrors,
                 data,
@@ -55,10 +71,12 @@ export class ErrorHttpFilter implements ExceptionFilter {
         } else {
             const rMessage: string | IMessage = await this.messageService.get(
                 'response.error.structure',
-                { customLanguages }
+                {
+                    customLanguages,
+                }
             );
             responseExpress.status(statusHttp).json({
-                statusCode: 500,
+                statusCode: statusHttp,
                 message: rMessage,
             });
         }

@@ -20,7 +20,6 @@ import { Response } from 'src/utils/response/response.decorator';
 import { ConfigService } from '@nestjs/config';
 import { Transport } from '@nestjs/microservices';
 import { ENUM_STATUS_CODE_ERROR } from 'src/utils/error/error.constant';
-import { ErrorMeta } from 'src/utils/error/error.decorator';
 
 @Controller({
     version: VERSION_NEUTRAL,
@@ -40,7 +39,6 @@ export class HealthCommonController {
 
     @Response('health.check')
     @HealthCheck()
-    @ErrorMeta(HealthCommonController.name, 'aws')
     @Get('/aws')
     async checkAws(): Promise<IResponse> {
         try {
@@ -57,7 +55,6 @@ export class HealthCommonController {
 
     @Response('health.check')
     @HealthCheck()
-    @ErrorMeta(HealthCommonController.name, 'checkDatabase')
     @Get('/database')
     async checkDatabase(): Promise<IResponse> {
         try {
@@ -77,7 +74,6 @@ export class HealthCommonController {
 
     @Response('health.check')
     @HealthCheck()
-    @ErrorMeta(HealthCommonController.name, 'checkMemoryHeap')
     @Get('/memory-heap')
     async checkMemoryHeap(): Promise<IResponse> {
         try {
@@ -98,7 +94,6 @@ export class HealthCommonController {
 
     @Response('health.check')
     @HealthCheck()
-    @ErrorMeta(HealthCommonController.name, 'checkMemoryRss')
     @Get('/memory-rss')
     async checkMemoryRss(): Promise<IResponse> {
         try {
@@ -119,7 +114,6 @@ export class HealthCommonController {
 
     @Response('health.check')
     @HealthCheck()
-    @ErrorMeta(HealthCommonController.name, 'checkStorage')
     @Get('/storage')
     async checkStorage(): Promise<IResponse> {
         try {
@@ -140,7 +134,6 @@ export class HealthCommonController {
 
     @Response('health.check')
     @HealthCheck()
-    @ErrorMeta(HealthCommonController.name, 'kafka')
     @Get('/kafka')
     async kafka(): Promise<IResponse> {
         try {
