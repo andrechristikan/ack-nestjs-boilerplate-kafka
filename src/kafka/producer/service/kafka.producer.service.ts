@@ -6,15 +6,16 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientKafka } from '@nestjs/microservices';
-import { lastValueFrom, Observable, timeout } from 'rxjs';
+import { firstValueFrom, lastValueFrom, timeout } from 'rxjs';
 import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
-import { IResponseKafka } from 'src/kafka/utils/request/kafka.request.interface';
 import { HelperDateService } from 'src/utils/helper/service/helper.date.service';
 import { HelperStringService } from 'src/utils/helper/service/helper.string.service';
 import { KAFKA_PRODUCER_SERVICE_NAME } from '../kafka.producer.constant';
 import {
+    ENUM_KAFKA_PRODUCER_SEND_RESPONSE,
     IKafkaMessage,
     IKafkaProducerMessageOptions,
+    IKafkaProducerSendMessageOptions,
 } from '../kafka.producer.interface';
 
 @Injectable()
@@ -45,40 +46,51 @@ export class KafkaProducerService implements OnApplicationBootstrap {
         this.logger.log('Kafka Client Connected');
     }
 
-    async send<T>(
+    async send<T, N>(
         topic: string,
         data: T,
-        options?: IKafkaProducerMessageOptions
-    ): Promise<Observable<IResponseKafka>> {
+        options?: IKafkaProducerSendMessageOptions
+    ): Promise<IKafkaMessage<N> | N> {
         const message: IKafkaMessage<T> = {
             key: await this.createId(),
             value: data,
             headers: options && options.headers ? options.headers : undefined,
         };
 
-        return lastValueFrom(
+        if (
+            options &&
+            options.response === ENUM_KAFKA_PRODUCER_SEND_RESPONSE.FIRST
+        ) {
+            const response: IKafkaMessage<N> = await firstValueFrom(
+                this.clientKafka
+                    .send<any, IKafkaMessage<T>>(topic, message)
+                    .pipe(timeout(this.timeout))
+            );
+            return options && options.raw ? response : response.value;
+        }
+
+        const response: IKafkaMessage<N> = await lastValueFrom(
             this.clientKafka
                 .send<any, IKafkaMessage<T>>(topic, message)
                 .pipe(timeout(this.timeout))
         );
+        return options && options.raw ? response : response.value;
     }
 
     async emit<T>(
         topic: string,
         data: T,
         options?: IKafkaProducerMessageOptions
-    ): Promise<Observable<void>> {
+    ): Promise<void> {
         const message: IKafkaMessage<T> = {
             key: await this.createId(),
             value: data,
             headers: options && options.headers ? options.headers : undefined,
         };
 
-        await lastValueFrom(
-            this.clientKafka
-                .emit<any, IKafkaMessage<T>>(topic, message)
-                .pipe(timeout(this.timeout))
-        );
+        this.clientKafka
+            .emit<any, IKafkaMessage<T>>(topic, message)
+            .pipe(timeout(this.timeout));
 
         return;
     }

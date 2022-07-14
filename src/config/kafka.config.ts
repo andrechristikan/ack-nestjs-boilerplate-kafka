@@ -34,6 +34,8 @@ export default registerAs(
 
         // producer
         producer: {
+            // optional for kafka v2<
+            // createPartitioner: Partitioners.LegacyPartitioner,
             transactionTimeout: ms('60s'), //60s
             allowAutoTopicCreation: false,
             retry: {
