@@ -82,7 +82,7 @@ export class TestingCommonController {
                 testNumber: [],
                 testBoolean: false,
                 testObject: {
-                    dalamObject: 'adsasda',
+                    inObject: 'adsasda',
                 },
                 testArray: ['2', '3', 123, false],
                 testArrayOfObject: [
@@ -112,7 +112,7 @@ export class TestingCommonController {
                 testNumber: [],
                 testBoolean: false,
                 testObject: {
-                    dalamObject: 'adsasda',
+                    inObject: 'adsasda',
                 },
                 testArray: ['2', '3', 123, false],
                 testArrayOfObject: [

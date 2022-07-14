@@ -27,7 +27,9 @@
         "kafkadata",
         "kafkajs",
         "jenkinsfile",
-        "superadmin"
+        "superadmin",
+        "Partitioner",
+        "Partitioners"
     ],
     "ignoreWords": [
         "psheon",
