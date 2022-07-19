@@ -6,7 +6,6 @@ import {
     UseGuards,
     UseInterceptors,
     UsePipes,
-    ValidationPipe,
 } from '@nestjs/common';
 import { KafkaContext, MessagePattern, Transport } from '@nestjs/microservices';
 import { KafkaErrorFilter } from './utils/error/filter/kafka.error.filter';

@@ -1,4 +1,4 @@
-import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
+import { ArgumentsHost, Catch } from '@nestjs/common';
 import {
     RpcArgumentsHost,
     RpcExceptionFilter,
