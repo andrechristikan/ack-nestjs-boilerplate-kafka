@@ -107,29 +107,31 @@ export class TestingCommonController {
     @Get('/hello/kafka-error')
     async helloKafkaError(): Promise<IResponse> {
         try {
-            await this.kafkaProducerService.send(KAFKA_TOPICS.ACK_ERROR, {
-                test: 'test',
-                testNumber: [],
-                testBoolean: false,
-                testObject: {
-                    inObject: 'adsasda',
-                },
-                testArray: ['2', '3', 123, false],
-                testArrayOfObject: [
-                    {
-                        test1: 'test1',
+            const response = await this.kafkaProducerService.send(
+                KAFKA_TOPICS.ACK_ERROR,
+                {
+                    testNumber: [],
+                    testBoolean: 'false',
+                    testObject: {
+                        inObject: 'adsasda',
                     },
-                    {
-                        test2: 'test3',
-                    },
-                ],
-                testDate: new Date(),
-                testObjectId: 12312312,
-            });
+                    testArray: ['2', '3', 123, false],
+                    testArrayOfObject: [
+                        {
+                            test1: 'test1',
+                        },
+                        {
+                            test2: 'test3',
+                        },
+                    ],
+                    testDate: new Date(),
+                    testObjectId: 12312312,
+                }
+            );
+
+            return response;
         } catch (e) {
             throw new InternalServerErrorException(e);
         }
-
-        return;
     }
 }

@@ -45,7 +45,7 @@ export default registerAs(
             },
         },
         producerSend: {
-            timeout: ms('10s'), // 10s
+            timeout: ms('30s'), // 30s
         },
 
         // admin
