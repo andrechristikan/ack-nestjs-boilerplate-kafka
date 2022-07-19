@@ -64,7 +64,7 @@ async function bootstrap() {
                     clientId,
                     brokers,
                 },
-                subscribe,
+                // subscribe,
                 consumer,
             },
         });

@@ -44,7 +44,7 @@ export class KafkaAdminService implements OnModuleInit {
     async onModuleInit(): Promise<void> {
         await this.connect();
         await this.createTopics();
-        await this.helperService.delay(2000);
+        await this.helperService.delay(5000);
     }
 
     private async connect() {

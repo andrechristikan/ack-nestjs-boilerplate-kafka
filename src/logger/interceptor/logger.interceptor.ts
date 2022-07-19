@@ -14,7 +14,7 @@ import { IRequestApp } from 'src/utils/request/request.interface';
 import { ENUM_REQUEST_METHOD } from 'src/utils/request/request.constant';
 import { Response } from 'express';
 import { HttpArgumentsHost, RpcArgumentsHost } from '@nestjs/common/interfaces';
-import { ENUM_KAFKA_REQUEST_METHOD } from 'src/kafka/request/kafka.request.constant';
+import { ENUM_KAFKA_REQUEST_METHOD } from 'src/kafka/utils/request/kafka.request.constant';
 
 export function LoggerInterceptor(
     action: ENUM_LOGGER_ACTION,

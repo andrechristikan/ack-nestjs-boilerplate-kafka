@@ -1,4 +1,4 @@
-import { ENUM_KAFKA_REQUEST_METHOD } from 'src/kafka/request/kafka.request.constant';
+import { ENUM_KAFKA_REQUEST_METHOD } from 'src/kafka/utils/request/kafka.request.constant';
 import { ENUM_ROLE_ACCESS_FOR } from 'src/role/role.constant';
 import { ENUM_REQUEST_METHOD } from 'src/utils/request/request.constant';
 import { ENUM_LOGGER_ACTION, ENUM_LOGGER_LEVEL } from './logger.constant';

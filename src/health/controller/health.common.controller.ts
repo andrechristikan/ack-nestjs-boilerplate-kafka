@@ -1,9 +1,4 @@
-import {
-    Controller,
-    Get,
-    InternalServerErrorException,
-    VERSION_NEUTRAL,
-} from '@nestjs/common';
+import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
 import {
     DiskHealthIndicator,
     HealthCheck,
@@ -19,7 +14,6 @@ import { IResponse } from 'src/utils/response/response.interface';
 import { Response } from 'src/utils/response/response.decorator';
 import { ConfigService } from '@nestjs/config';
 import { Transport } from '@nestjs/microservices';
-import { ENUM_STATUS_CODE_ERROR } from 'src/utils/error/error.constant';
 
 @Controller({
     version: VERSION_NEUTRAL,
@@ -41,122 +35,80 @@ export class HealthCommonController {
     @HealthCheck()
     @Get('/aws')
     async checkAws(): Promise<IResponse> {
-        try {
-            return this.health.check([
-                () => this.awsIndicator.isHealthy('awsBucket'),
-            ]);
-        } catch (e) {
-            throw new InternalServerErrorException({
-                statusCode: ENUM_STATUS_CODE_ERROR.UNKNOWN_ERROR,
-                message: 'http.serverError.internalServerError',
-            });
-        }
+        return this.health.check([
+            () => this.awsIndicator.isHealthy('awsBucket'),
+        ]);
     }
 
     @Response('health.check')
     @HealthCheck()
     @Get('/database')
     async checkDatabase(): Promise<IResponse> {
-        try {
-            return this.health.check([
-                () =>
-                    this.databaseIndicator.pingCheck('database', {
-                        connection: this.databaseConnection,
-                    }),
-            ]);
-        } catch (e) {
-            throw new InternalServerErrorException({
-                statusCode: ENUM_STATUS_CODE_ERROR.UNKNOWN_ERROR,
-                message: 'http.serverError.internalServerError',
-            });
-        }
+        return this.health.check([
+            () =>
+                this.databaseIndicator.pingCheck('database', {
+                    connection: this.databaseConnection,
+                }),
+        ]);
     }
 
     @Response('health.check')
     @HealthCheck()
     @Get('/memory-heap')
     async checkMemoryHeap(): Promise<IResponse> {
-        try {
-            return this.health.check([
-                () =>
-                    this.memoryHealthIndicator.checkHeap(
-                        'memoryHeap',
-                        300 * 1024 * 1024
-                    ),
-            ]);
-        } catch (e) {
-            throw new InternalServerErrorException({
-                statusCode: ENUM_STATUS_CODE_ERROR.UNKNOWN_ERROR,
-                message: 'http.serverError.internalServerError',
-            });
-        }
+        return this.health.check([
+            () =>
+                this.memoryHealthIndicator.checkHeap(
+                    'memoryHeap',
+                    300 * 1024 * 1024
+                ),
+        ]);
     }
 
     @Response('health.check')
     @HealthCheck()
     @Get('/memory-rss')
     async checkMemoryRss(): Promise<IResponse> {
-        try {
-            return this.health.check([
-                () =>
-                    this.memoryHealthIndicator.checkRSS(
-                        'memoryRss',
-                        300 * 1024 * 1024
-                    ),
-            ]);
-        } catch (e) {
-            throw new InternalServerErrorException({
-                statusCode: ENUM_STATUS_CODE_ERROR.UNKNOWN_ERROR,
-                message: 'http.serverError.internalServerError',
-            });
-        }
+        return this.health.check([
+            () =>
+                this.memoryHealthIndicator.checkRSS(
+                    'memoryRss',
+                    300 * 1024 * 1024
+                ),
+        ]);
     }
 
     @Response('health.check')
     @HealthCheck()
     @Get('/storage')
     async checkStorage(): Promise<IResponse> {
-        try {
-            return this.health.check([
-                () =>
-                    this.diskHealthIndicator.checkStorage('diskHealth', {
-                        thresholdPercent: 0.75,
-                        path: '/',
-                    }),
-            ]);
-        } catch (e) {
-            throw new InternalServerErrorException({
-                statusCode: ENUM_STATUS_CODE_ERROR.UNKNOWN_ERROR,
-                message: 'http.serverError.internalServerError',
-            });
-        }
+        return this.health.check([
+            () =>
+                this.diskHealthIndicator.checkStorage('diskHealth', {
+                    thresholdPercent: 0.75,
+                    path: '/',
+                }),
+        ]);
     }
 
     @Response('health.check')
     @HealthCheck()
     @Get('/kafka')
     async kafka(): Promise<IResponse> {
-        try {
-            return this.health.check([
-                () =>
-                    this.microserviceIndicator.pingCheck('kafka', {
-                        transport: Transport.KAFKA,
-                        timeout: 10000,
-                        options: {
-                            client: {
-                                brokers:
-                                    this.configService.get<string[]>(
-                                        'kafka.brokers'
-                                    ),
-                            },
+        return this.health.check([
+            () =>
+                this.microserviceIndicator.pingCheck('kafka', {
+                    transport: Transport.KAFKA,
+                    timeout: 10000,
+                    options: {
+                        client: {
+                            brokers:
+                                this.configService.get<string[]>(
+                                    'kafka.brokers'
+                                ),
                         },
-                    }),
-            ]);
-        } catch (e) {
-            throw new InternalServerErrorException({
-                statusCode: ENUM_STATUS_CODE_ERROR.UNKNOWN_ERROR,
-                message: 'http.serverError.internalServerError',
-            });
-        }
+                    },
+                }),
+        ]);
     }
 }
