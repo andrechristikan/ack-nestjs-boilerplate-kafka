@@ -25,7 +25,9 @@ export class ErrorHttpFilter implements ExceptionFilter {
         const request = ctx.getRequest<IRequestApp>();
         const response = exception.getResponse();
         const { customLang } = ctx.getRequest<IRequestApp>();
-        const customLanguages: string[] = customLang.split(',');
+        const customLanguages: string[] = customLang
+            ? customLang.split(',')
+            : [];
         const responseExpress: Response = ctx.getResponse<Response>();
 
         // Debugger
@@ -73,6 +75,15 @@ export class ErrorHttpFilter implements ExceptionFilter {
                 message: rMessage,
                 errors: rErrors,
                 data,
+            });
+        } else if (typeof response === 'string') {
+            const message = await this.messageService.get(response, {
+                customLanguages,
+            });
+
+            responseExpress.status(statusHttp).json({
+                statusCode: statusHttp,
+                message,
             });
         } else {
             const message = await this.messageService.get(

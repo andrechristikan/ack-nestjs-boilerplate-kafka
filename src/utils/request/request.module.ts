@@ -1,14 +1,7 @@
-import {
-    HttpStatus,
-    Module,
-    UnprocessableEntityException,
-    ValidationError,
-    ValidationPipe,
-} from '@nestjs/common';
-import { APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
+import { Module } from '@nestjs/common';
+import { APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { RequestControllerGuard } from './guard/request.controller.guard';
 import { RequestTimestampInterceptor } from './interceptor/request.timestamp.interceptor';
-import { ENUM_REQUEST_STATUS_CODE_ERROR } from './request.constant';
 import { IsPasswordMediumConstraint } from './validation/request.is-password-medium.validation';
 import { IsPasswordStrongConstraint } from './validation/request.is-password-strong.validation';
 import { IsPasswordWeakConstraint } from './validation/request.is-password-weak.validation';
@@ -26,24 +19,6 @@ import { StringOrNumberOrBooleanConstraint } from './validation/request.string-o
 @Module({
     controllers: [],
     providers: [
-        {
-            provide: APP_PIPE,
-            useFactory: () =>
-                new ValidationPipe({
-                    transform: true,
-                    skipNullProperties: false,
-                    skipUndefinedProperties: false,
-                    skipMissingProperties: false,
-                    errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
-                    exceptionFactory: async (errors: ValidationError[]) =>
-                        new UnprocessableEntityException({
-                            statusCode:
-                                ENUM_REQUEST_STATUS_CODE_ERROR.REQUEST_VALIDATION_ERROR,
-                            message: 'http.clientError.unprocessableEntity',
-                            errors,
-                        }),
-                }),
-        },
         {
             provide: APP_INTERCEPTOR,
             useClass: RequestTimestampInterceptor,

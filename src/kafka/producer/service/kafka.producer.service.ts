@@ -6,13 +6,12 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ClientKafka } from '@nestjs/microservices';
-import { firstValueFrom, lastValueFrom, timeout } from 'rxjs';
+import { firstValueFrom, timeout } from 'rxjs';
 import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
 import { HelperDateService } from 'src/utils/helper/service/helper.date.service';
 import { HelperStringService } from 'src/utils/helper/service/helper.string.service';
 import { KAFKA_PRODUCER_SERVICE_NAME } from '../kafka.producer.constant';
 import {
-    ENUM_KAFKA_PRODUCER_SEND_RESPONSE,
     IKafkaMessage,
     IKafkaProducerMessageOptions,
     IKafkaProducerSendMessageOptions,
@@ -36,8 +35,7 @@ export class KafkaProducerService implements OnApplicationBootstrap {
     }
 
     async onApplicationBootstrap(): Promise<void> {
-        const topics: string[] = [...new Set(Object.values(KAFKA_TOPICS))];
-        topics.forEach((topic) =>
+        KAFKA_TOPICS.forEach((topic) =>
             this.clientKafka.subscribeToResponseOf(topic)
         );
 
@@ -52,38 +50,31 @@ export class KafkaProducerService implements OnApplicationBootstrap {
         options?: IKafkaProducerSendMessageOptions
     ): Promise<IKafkaMessage<N> | N> {
         const message: IKafkaMessage<T> = {
-            key: await this.createId(),
+            key: this.createId(),
             value: data,
             headers: options && options.headers ? options.headers : undefined,
         };
 
-        if (
-            options &&
-            options.response === ENUM_KAFKA_PRODUCER_SEND_RESPONSE.FIRST
-        ) {
-            const response: IKafkaMessage<N> = await firstValueFrom(
-                this.clientKafka
-                    .send<any, IKafkaMessage<T>>(topic, message)
-                    .pipe(timeout(this.timeout))
-            );
-            return options && options.raw ? response : response.value;
-        }
-
-        const response: IKafkaMessage<N> = await lastValueFrom(
+        const send = await firstValueFrom(
             this.clientKafka
                 .send<any, IKafkaMessage<T>>(topic, message)
                 .pipe(timeout(this.timeout))
         );
-        return options && options.raw ? response : response.value;
+
+        if (send.error) {
+            throw send.error;
+        }
+
+        return options && options.raw ? send : send.value;
     }
 
-    async emit<T>(
+    emit<T>(
         topic: string,
         data: T,
         options?: IKafkaProducerMessageOptions
-    ): Promise<void> {
+    ): void {
         const message: IKafkaMessage<T> = {
-            key: await this.createId(),
+            key: this.createId(),
             value: data,
             headers: options && options.headers ? options.headers : undefined,
         };
@@ -95,7 +86,7 @@ export class KafkaProducerService implements OnApplicationBootstrap {
         return;
     }
 
-    private async createId(): Promise<string> {
+    private createId(): string {
         const rand: string = this.helperStringService.random(10);
         const timestamp = `${this.helperDateService.timestamp()}`;
         return `${timestamp}-${rand}`;

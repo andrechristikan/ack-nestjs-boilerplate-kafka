@@ -1,22 +1,27 @@
-import { HttpStatus, Injectable, ValidationError, ValidationPipe } from '@nestjs/common';
-import { RpcException } from '@nestjs/microservices';
+import {
+    HttpStatus,
+    Injectable,
+    UnprocessableEntityException,
+    ValidationError,
+    ValidationPipe,
+} from '@nestjs/common';
 import { ENUM_REQUEST_STATUS_CODE_ERROR } from 'src/utils/request/request.constant';
 
 @Injectable()
-export class KafkaValidationPipe extends ValidationPipe {
+export class RequestValidationPipe extends ValidationPipe {
     constructor() {
         super({
             transform: true,
             skipNullProperties: false,
             skipUndefinedProperties: false,
             skipMissingProperties: false,
-            exceptionFactory: (errors: ValidationError[]) =>
-                new RpcException({
+            errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+            exceptionFactory: async (errors: ValidationError[]) =>
+                new UnprocessableEntityException({
                     statusCode:
                         ENUM_REQUEST_STATUS_CODE_ERROR.REQUEST_VALIDATION_ERROR,
                     message: 'http.clientError.unprocessableEntity',
                     errors,
-                    statusHttp: HttpStatus.UNPROCESSABLE_ENTITY
                 }),
         });
     }

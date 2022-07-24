@@ -42,7 +42,8 @@
         "acks",
         "andrechristikan",
         "wurstmeister",
-        "bitnami"
+        "bitnami",
+        "CQRS"
     ],
     "ignorePaths": [
         "node_modules/**", 

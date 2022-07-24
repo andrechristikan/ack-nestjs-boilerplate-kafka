@@ -71,27 +71,15 @@ export class UserAdminController {
         }: UserListDto
     ): Promise<IResponsePaging> {
         const skip: number = await this.paginationService.skip(page, perPage);
-        const find: Record<string, any> = {};
+        let find: Record<string, any> = {};
 
         if (search) {
-            find['$or'] = [
-                {
-                    firstName: {
-                        $regex: new RegExp(search),
-                        $options: 'i',
-                    },
-                    lastName: {
-                        $regex: new RegExp(search),
-                        $options: 'i',
-                    },
-                    email: {
-                        $regex: new RegExp(search),
-                        $options: 'i',
-                    },
-                    mobileNumber: search,
-                },
-            ];
+            find = {
+                ...find,
+                ...search,
+            };
         }
+
         const users: IUserDocument[] = await this.userService.findAll(find, {
             limit: perPage,
             skip: skip,
@@ -187,6 +175,7 @@ export class UserAdminController {
             throw new InternalServerErrorException({
                 statusCode: ENUM_STATUS_CODE_ERROR.UNKNOWN_ERROR,
                 message: 'http.serverError.internalServerError',
+                cause: err.message,
             });
         }
     }
@@ -203,6 +192,7 @@ export class UserAdminController {
             throw new InternalServerErrorException({
                 statusCode: ENUM_STATUS_CODE_ERROR.UNKNOWN_ERROR,
                 message: 'http.serverError.internalServerError',
+                cause: err.message,
             });
         }
 
@@ -225,6 +215,7 @@ export class UserAdminController {
             throw new InternalServerErrorException({
                 statusCode: ENUM_STATUS_CODE_ERROR.UNKNOWN_ERROR,
                 message: 'http.serverError.internalServerError',
+                cause: err.message,
             });
         }
 
@@ -241,10 +232,11 @@ export class UserAdminController {
     async inactive(@GetUser() user: IUserDocument): Promise<void> {
         try {
             await this.userService.inactive(user._id);
-        } catch (e) {
+        } catch (err: any) {
             throw new InternalServerErrorException({
                 statusCode: ENUM_STATUS_CODE_ERROR.UNKNOWN_ERROR,
                 message: 'http.serverError.internalServerError',
+                cause: err.message,
             });
         }
 
@@ -259,10 +251,11 @@ export class UserAdminController {
     async active(@GetUser() user: IUserDocument): Promise<void> {
         try {
             await this.userService.active(user._id);
-        } catch (e) {
+        } catch (err: any) {
             throw new InternalServerErrorException({
                 statusCode: ENUM_STATUS_CODE_ERROR.UNKNOWN_ERROR,
                 message: 'http.serverError.internalServerError',
+                cause: err.message,
             });
         }
 

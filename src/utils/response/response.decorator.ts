@@ -1,13 +1,20 @@
-import { applyDecorators, SetMetadata, UseInterceptors } from '@nestjs/common';
+import {
+    applyDecorators,
+    SetMetadata,
+    UseInterceptors,
+    UsePipes,
+} from '@nestjs/common';
+import { RequestValidationPipe } from '../request/pipe/request.validation.pipe';
 import { ResponseDefaultInterceptor } from './interceptor/response.default.interceptor';
 import { ResponsePagingInterceptor } from './interceptor/response.paging.interceptor';
 import { ResponseTimeoutInterceptor } from './interceptor/response.timeout.interceptor';
 import { RESPONSE_CUSTOM_TIMEOUT_META_KEY } from './response.constant';
-import { IResponseOptions, IResponsePagingOptions } from './response.interface';
+import { IResponsePagingOptions } from './response.interface';
 
-export function Response(messagePath: string, options?: IResponseOptions): any {
+export function Response(messagePath: string): any {
     return applyDecorators(
-        UseInterceptors(ResponseDefaultInterceptor(messagePath, options))
+        UsePipes(RequestValidationPipe),
+        UseInterceptors(ResponseDefaultInterceptor(messagePath))
     );
 }
 
@@ -16,6 +23,7 @@ export function ResponsePaging(
     options?: IResponsePagingOptions
 ): any {
     return applyDecorators(
+        UsePipes(RequestValidationPipe),
         UseInterceptors(ResponsePagingInterceptor(messagePath, options))
     );
 }

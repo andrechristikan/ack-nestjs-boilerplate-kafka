@@ -3,8 +3,8 @@ import {
     RpcArgumentsHost,
     RpcExceptionFilter,
 } from '@nestjs/common/interfaces';
-import { RpcException } from '@nestjs/microservices';
-import { Observable, throwError } from 'rxjs';
+import { KafkaContext, RpcException } from '@nestjs/microservices';
+import { of, Observable } from 'rxjs';
 import { DebuggerService } from 'src/debugger/service/debugger.service';
 
 @Catch(RpcException)
@@ -13,11 +13,12 @@ export class KafkaErrorFilter implements RpcExceptionFilter<RpcException> {
 
     catch(exception: RpcException, host: ArgumentsHost): Observable<any> {
         const ctx: RpcArgumentsHost = host.switchToRpc();
-        const { __class, key, __function } = ctx.getData();
+        const { __class, __function } = ctx.getData();
+        const { key } = ctx.getContext<KafkaContext>().getMessage();
 
         // Debugger
         this.debuggerService.error(
-            key ? key : KafkaErrorFilter.name,
+            key ? key.toString() : KafkaErrorFilter.name,
             {
                 description: exception.message,
                 class: __class,
@@ -26,6 +27,6 @@ export class KafkaErrorFilter implements RpcExceptionFilter<RpcException> {
             exception
         );
 
-        return throwError(() => JSON.stringify(exception.getError()));
+        return of(JSON.stringify({ error: exception.getError() }));
     }
 }

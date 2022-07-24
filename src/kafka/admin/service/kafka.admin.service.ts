@@ -2,14 +2,15 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Admin, ITopicConfig, Kafka, KafkaConfig } from 'kafkajs';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
-import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
 import { HelperService } from 'src/utils/helper/service/helper.service';
+import { KAFKA_TOPICS, KAFKA_TOPICS_REPLY } from 'src/kafka/kafka.constant';
 
 @Injectable()
 export class KafkaAdminService implements OnModuleInit {
     private readonly kafka: Kafka;
     private readonly admin: Admin;
     private readonly topics: string[];
+    private readonly topicsReply: string[];
     private readonly brokers: string[];
     private readonly clientId: string;
     private readonly kafkaOptions: KafkaConfig;
@@ -24,7 +25,8 @@ export class KafkaAdminService implements OnModuleInit {
         this.clientId = this.configService.get<string>('kafka.admin.clientId');
         this.brokers = this.configService.get<string[]>('kafka.brokers');
 
-        this.topics = [...new Set(Object.values(KAFKA_TOPICS))];
+        this.topics = KAFKA_TOPICS;
+        this.topicsReply = KAFKA_TOPICS_REPLY;
 
         this.kafkaOptions = {
             clientId: this.clientId,
@@ -65,12 +67,12 @@ export class KafkaAdminService implements OnModuleInit {
 
     async createTopics(): Promise<boolean> {
         this.logger.log(`Topics ${this.topics}`);
+        this.logger.log(`Topics Reply ${this.topicsReply}`);
 
         const currentTopic: string[] = await this.getAllTopicUnique();
-        const topics: string[] = this.topics;
         const data: ITopicConfig[] = [];
 
-        for (const topic of topics) {
+        for (const topic of this.topics) {
             if (!currentTopic.includes(topic)) {
                 data.push({
                     topic,
@@ -80,8 +82,7 @@ export class KafkaAdminService implements OnModuleInit {
             }
         }
 
-        const replyTopics: string[] = this.topics.map((val) => `${val}.reply`);
-        for (const replyTopic of replyTopics) {
+        for (const replyTopic of this.topicsReply) {
             if (!currentTopic.includes(replyTopic)) {
                 data.push({
                     topic: replyTopic,

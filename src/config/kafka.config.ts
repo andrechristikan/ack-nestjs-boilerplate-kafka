@@ -1,6 +1,7 @@
 import { registerAs } from '@nestjs/config';
 import ms from 'ms';
 import bytes from 'bytes';
+import { Partitioners } from 'kafkajs';
 
 export default registerAs(
     'kafka',
@@ -34,8 +35,7 @@ export default registerAs(
 
         // producer
         producer: {
-            // optional for kafka v2<
-            // createPartitioner: Partitioners.LegacyPartitioner,
+            createPartitioner: Partitioners.DefaultPartitioner,
             transactionTimeout: ms('60s'), //60s
             allowAutoTopicCreation: false,
             retry: {
