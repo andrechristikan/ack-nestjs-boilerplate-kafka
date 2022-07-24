@@ -5,6 +5,7 @@ import {
     CallHandler,
 } from '@nestjs/common';
 import { RpcArgumentsHost } from '@nestjs/common/interfaces';
+import { KafkaContext } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -16,15 +17,29 @@ export class KafkaResponseInterceptor implements NestInterceptor<Promise<any>> {
     ): Promise<Observable<Promise<any> | string>> {
         if (context.getType() === 'rpc') {
             const ctx: RpcArgumentsHost = context.switchToRpc();
-            const { headers, key } = ctx.getData();
+            const { headers, key } = ctx
+                .getContext<KafkaContext>()
+                .getMessage();
 
-            return next
-                .handle()
-                .pipe(
-                    map((response: Record<string, any>) =>
-                        JSON.stringify({ headers, key, value: response })
-                    )
-                );
+            return next.handle().pipe(
+                map((response: Record<string, any>) => {
+                    if (response) {
+                        delete response.__class;
+                        delete response.__function;
+                        return JSON.stringify({
+                            headers,
+                            key,
+                            value: response,
+                        });
+                    }
+
+                    return JSON.stringify({
+                        headers,
+                        key,
+                        value: undefined,
+                    });
+                })
+            );
         }
 
         return next.handle();

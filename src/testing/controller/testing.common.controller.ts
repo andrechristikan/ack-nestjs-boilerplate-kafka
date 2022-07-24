@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { Types } from 'mongoose';
 import { AuthExcludeApiKey } from 'src/auth/auth.decorator';
-import { KAFKA_TOPICS } from 'src/kafka/kafka.constant';
+import { ENUM_KAFKA_TOPICS } from 'src/kafka/kafka.constant';
 import { KafkaProducerService } from 'src/kafka/producer/service/kafka.producer.service';
 import { ENUM_LOGGER_ACTION } from 'src/logger/logger.constant';
 import { Logger } from 'src/logger/logger.decorator';
@@ -46,6 +46,7 @@ export class TestingCommonController {
         const newDate = this.helperDateService.create({
             timezone: timezone,
         });
+
         return {
             userAgent,
             date: newDate,
@@ -76,7 +77,7 @@ export class TestingCommonController {
     @Get('/hello/kafka')
     async helloKafka(): Promise<IResponse> {
         const response = await this.kafkaProducerService.send(
-            KAFKA_TOPICS.ACK_SUCCESS,
+            ENUM_KAFKA_TOPICS.ACK_SUCCESS,
             {
                 test: 'test',
                 testNumber: [],
@@ -108,7 +109,7 @@ export class TestingCommonController {
     async helloKafkaError(): Promise<IResponse> {
         try {
             const response = await this.kafkaProducerService.send(
-                KAFKA_TOPICS.ACK_ERROR,
+                ENUM_KAFKA_TOPICS.ACK_ERROR,
                 {
                     testNumber: [],
                     testBoolean: 'false',
@@ -126,7 +127,8 @@ export class TestingCommonController {
                     ],
                     testDate: new Date(),
                     testObjectId: 12312312,
-                }
+                },
+                { raw: true }
             );
 
             return response;

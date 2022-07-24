@@ -29,14 +29,18 @@ export class ApiKeyGuard extends AuthGuard('api-key') {
             context.getHandler()
         );
 
-        const request = context.switchToHttp().getRequest();
-        request.apiKey = {};
+        if (context.getType() === 'http') {
+            const request = context.switchToHttp().getRequest();
+            request.apiKey = {};
 
-        if (excludeApiKey || mode !== 'secure') {
-            return true;
+            if (excludeApiKey || mode !== 'secure') {
+                return true;
+            }
+
+            return super.canActivate(context);
         }
 
-        return super.canActivate(context);
+        return true;
     }
 
     handleRequest<TUser = any>(

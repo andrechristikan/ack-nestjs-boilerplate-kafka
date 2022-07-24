@@ -3,11 +3,10 @@ import { Logger, VersioningType, VERSION_NEUTRAL } from '@nestjs/common';
 import { AppModule } from 'src/app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import {
-    ConsumerConfig,
-    ConsumerSubscribeTopic,
-} from '@nestjs/microservices/external/kafka.interface';
+import { ConsumerConfig } from '@nestjs/microservices/external/kafka.interface';
 import { useContainer } from 'class-validator';
+import { ConsumerSubscribeTopics } from 'kafkajs';
+import { KAFKA_TOPICS } from './kafka/kafka.constant';
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule);
@@ -53,21 +52,28 @@ async function bootstrap() {
 
     const consumer: ConsumerConfig =
         configService.get<ConsumerConfig>('kafka.consumer');
-    const subscribe: ConsumerSubscribeTopic =
-        configService.get<ConsumerSubscribeTopic>('kafka.consumerSubscribe');
+    const subscribe: ConsumerSubscribeTopics = {
+        topics: KAFKA_TOPICS,
+        ...configService.get<ConsumerSubscribeTopics>(
+            'kafka.consumerSubscribe'
+        ),
+    };
 
     if (microservice) {
-        app.connectMicroservice<MicroserviceOptions>({
-            transport: Transport.KAFKA,
-            options: {
-                client: {
-                    clientId,
-                    brokers,
+        app.connectMicroservice<MicroserviceOptions>(
+            {
+                transport: Transport.KAFKA,
+                options: {
+                    client: {
+                        clientId,
+                        brokers,
+                    },
+                    subscribe,
+                    consumer,
                 },
-                subscribe,
-                consumer,
             },
-        });
+            { inheritAppConfig: true }
+        );
 
         await app.startAllMicroservices();
     }

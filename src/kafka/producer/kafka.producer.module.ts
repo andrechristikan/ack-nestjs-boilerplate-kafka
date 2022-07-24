@@ -3,9 +3,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import {
     ConsumerConfig,
-    ConsumerSubscribeTopic,
+    ConsumerSubscribeTopics,
     ProducerConfig,
 } from '@nestjs/microservices/external/kafka.interface';
+import { KAFKA_TOPICS_REPLY } from '../kafka.constant';
 import { KAFKA_PRODUCER_SERVICE_NAME } from './kafka.producer.constant';
 import { KafkaProducerService } from './service/kafka.producer.service';
 
@@ -33,9 +34,12 @@ import { KafkaProducerService } from './service/kafka.producer.service';
                             configService.get<ProducerConfig>('kafka.producer'),
                         consumer:
                             configService.get<ConsumerConfig>('kafka.consumer'),
-                        subscribe: configService.get<ConsumerSubscribeTopic>(
-                            'kafka.consumerSubscribe'
-                        ),
+                        subscribe: {
+                            topics: KAFKA_TOPICS_REPLY,
+                            ...configService.get<ConsumerSubscribeTopics>(
+                                'kafka.consumerSubscribe'
+                            ),
+                        },
                         send: {
                             timeout: configService.get<number>(
                                 'kafka.producerSend.timeout'
