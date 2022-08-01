@@ -58,7 +58,7 @@
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.0.5",
     "@nestjs/schedule": "^2.1.0",
-    "@nestjs/terminus": "^9.0.0",
+    "@nestjs/terminus": "^9.1.0",
     "@types/response-time": "^2.3.5",
     "bcrypt": "^5.0.1",
     "cache-manager": "^4.1.0",
