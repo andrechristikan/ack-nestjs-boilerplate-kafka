@@ -51,7 +51,7 @@
     "@nestjs/axios": "^0.1.0",
     "@nestjs/common": "^9.0.5",
     "@nestjs/config": "^2.2.0",
-    "@nestjs/core": "^9.0.5",
+    "@nestjs/core": "^9.0.7",
     "@nestjs/microservices": "^9.0.5",
     "@nestjs/jwt": "^9.0.0",
     "@nestjs/mongoose": "^9.2.0",
