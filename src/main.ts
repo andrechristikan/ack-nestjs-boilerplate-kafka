@@ -3,6 +3,9 @@ import { Logger, VersioningType } from '@nestjs/common';
 import { AppModule } from 'src/app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { useContainer } from 'class-validator';
+import { ConsumerConfig, ConsumerSubscribeTopics } from 'kafkajs';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { KAFKA_TOPICS } from './common/kafka/constants/kafka.enum.constant';
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule);
@@ -74,5 +77,50 @@ async function bootstrap() {
     logger.log(`Server running on ${await app.getUrl()}`, 'NestApplication');
 
     logger.log(`==========================================================`);
+
+    // kafka
+    const kafka: boolean = configService.get<boolean>('app.kafkaOn');
+    const brokers: string[] = configService.get<string[]>('kafka.brokers');
+    const clientId: string = configService.get<string>('kafka.clientId');
+    const consumerGroup: string = configService.get<string>(
+        'kafka.consumer.groupId'
+    );
+
+    const consumer: ConsumerConfig =
+        configService.get<ConsumerConfig>('kafka.consumer');
+    const subscribe: ConsumerSubscribeTopics = {
+        topics: KAFKA_TOPICS,
+        ...configService.get<ConsumerSubscribeTopics>(
+            'kafka.consumerSubscribe'
+        ),
+    };
+
+    if (kafka) {
+        app.connectMicroservice<MicroserviceOptions>({
+            transport: Transport.KAFKA,
+            options: {
+                client: {
+                    clientId,
+                    brokers,
+                },
+                subscribe,
+                consumer,
+            },
+        });
+
+        await app.startAllMicroservices();
+
+        logger.log(
+            `Kafka server ${clientId} connected on brokers ${brokers.join(
+                ', '
+            )}`,
+            'NestApplication'
+        );
+        logger.log(`Kafka consume group ${consumerGroup}`, 'NestApplication');
+
+        logger.log(
+            `==========================================================`
+        );
+    }
 }
 bootstrap();

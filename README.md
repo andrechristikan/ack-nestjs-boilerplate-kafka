@@ -17,7 +17,7 @@
 
 > Standard architecture for nestjs
 
-ack-nestjs-mongoose is a [NestJs](http://nestjs.com) Boilerplate with [Mongoose](https://mongoosejs.com) and [MongoDB](https://docs.mongodb.com) as Database.
+ack-nestjs-mongoose-kafka is Hybrid NestJs Application. [NestJs Http][ref-nestjs] and **NestJs Kafka Microservice**. Use mongodb as database and mongoose as ODM.
 
 Made with following
 - [nodejs-best-practice](https://github.com/goldbergyoni/nodebestpractices)
@@ -28,7 +28,7 @@ Made with following
 
 ## Important
 
-> ack-nestjs-mongoose still on trial and error phase and the test will base on real projects or cases. So there will be (always) have new update and new features.
+> ack-nestjs-mongoose-kafka still on trial and error phase and the test will base on real projects or cases. So there will be (always) have new update and new features.
 
 If you change env value of `APP_MODE` to `secure` that will trigger more `Middleware` and `Guard`.
 
@@ -57,7 +57,7 @@ Describes which version .
 
 ## Objective
 
-ack-nestjs-mongoose have some objective.
+ack-nestjs-mongoose-kafka have some objective.
 
 - Simple, scalable and secure
 - Avoid spaghetti code
@@ -111,21 +111,11 @@ We assume that everyone who comes here is _**`programmer with intermediate knowl
 
 Next development
 
-- [x] Import data form excel
-- [x] Version 2. New folder structure, new file upload decorator
-- [x] Reduce mixin usage
-- [x] Upload file multiple update
-- [x] File large upload into s3 for video and audio. using array of chunk
-- [x] Rename repo from `ack-nestjs-boilerplate-mongoose` to `ack-nestjs-mongoose`
-- [x] Message en,id
-- [x] Optimize code, remove unnecessary code
-- [x] Update Unit test
-- [x] Update E2E test
 - [ ] Update Documentation
 
 ## Example
 
-ack-nestjs-mongoose has advance example. Feel free to check it by yourself.
+ack-nestjs-mongoose-kafka has advance example. Feel free to check it by yourself.
 
 ## Documentation
 
@@ -143,26 +133,7 @@ Thanks goes to these wonderful people
 
 ### Boilerplate
 
-<table>
-    <tr>
-        <td align="center">
-            <a href="https://github.com/PSheon">
-                <img src="https://avatars.githubusercontent.com/u/20603727?v=4" width="80px;" alt="PSheon"/>
-                <br />
-                <sub> <b> PSheon </b> </sub>
-            </a>
-            <br />
-        </td>
-        <td align="center">
-            <a href="https://github.com/aallithioo">
-                <img src="https://avatars.githubusercontent.com/u/33598841?v=4" width="80px;" alt="aallithioo"/>
-                <br />
-                <sub> <b> aallithioo </b> </sub>
-            </a>
-            <br />
-        </td>
-    </tr>
-</table>
+--
 
 ### Documentation
 
@@ -188,11 +159,11 @@ Thanks goes to these wonderful people
 [![Instagram][instagram-shield]][author-instagram]
 
 <!-- BADGE LINKS -->
-[ack-contributors-shield]: https://img.shields.io/github/contributors/andrechristikan/ack-nestjs-mongoose?style=for-the-badge
-[ack-forks-shield]: https://img.shields.io/github/forks/andrechristikan/ack-nestjs-mongoose?style=for-the-badge
-[ack-stars-shield]: https://img.shields.io/github/stars/andrechristikan/ack-nestjs-mongoose?style=for-the-badge
-[ack-issues-shield]: https://img.shields.io/github/issues/andrechristikan/ack-nestjs-mongoose?style=for-the-badge
-[ack-license-shield]: https://img.shields.io/github/license/andrechristikan/ack-nestjs-mongoose?style=for-the-badge
+[ack-contributors-shield]: https://img.shields.io/github/contributors/andrechristikan/ack-nestjs-mongoose-kafka?style=for-the-badge
+[ack-forks-shield]: https://img.shields.io/github/forks/andrechristikan/ack-nestjs-mongoose-kafka?style=for-the-badge
+[ack-stars-shield]: https://img.shields.io/github/stars/andrechristikan/ack-nestjs-mongoose-kafka?style=for-the-badge
+[ack-issues-shield]: https://img.shields.io/github/issues/andrechristikan/ack-nestjs-mongoose-kafka?style=for-the-badge
+[ack-license-shield]: https://img.shields.io/github/license/andrechristikan/ack-nestjs-mongoose-kafka?style=for-the-badge
 
 [nestjs-shield]: https://img.shields.io/badge/nestjs-%23E0234E.svg?style=for-the-badge&logo=nestjs&logoColor=white
 [nodejs-shield]: https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white
@@ -214,16 +185,13 @@ Thanks goes to these wonderful people
 [author-github]: https://github.com/andrechristikan
 
 <!-- Repo LINKS -->
-[ack-repo]: https://github.com/andrechristikan/ack-nestjs-mongoose
+[ack-repo]: https://github.com/andrechristikan/ack-nestjs-mongoose-kafka
 [ack-e2e]: /e2e
-[ack-issues]: https://github.com/andrechristikan/ack-nestjs-mongoose/issues
-[ack-stars]: https://github.com/andrechristikan/ack-nestjs-mongoose/stargazers
-[ack-forks]: https://github.com/andrechristikan/ack-nestjs-mongoose/network/members
-[ack-contributors]: https://github.com/andrechristikan/ack-nestjs-mongoose/graphs/contributors
-[ack-history]: https://github.com/andrechristikan/ack-nestjs-mongoose/commits/main
-
-<!-- ack microservice -->
-[ack-microservice-repo]: https://github.com/andrechristikan/ack-microservice-mongoose
+[ack-issues]: https://github.com/andrechristikan/ack-nestjs-mongoose-kafka/issues
+[ack-stars]: https://github.com/andrechristikan/ack-nestjs-mongoose-kafka/stargazers
+[ack-forks]: https://github.com/andrechristikan/ack-nestjs-mongoose-kafka/network/members
+[ack-contributors]: https://github.com/andrechristikan/ack-nestjs-mongoose-kafka/graphs/contributors
+[ack-history]: https://github.com/andrechristikan/ack-nestjs-mongoose-kafka/commits/main
 
 <!-- license -->
 [license]: LICENSE.md

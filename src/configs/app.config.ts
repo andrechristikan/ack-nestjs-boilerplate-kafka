@@ -38,5 +38,6 @@ export default registerAs(
 
         httpOn: process.env.APP_HTTP_ON === 'true' ? true : false,
         jobOn: process.env.APP_JOB_ON === 'true' || false,
+        kafkaOn: process.env.APP_KAFKA_ON === 'true' ? true : false,
     })
 );

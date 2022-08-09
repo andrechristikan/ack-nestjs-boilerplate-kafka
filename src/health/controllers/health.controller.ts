@@ -1,9 +1,12 @@
 import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { Transport } from '@nestjs/microservices';
 import {
     DiskHealthIndicator,
     HealthCheck,
     HealthCheckService,
     MemoryHealthIndicator,
+    MicroserviceHealthIndicator,
     MongooseHealthIndicator,
 } from '@nestjs/terminus';
 import { Connection } from 'mongoose';
@@ -23,7 +26,9 @@ export class HealthController {
         private readonly memoryHealthIndicator: MemoryHealthIndicator,
         private readonly diskHealthIndicator: DiskHealthIndicator,
         private readonly databaseIndicator: MongooseHealthIndicator,
-        private readonly awsIndicator: AwsHealthIndicator
+        private readonly awsIndicator: AwsHealthIndicator,
+        private readonly microserviceIndicator: MicroserviceHealthIndicator,
+        private readonly configService: ConfigService
     ) {}
 
     @Response('health.check')
@@ -82,6 +87,27 @@ export class HealthController {
                 this.diskHealthIndicator.checkStorage('diskHealth', {
                     thresholdPercent: 0.75,
                     path: '/',
+                }),
+        ]);
+    }
+
+    @Response('health.check')
+    @HealthCheck()
+    @Get('/kafka')
+    async kafka(): Promise<IResponse> {
+        return this.health.check([
+            () =>
+                this.microserviceIndicator.pingCheck('kafka', {
+                    transport: Transport.KAFKA,
+                    timeout: 10000,
+                    options: {
+                        client: {
+                            brokers:
+                                this.configService.get<string[]>(
+                                    'kafka.brokers'
+                                ),
+                        },
+                    },
                 }),
         ]);
     }

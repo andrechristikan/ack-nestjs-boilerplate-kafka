@@ -1,4 +1,5 @@
 import { ENUM_AUTH_ACCESS_FOR } from '../auth/constants/auth.enum.constant';
+import { ENUM_KAFKA_REQUEST_METHOD } from '../kafka/constants/kafka.enum.constant';
 import { ENUM_REQUEST_METHOD } from '../request/constants/request.enum.constant';
 import {
     ENUM_LOGGER_ACTION,
@@ -11,7 +12,7 @@ export interface ILogger {
     apiKey?: string;
     user?: string;
     requestId?: string;
-    method: ENUM_REQUEST_METHOD;
+    method: ENUM_REQUEST_METHOD | ENUM_KAFKA_REQUEST_METHOD;
     path: string;
     role?: {
         _id: string;

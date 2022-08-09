@@ -1,10 +1,10 @@
 {
-  "name": "ack-nestjs-mongoose",
-  "version": "2.0.1",
-  "description": "Ack NestJs Mongoose",
+  "name": "ack-nestjs-mongoose-kafka",
+  "version": "1.0.1",
+  "description": "Ack NestJs Mongoose Kafka",
   "repository": {
     "type": "git",
-    "url": "https://github.com/andrechristikan/ack-nestjs-mongoose.git"
+    "url": "https://github.com/andrechristikan/ack-nestjs-mongoose-kafka.git"
   },
   "author": {
     "name": "andrechristikan",
@@ -56,6 +56,7 @@
     "@nestjs/core": "^9.0.8",
     "@nestjs/jwt": "^9.0.0",
     "@nestjs/mapped-types": "^1.1.0",
+    "@nestjs/microservices": "^9.0.8",
     "@nestjs/mongoose": "^9.2.0",
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.0.8",
@@ -73,6 +74,7 @@
     "geolib": "^3.3.3",
     "helmet": "^5.1.1",
     "joi": "^17.6.0",
+    "kafkajs": "^2.1.0",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.34",
     "mongoose": "^6.5.1",
