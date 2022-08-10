@@ -20,7 +20,7 @@ import {
     LOGGER_OPTIONS_META_KEY,
 } from '../constants/logger.constant';
 import { ENUM_REQUEST_METHOD } from 'src/common/request/constants/request.enum.constant';
-import { ENUM_KAFKA_REQUEST_METHOD } from 'src/common/kafka/constants/kafka.enum.constant';
+import { ENUM_KAFKA_REQUEST_METHOD } from 'src/kafka/constants/kafka.enum.constant';
 
 @Injectable()
 export class LoggerInterceptor implements NestInterceptor<any> {

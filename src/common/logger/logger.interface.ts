@@ -1,5 +1,5 @@
+import { ENUM_KAFKA_REQUEST_METHOD } from 'src/kafka/constants/kafka.enum.constant';
 import { ENUM_AUTH_ACCESS_FOR } from '../auth/constants/auth.enum.constant';
-import { ENUM_KAFKA_REQUEST_METHOD } from '../kafka/constants/kafka.enum.constant';
 import { ENUM_REQUEST_METHOD } from '../request/constants/request.enum.constant';
 import {
     ENUM_LOGGER_ACTION,
