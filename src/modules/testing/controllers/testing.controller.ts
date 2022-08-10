@@ -6,7 +6,7 @@ import { Logger } from 'src/common/logger/decorators/logger.decorator';
 import { RequestExcludeTimestamp } from 'src/common/request/decorators/request.decorator';
 import { Response } from 'src/common/response/decorators/response.decorator';
 import { IResponse } from 'src/common/response/response.interface';
-import { ENUM_KAFKA_TOPICS } from 'src/kafka/constants/kafka.enum.constant';
+import { ENUM_KAFKA_TOPICS } from 'src/kafka/constants/kafka.topic.constant';
 import { KafkaException } from 'src/kafka/error/exceptions/kafka.exception';
 import { KafkaProducerService } from 'src/kafka/services/kafka.producer.service';
 

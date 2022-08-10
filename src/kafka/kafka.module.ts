@@ -6,8 +6,10 @@ import {
     ConsumerSubscribeTopics,
     ProducerConfig,
 } from 'kafkajs';
-import { KAFKA_PRODUCER_SERVICE_NAME } from './constants/kafka.constant';
-import { KAFKA_TOPICS_REPLY } from './constants/kafka.enum.constant';
+import {
+    KAFKA_PRODUCER_SERVICE_NAME,
+    KAFKA_TOPICS_REPLY,
+} from './constants/kafka.constant';
 import { KafkaRoutesModule } from './router/kafka.router.module';
 import { KafkaAdminService } from './services/kafka.admin.service';
 import { KafkaProducerService } from './services/kafka.producer.service';
