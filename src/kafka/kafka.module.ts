@@ -6,9 +6,9 @@ import {
     ConsumerSubscribeTopics,
     ProducerConfig,
 } from 'kafkajs';
-import { KafkaRoutesModule } from 'src/router/routes/kafka.routes.module';
 import { KAFKA_PRODUCER_SERVICE_NAME } from './constants/kafka.constant';
 import { KAFKA_TOPICS_REPLY } from './constants/kafka.enum.constant';
+import { KafkaRoutesModule } from './router/kafka.router.module';
 import { KafkaAdminService } from './services/kafka.admin.service';
 import { KafkaProducerService } from './services/kafka.producer.service';
 

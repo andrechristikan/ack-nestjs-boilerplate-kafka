@@ -26,7 +26,20 @@
         "superadmin",
         "alphanum",
         "dtos",
-        "kafkajs"
+        "kafkajs",
+        "Partitioners",
+        "rebalance",
+        "Partitioner",
+        "Partitioners",
+        "Partitioner",
+        "wurstmeister",
+        "zookeeperdata",
+        "bitnami",
+        "wurstmeister",
+        "kafkadata",
+        "bitnami",
+        "kafkadata",
+        "zookeeperdata"
     ],
     "ignoreWords": [
         "psheon",

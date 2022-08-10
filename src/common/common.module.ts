@@ -61,6 +61,7 @@ import { ENUM_MESSAGE_LANGUAGE } from './message/constants/message.enum.constant
 
                 APP_HTTP_ON: Joi.boolean().default(true).required(),
                 APP_JOB_ON: Joi.boolean().default(false).required(),
+                APP_KAFKA_ON: Joi.boolean().default(true).required(),
 
                 DATABASE_HOST: Joi.any()
                     .default('mongodb://localhost:27017')
@@ -103,6 +104,17 @@ import { ENUM_MESSAGE_LANGUAGE } from './message/constants/message.enum.constant
                 AWS_CREDENTIAL_SECRET: Joi.string().optional(),
                 AWS_S3_REGION: Joi.string().optional(),
                 AWS_S3_BUCKET: Joi.string().optional(),
+
+                KAFKA_CLIENT_ID: Joi.string().default('KAFKA_ACK').required(),
+                KAFKA_ADMIN_CLIENT_ID: Joi.string()
+                    .default('KAFKA_ADMIN_ACK')
+                    .required(),
+                KAFKA_BROKERS: Joi.string()
+                    .default('localhost:9092')
+                    .required(),
+                KAFKA_CONSUMER_GROUP: Joi.string()
+                    .default('nestjs.ack')
+                    .required(),
             }),
             validationOptions: {
                 allowUnknown: true,

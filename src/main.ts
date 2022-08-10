@@ -5,7 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { useContainer } from 'class-validator';
 import { ConsumerConfig, ConsumerSubscribeTopics } from 'kafkajs';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { KAFKA_TOPICS } from './common/kafka/constants/kafka.enum.constant';
+import { KAFKA_TOPICS } from './kafka/constants/kafka.enum.constant';
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule);
