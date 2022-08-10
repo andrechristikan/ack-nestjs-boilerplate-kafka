@@ -9,8 +9,10 @@ import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom, timeout } from 'rxjs';
 import { HelperDateService } from 'src/common/helper/services/helper.date.service';
 import { HelperStringService } from 'src/common/helper/services/helper.string.service';
-import { KAFKA_PRODUCER_SERVICE_NAME } from '../constants/kafka.constant';
-import { KAFKA_TOPICS } from '../constants/kafka.enum.constant';
+import {
+    KAFKA_PRODUCER_SERVICE_NAME,
+    KAFKA_TOPICS,
+} from '../constants/kafka.constant';
 import {
     IKafkaMessage,
     IKafkaProducerMessageOptions,

@@ -2,7 +2,7 @@ import { Controller } from '@nestjs/common';
 import { ENUM_LOGGER_ACTION } from 'src/common/logger/constants/logger.enum.constant';
 import { Logger } from 'src/common/logger/decorators/logger.decorator';
 import { IResponse } from 'src/common/response/response.interface';
-import { ENUM_KAFKA_TOPICS } from 'src/kafka/constants/kafka.enum.constant';
+import { ENUM_KAFKA_TOPICS } from 'src/kafka/constants/kafka.topic.constant';
 import {
     MessageTopic,
     MessageValue,

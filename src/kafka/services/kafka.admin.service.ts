@@ -2,10 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Admin, ITopicConfig, Kafka, KafkaConfig } from 'kafkajs';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
-import {
-    KAFKA_TOPICS,
-    KAFKA_TOPICS_REPLY,
-} from '../constants/kafka.enum.constant';
+import { KAFKA_TOPICS, KAFKA_TOPICS_REPLY } from '../constants/kafka.constant';
 
 @Injectable()
 export class KafkaAdminService implements OnModuleInit {
