@@ -2,7 +2,6 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { Admin, ITopicConfig, Kafka, KafkaConfig } from 'kafkajs';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
-import { HelperService } from 'src/common/helper/services/helper.service';
 import {
     KAFKA_TOPICS,
     KAFKA_TOPICS_REPLY,
@@ -21,10 +20,7 @@ export class KafkaAdminService implements OnModuleInit {
 
     protected logger = new Logger(KafkaAdminService.name);
 
-    constructor(
-        private readonly configService: ConfigService,
-        private readonly helperService: HelperService
-    ) {
+    constructor(private readonly configService: ConfigService) {
         this.clientId = this.configService.get<string>('kafka.admin.clientId');
         this.brokers = this.configService.get<string[]>('kafka.brokers');
 
@@ -49,7 +45,6 @@ export class KafkaAdminService implements OnModuleInit {
     async onModuleInit(): Promise<void> {
         await this.connect();
         await this.createTopics();
-        await this.helperService.delay(5000);
     }
 
     private async connect() {
@@ -96,7 +91,7 @@ export class KafkaAdminService implements OnModuleInit {
         }
 
         if (data.length > 0) {
-            this.admin.createTopics({
+            await this.admin.createTopics({
                 waitForLeaders: true,
                 topics: data,
             });
