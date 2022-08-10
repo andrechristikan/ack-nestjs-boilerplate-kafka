@@ -14,7 +14,6 @@ import { UserSeed } from './seeds/user.seed';
 @Module({
     imports: [
         CommonModule,
-        CommandModule,
         AuthModule,
         PermissionModule,
         RoleModule,
