@@ -10,7 +10,7 @@ import {
     KAFKA_PRODUCER_SERVICE_NAME,
     KAFKA_TOPICS_REPLY,
 } from './constants/kafka.constant';
-import { KafkaRoutesModule } from './router/kafka.router.module';
+import { KafkaRouterModule } from './router/kafka.router.module';
 import { KafkaAdminService } from './services/kafka.admin.service';
 import { KafkaProducerService } from './services/kafka.producer.service';
 
@@ -67,7 +67,7 @@ export class KafkaModule {
                 controllers: [],
                 providers: [KafkaAdminService],
                 exports: [],
-                imports: [KafkaRoutesModule, KafkaProducerModule],
+                imports: [KafkaRouterModule, KafkaProducerModule],
             };
         }
 

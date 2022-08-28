@@ -242,7 +242,7 @@ Detail information about the environment
 
 | Key | Type | Description |
 | ---- | ---- | ---- | 
-| APP\_NAME | `string` | Application name | 
+| APP\_NAME | `string` | Application name and will be subject for jwt| 
 | APP\_ENV | `string` | <ul><li>production</li><li>development</li></ul> |
 | APP\_MODE | `string` | <ul><li>secure</li><li>simple</li></ul> |
 | APP\_LANGUAGE | `string` | Enum languages, separator `,` |
@@ -251,6 +251,7 @@ Detail information about the environment
 | APP\_PORT | `number` | Application serve | 
 | APP\_DEBUG | `boolean` | All logs will write into console |
 | APP\_VERSIONING | `boolean` | Application url versioning | 
+| APP\_VERSION | `number | string` | Application url versioning | 
 | APP\_HTTP\_ON | `boolean` | Application Http turn on | 
 | APP\_JOB\_ON | `boolean` | Application Job turn on | 
 | APP\_KAFKA\_ON | `boolean` | Application connect with Kafka |
@@ -279,6 +280,8 @@ Detail information about the environment
 
 | Key | Type | Description |
 | ---- | ---- | ---- | 
+| AUTH\_JWT\_AUDIENCE | `string` | Jwt audience |
+| AUTH\_JWT\_ISSUER| `string` | JWT issuer |
 | AUTH\_JWT\_ACCESS\_TOKEN\_SECRET\_KEY | `string` | Secret access token, free text. |
 | AUTH\_JWT\_ACCESS\_TOKEN\_EXPIRED | `string` | Expiration time for access token. `ms` package value |
 | AUTH\_JWT\_REFRESH\_TOKEN\_SECRET\_KEY | `string` | Secret refresh token, free text. |

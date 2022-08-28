@@ -7,4 +7,4 @@ import { TestingKafkaController } from 'src/modules/testing/controllers/testing.
     imports: [],
     controllers: [TestingKafkaController],
 })
-export class KafkaRoutesModule {}
+export class KafkaRouterModule {}
