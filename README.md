@@ -15,13 +15,7 @@
 
 # ACK NestJs Boilerplate Mongoose  🔥 🚀
 
-<<<<<<< HEAD
-> Standard architecture for nestjs
-
 ack-nestjs-mongoose-kafka is Hybrid NestJs Application. [NestJs Http][ref-nestjs] and **NestJs Kafka Microservice**. Use mongodb as database and mongoose as ODM.
-=======
-ack-nestjs-mongoose is a [NestJs](http://nestjs.com) Boilerplate with [Mongoose](https://mongoosejs.com) and [MongoDB](https://docs.mongodb.com) as Database.
->>>>>>> e39f90c6c6ea3472260ce1743855f74ff3e0c23f
 
 Made with following
 
