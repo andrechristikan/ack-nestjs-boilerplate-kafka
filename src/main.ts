@@ -6,11 +6,21 @@ import { useContainer } from 'class-validator';
 import { ConsumerConfig, ConsumerSubscribeTopics } from 'kafkajs';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { KAFKA_TOPICS } from './kafka/constants/kafka.constant';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { ResponseDefaultSerialization } from 'src/common/response/serializations/response.default.serialization';
+import { ResponsePagingSerialization } from 'src/common/response/serializations/response.paging.serialization';
+import {
+    AwsS3MultipartPartsSerialization,
+    AwsS3MultipartSerialization,
+} from 'src/common/aws/serializations/aws.s3-multipart.serialization';
+import { AwsS3Serialization } from 'src/common/aws/serializations/aws.s3.serialization';
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule);
     const configService = app.get(ConfigService);
+    const appName: string = configService.get<string>('app.name');
     const env: string = configService.get<string>('app.env');
+    const mode: string = configService.get<string>('app.mode');
     const tz: string = configService.get<string>('app.timezone');
     const host: string = configService.get<string>('app.http.host');
     const port: number = configService.get<number>('app.http.port');
@@ -20,7 +30,6 @@ async function bootstrap() {
         'app.versioning.prefix'
     );
     const version: string = configService.get<string>('app.version');
-
     const logger = new Logger();
     process.env.TZ = tz;
     process.env.NODE_ENV = env;
@@ -38,11 +47,57 @@ async function bootstrap() {
         });
     }
 
+    // Swagger
+    const docName: string = configService.get<string>('doc.name');
+    const docDesc: string = configService.get<string>('doc.description');
+    const docVersion: string = configService.get<string>('doc.version');
+    const docPrefix: string = configService.get<string>('doc.prefix');
+
+    if (env !== 'production') {
+        const documentConfig = new DocumentBuilder()
+            .setTitle(docName)
+            .setDescription(docDesc)
+            .setVersion(docVersion)
+            .addTag("API's")
+            .addBearerAuth(
+                { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+                'accessToken'
+            )
+            .addBearerAuth(
+                { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+                'refreshToken'
+            );
+
+        if (mode === 'secure') {
+            documentConfig.addApiKey(
+                { type: 'apiKey', in: 'header', name: 'x-api-key' },
+                'apiKey'
+            );
+        }
+        const documentBuild = documentConfig.build();
+
+        const document = SwaggerModule.createDocument(app, documentBuild, {
+            deepScanRoutes: true,
+            extraModels: [
+                ResponseDefaultSerialization,
+                ResponsePagingSerialization,
+                AwsS3MultipartPartsSerialization,
+                AwsS3MultipartSerialization,
+                AwsS3Serialization,
+            ],
+        });
+
+        SwaggerModule.setup(docPrefix, app, document, {
+            explorer: true,
+            customSiteTitle: docName,
+        });
+    }
+
     // Listen
     await app.listen(port, host);
 
     logger.log(`==========================================================`);
-    logger.log(`App Environment is ${env}`, 'NestApplication');
+    logger.log(`${appName} Environment is ${env}`, 'NestApplication');
     logger.log(
         `App Language is ${configService.get<string>('app.language')}`,
         'NestApplication'
@@ -65,6 +120,11 @@ async function bootstrap() {
         `Database Debug is ${configService.get<boolean>('database.debug')}`,
         'NestApplication'
     );
+
+    logger.log(`==========================================================`);
+
+    logger.log(`Docs will serve on ${await app.getUrl()}${docPrefix}`);
+    logger.log(`Docs version is ${docVersion}`);
 
     logger.log(`==========================================================`);
 

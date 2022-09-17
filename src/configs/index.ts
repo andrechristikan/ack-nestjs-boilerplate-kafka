@@ -7,6 +7,8 @@ import UserConfig from './user.config';
 import FileConfig from './file.config';
 import MiddlewareConfig from './middleware.config';
 import KafkaConfig from './kafka.config';
+import RequestConfig from './request.config';
+import DocConfig from './doc.config';
 
 export default [
     AppConfig,
@@ -16,6 +18,8 @@ export default [
     AwsConfig,
     UserConfig,
     MiddlewareConfig,
+    RequestConfig,
     FileConfig,
     KafkaConfig,
+    DocConfig,
 ];

@@ -6,7 +6,7 @@ import {
     ENUM_LOGGER_ACTION,
     ENUM_LOGGER_LEVEL,
     ENUM_LOGGER_METHOD,
-} from '../constants/logger.enum.constant';
+} from 'src/common/logger/constants/logger.enum.constant';
 
 @Schema({ timestamps: true, versionKey: false })
 export class LoggerEntity {
