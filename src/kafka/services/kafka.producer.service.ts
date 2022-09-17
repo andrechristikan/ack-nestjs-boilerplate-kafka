@@ -10,17 +10,20 @@ import { firstValueFrom, timeout } from 'rxjs';
 import { HelperDateService } from 'src/common/helper/services/helper.date.service';
 import { HelperStringService } from 'src/common/helper/services/helper.string.service';
 import {
-    KAFKA_PRODUCER_SERVICE_NAME,
-    KAFKA_TOPICS,
-} from '../constants/kafka.constant';
-import {
     IKafkaMessage,
     IKafkaProducerMessageOptions,
     IKafkaProducerSendMessageOptions,
-} from '../kafka.interface';
+} from 'src/kafka/interfaces/kafka.interface';
+import { IKafkaProducerService } from 'src/kafka/interfaces/kafka.producer-service.interface';
+import {
+    KAFKA_PRODUCER_SERVICE_NAME,
+    KAFKA_TOPICS,
+} from '../constants/kafka.constant';
 
 @Injectable()
-export class KafkaProducerService implements OnApplicationBootstrap {
+export class KafkaProducerService
+    implements IKafkaProducerService, OnApplicationBootstrap
+{
     private readonly timeout: number;
     protected logger = new Logger(KafkaProducerService.name);
 
@@ -88,7 +91,7 @@ export class KafkaProducerService implements OnApplicationBootstrap {
         return;
     }
 
-    private createId(): string {
+    createId(): string {
         const rand: string = this.helperStringService.random(10);
         const timestamp = `${this.helperDateService.timestamp()}`;
         return `${timestamp}-${rand}`;

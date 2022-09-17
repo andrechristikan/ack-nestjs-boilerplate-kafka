@@ -3,9 +3,10 @@ import { Admin, ITopicConfig, Kafka, KafkaConfig } from 'kafkajs';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
 import { KAFKA_TOPICS, KAFKA_TOPICS_REPLY } from '../constants/kafka.constant';
+import { IKafkaAdminService } from 'src/kafka/interfaces/kafka.admin-service.interface';
 
 @Injectable()
-export class KafkaAdminService implements OnModuleInit {
+export class KafkaAdminService implements IKafkaAdminService, OnModuleInit {
     private readonly kafka: Kafka;
     private readonly admin: Admin;
     private readonly topics: string[];
@@ -44,17 +45,17 @@ export class KafkaAdminService implements OnModuleInit {
         await this.createTopics();
     }
 
-    private async connect() {
+    async connect(): Promise<void> {
         this.logger.log(`Connecting ${KafkaAdminService.name} Admin`);
         await this.admin.connect();
         this.logger.log(`${KafkaAdminService.name} Admin Connected`);
     }
 
-    private async getAllTopic(): Promise<string[]> {
+    async getAllTopic(): Promise<string[]> {
         return this.admin.listTopics();
     }
 
-    private async getAllTopicUnique(): Promise<string[]> {
+    async getAllTopicUnique(): Promise<string[]> {
         return [...new Set(await this.getAllTopic())].filter(
             (val) => val !== '__consumer_offsets'
         );
