@@ -9,6 +9,7 @@ import { HealthController } from 'src/health/controllers/health.controller';
 import { HealthModule } from 'src/health/health.module';
 import { PermissionModule } from 'src/modules/permission/permission.module';
 import { RoleModule } from 'src/modules/role/role.module';
+import { TestingController } from 'src/modules/testing/controllers/testing.controller';
 import { UserController } from 'src/modules/user/controllers/user.controller';
 import { UserModule } from 'src/modules/user/user.module';
 
@@ -18,6 +19,7 @@ import { UserModule } from 'src/modules/user/user.module';
         UserController,
         HealthController,
         AuthController,
+        TestingController,
     ],
     providers: [],
     exports: [],

@@ -1,4 +1,5 @@
 import { Controller, Get, Optional, VERSION_NEUTRAL } from '@nestjs/common';
+import { ApiExcludeController } from '@nestjs/swagger';
 import { Types } from 'mongoose';
 import { ENUM_LOGGER_ACTION } from 'src/common/logger/constants/logger.enum.constant';
 import { Logger } from 'src/common/logger/decorators/logger.decorator';
@@ -9,9 +10,10 @@ import { ENUM_KAFKA_TOPICS } from 'src/kafka/constants/kafka.topic.constant';
 import { KafkaException } from 'src/kafka/error/exceptions/kafka.exception';
 import { KafkaProducerService } from 'src/kafka/services/kafka.producer.service';
 
+@ApiExcludeController()
 @Controller({
     version: VERSION_NEUTRAL,
-    path: '/',
+    path: '/testing',
 })
 export class TestingController {
     constructor(
