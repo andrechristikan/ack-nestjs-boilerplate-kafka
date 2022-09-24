@@ -38,6 +38,20 @@ If you change env value of `APP_ENV` to `production` that will
 
 You can see our `e2e testing file` or read [section environment](ack-doc-env).
 
+## Next Todo
+
+Next development
+
+- [x] Implement Repository Design Pattern / Data Access Object Design Pattern
+- [x] Swagger for API Documentation
+- [ ] Update Documentation
+- [ ] Export to excel and Import from excel add options to background process
+- [ ] AuthApi Controller
+- [ ] Basic Token as ApiKey
+- [ ] OAuth2 Client Credentials
+- [ ] Kafka Module Security
+- [ ] Optimize Kafka Module
+
 ## Build with
 
 Describes which version .
@@ -71,8 +85,7 @@ ack-nestjs-mongoose-kafka have some objective.
 - NestJs v9.x 🥳
 - Typescript 🚀
 - Production Ready 🔥
-- Support Serverless
-- Authentication and Authorization (JWT, OAuth2, API Key, Basic Auth, Role Management) 💪
+- Authentication and Authorization (JWT, API Key, Basic, Role Management) 💪
 - User Agent Awareness
 - Timezone Awareness, and Custom Timezone
 - MongoDB Integrate by Using Mongoose Package 🎉
@@ -110,21 +123,7 @@ We assume that everyone who comes here is **`programmer with intermediate knowle
 8. Optional,[The Twelve Factor Apps](https://12factor.net)
 9. Optional, Understand [Docker](ref-docker) that can help you to run the project
 
-## Todo
-
-Next development
-
-- [x] Implement Repository Design Pattern / Data Access Object Design Pattern
-- [x] Swagger for API Documentation
-- [ ] Update Documentation
-- [ ] Export to excel and Import from excel add options to background process
-- [ ] AuthApi Controller
-- [ ] Basic Token as ApiKey
-- [ ] OAuth2 Client Credentials
-- [ ] Kafka Module Security
-- [ ] Optimize Kafka Module
-
-## Documentation
+### Getting Started
 
 Before we start, we need to install some packages and tools.
 Recommend version is LTS Version for every tool and package
@@ -135,8 +134,7 @@ Recommend version is LTS Version for every tool and package
 2. [MongoDB as Replication](https://docs.mongodb.com/manual/replication/)
 3. [Yarn](https://yarnpkg.com)
 4. [Git](https://git-scm.com)
-
-### Getting Started
+5. [Kafka](https://kafka.apache.org/documentation/)
 
 #### Clone Repo
 
