@@ -42,27 +42,32 @@ jobs:
           touch .env
           echo APP_NAME="ack" >> .env
           echo APP_ENV="development" >> .env
-          echo APP_MODE="secure" >> .env
           echo APP_LANGUAGE="en" >> .env
-          echo APP_TZ="Asia/Jakarta" >> .env
-          echo APP_HOST="localhost" >> .env
-          echo APP_PORT="3000" >> .env
-          echo APP_DEBUG="false" >> .env
-          echo APP_VERSIONING="true" >> .env
-          echo APP_VERSION="1" >> .env
-          echo APP_DOC_NAME="ACK APIs Spec" >> .env
-          echo APP_DOC_VERSION="1" >> .env
-          echo APP_HTTP_ON="true" >> .env
-          echo APP_JOB_ON="true" >> .env
-          echo APP_KAFKA_ON="true" >> .env
+          
+          echo HTTP_ENABLE="true" >> .env
+          echo HTTP_HOST="localhost" >> .env
+          echo HTTP_PORT="3000" >> .env
+          echo HTTP_VERSIONING_ENABLE="true" >> .env
+          echo HTTP_VERSION="1" >> .env
+
+          echo DEBUGGER_HTTP_WRITE_INTO_FILE="false" >> .env
+          echo DEBUGGER_SYSTEM_WRITE_INTO_FILE="false" >> .env
+
+          echo MIDDLEWARE_TIMESTAMP_TOLERANCE="5m" >> .env
+          echo MIDDLEWARE_TIMEOUT="30s" >> .env
+
+          echo DOC_NAME="ACK APIs Spec" >> .env
+          echo DOC_VERSION="1" >> .env
+
+          echo JOB_ENABLE="true" >> .env
+
           echo DATABASE_HOST="mongodb://localhost:27017" >> .env
           echo DATABASE_NAME="ack" >> .env
           echo DATABASE_USER="" >> .env
           echo DATABASE_PASSWORD="" >> .env
           echo DATABASE_DEBUG="false" >> .env
           echo DATABASE_OPTIONS="replicaSet=test-rs" >> .env
-          echo MIDDLEWARE_TOLERANCE_TIMESTAMP="5m" >> .env
-          echo MIDDLEWARE_TIMEOUT="30s" >> .env
+
           echo AUTH_JWT_SUBJECT="AckDevelopment" >> .env
           echo AUTH_JWT_AUDIENCE="https://example.com" >> .env
           echo AUTH_JWT_ISSUER="ack" >> .env
@@ -72,17 +77,26 @@ jobs:
           echo AUTH_JWT_REFRESH_TOKEN_EXPIRED="7d" >> .env
           echo AUTH_JWT_REFRESH_TOKEN_REMEMBER_ME_EXPIRED="30d" >> .env
           echo AUTH_JWT_REFRESH_TOKEN_NOT_BEFORE_EXPIRATION="0" >> .env
-          echo AUTH_BASIC_TOKEN_CLIENT_ID="asdzxc" >> .env
-          echo AUTH_BASIC_TOKEN_CLIENT_SECRET="1234567890" >> .env
+
+          echo SERVERLESS_AWS_API_GATEWAY="$SERVERLESS_AWS_API_GATEWAY" >> .env
+          echo SERVERLESS_AWS_PROFILE="$SERVERLESS_AWS_PROFILE" >> .env
+          echo SERVERLESS_AWS_S3_BUCKET="$SERVERLESS_AWS_S3_BUCKET" >> .env
+
           echo AWS_CREDENTIAL_KEY="$AWS_CREDENTIAL_KEY" >> .env
           echo AWS_CREDENTIAL_SECRET="$AWS_CREDENTIAL_SECRET" >> .env
           echo AWS_S3_BUCKET="$AWS_S3_BUCKET" >> .env
           echo AWS_S3_REGION="$AWS_S3_REGION" >> .env
+
+          echo KAFKA_ENABLE="true" >> .env
           echo KAFKA_CLIENT_ID="KAFKA_ACK" >> .env
           echo KAFKA_ADMIN_CLIENT_ID="KAFKA_ADMIN_ACK" >> .env
           echo KAFKA_BROKERS="localhost:9092" >> .env
           echo KAFKA_CONSUMER_GROUP="nestjs.ack" >> .env
         env:
+          SERVERLESS_AWS_API_GATEWAY: ${{ secrets.SERVERLESS_AWS_API_GATEWAY }}
+          SERVERLESS_AWS_PROFILE: ${{ secrets.SERVERLESS_AWS_PROFILE }}
+          SERVERLESS_AWS_S3_BUCKET: ${{ secrets.SERVERLESS_AWS_S3_BUCKET }}
+
           AWS_CREDENTIAL_KEY: ${{ secrets.AWS_CREDENTIAL_KEY }}
           AWS_CREDENTIAL_SECRET: ${{ secrets.AWS_CREDENTIAL_SECRET }}
           AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}

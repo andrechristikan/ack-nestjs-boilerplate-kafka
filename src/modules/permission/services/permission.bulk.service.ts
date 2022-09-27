@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { IAuthPermission } from 'src/common/auth/interfaces/auth.interface';
-import { IDatabaseOptions } from 'src/common/database/interfaces/database.interface';
-import { PermissionCreateDto } from 'src/modules/permission/dtos/permission.create.dto';
+import {
+    IDatabaseCreateManyOptions,
+    IDatabaseDeleteOptions,
+} from 'src/common/database/interfaces/database.interface';
 import { IPermissionBulkService } from 'src/modules/permission/interfaces/permission.bulk-service.interface';
 import { PermissionBulkRepository } from 'src/modules/permission/repositories/permission.bulk.repository';
+import { PermissionEntity } from 'src/modules/permission/schemas/permission.schema';
 
 @Injectable()
 export class PermissionBulkService implements IPermissionBulkService {
@@ -13,9 +16,9 @@ export class PermissionBulkService implements IPermissionBulkService {
 
     async createMany(
         data: IAuthPermission[],
-        options?: IDatabaseOptions
+        options?: IDatabaseCreateManyOptions
     ): Promise<boolean> {
-        const map: PermissionCreateDto[] = data.map(
+        const map: PermissionEntity[] = data.map(
             ({ isActive, code, description, name }) => ({
                 code: code,
                 name: name,
@@ -24,7 +27,7 @@ export class PermissionBulkService implements IPermissionBulkService {
             })
         );
 
-        return this.permissionBulkRepository.createMany<IAuthPermission>(
+        return this.permissionBulkRepository.createMany<PermissionEntity>(
             map,
             options
         );
@@ -32,7 +35,7 @@ export class PermissionBulkService implements IPermissionBulkService {
 
     async deleteMany(
         find: Record<string, any>,
-        options?: IDatabaseOptions
+        options?: IDatabaseDeleteOptions
     ): Promise<boolean> {
         return this.permissionBulkRepository.deleteMany(find, options);
     }

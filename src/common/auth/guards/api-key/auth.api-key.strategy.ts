@@ -5,15 +5,11 @@ import { ENUM_AUTH_STATUS_CODE_ERROR } from 'src/common/auth/constants/auth.stat
 import { IAuthApiRequestHashedData } from 'src/common/auth/interfaces/auth.interface';
 import { AuthApiDocument } from 'src/common/auth/schemas/auth.api.schema';
 import { AuthApiService } from 'src/common/auth/services/auth.api.service';
-import { HelperNumberService } from 'src/common/helper/services/helper.number.service';
 import { IRequestApp } from 'src/common/request/interfaces/request.interface';
 
 @Injectable()
 export class ApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') {
-    constructor(
-        private readonly authApiService: AuthApiService,
-        private readonly helperNumberService: HelperNumberService
-    ) {
+    constructor(private readonly authApiService: AuthApiService) {
         super(
             { header: 'X-API-KEY', prefix: '' },
             true,
@@ -29,8 +25,6 @@ export class ApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') {
         );
     }
 
-    // you can change the logic
-    // difference app - difference logic
     async validate(
         apiKey: string,
         verified: (
@@ -73,10 +67,6 @@ export class ApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') {
                 'timestamp' in decrypted &&
                 'hash' in decrypted;
 
-            const timestamp: number = this.helperNumberService.create(
-                req.headers['x-timestamp'] as string
-            );
-
             if (!hasKey) {
                 verified(
                     null,
@@ -88,12 +78,6 @@ export class ApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') {
                     null,
                     null,
                     `${ENUM_AUTH_STATUS_CODE_ERROR.AUTH_API_KEY_INVALID_ERROR}`
-                );
-            } else if (!timestamp || timestamp !== decrypted.timestamp) {
-                verified(
-                    new Error(
-                        `${ENUM_AUTH_STATUS_CODE_ERROR.AUTH_API_KEY_TIMESTAMP_NOT_MATCH_WITH_REQUEST_ERROR}`
-                    )
                 );
             } else {
                 const validateApiKey: boolean =
@@ -107,14 +91,14 @@ export class ApiKeyStrategy extends PassportStrategy(Strategy, 'api-key') {
                         null,
                         `${ENUM_AUTH_STATUS_CODE_ERROR.AUTH_API_KEY_INVALID_ERROR}`
                     );
+                } else {
+                    req.apiKey = {
+                        _id: authApi._id,
+                        key: authApi.key,
+                        name: authApi.name,
+                    };
+                    verified(null, authApi);
                 }
-
-                req.apiKey = {
-                    _id: authApi._id,
-                    key: authApi.key,
-                    name: authApi.name,
-                };
-                verified(null, authApi);
             }
         }
     }

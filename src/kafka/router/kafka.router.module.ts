@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { TestingKafkaController } from 'src/modules/testing/controllers/testing.kafka.controller';
+import { KafkaKafkaController } from 'src/kafka/controllers/kafka.kafka.controller';
 
 @Module({
     providers: [],
     exports: [],
     imports: [],
-    controllers: [TestingKafkaController],
+    controllers: [KafkaKafkaController],
 })
 export class KafkaRouterModule {}
