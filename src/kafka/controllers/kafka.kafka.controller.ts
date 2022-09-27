@@ -7,10 +7,10 @@ import {
     MessageTopic,
     MessageValue,
 } from 'src/kafka/decorators/kafka.decorator';
-import { KafkaDto } from '../dtos/kafka.dto';
+import { KafkaDto } from 'src/kafka/dtos/kafka.dto';
 
 @Controller()
-export class TestingKafkaController {
+export class KafkaKafkaController {
     @Logger(ENUM_LOGGER_ACTION.TEST, { tags: ['helloKafka'] })
     @MessageTopic(ENUM_KAFKA_TOPICS.ACK_SUCCESS)
     async helloKafka(

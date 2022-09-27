@@ -12,16 +12,16 @@ import { KafkaProducerService } from 'src/kafka/services/kafka.producer.service'
 @ApiExcludeController()
 @Controller({
     version: VERSION_NEUTRAL,
-    path: '/testing',
+    path: '/kafka',
 })
-export class TestingController {
+export class KafkaTestController {
     constructor(
         @Optional() private readonly kafkaProducerService: KafkaProducerService
     ) {}
 
     @Response('test.helloKafka')
     @Logger(ENUM_LOGGER_ACTION.TEST, { tags: ['testKafka'] })
-    @Get('/kafka')
+    @Get('/')
     async helloKafka(): Promise<IResponse> {
         const response = await this.kafkaProducerService.send(
             ENUM_KAFKA_TOPICS.ACK_SUCCESS,
@@ -50,7 +50,7 @@ export class TestingController {
     }
 
     @Response('test.helloKafkaError')
-    @Get('/hello/kafka-error')
+    @Get('/error')
     async helloKafkaError(): Promise<IResponse> {
         try {
             const response = await this.kafkaProducerService.send(

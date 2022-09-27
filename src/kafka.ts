@@ -9,7 +9,7 @@ export default async function (app: NestApplication) {
     const configService = app.get(ConfigService);
     const logger = new Logger();
 
-    const kafka: boolean = configService.get<boolean>('kafka.enable');
+    const enable: boolean = configService.get<boolean>('kafka.enable');
     const brokers: string[] = configService.get<string[]>('kafka.brokers');
     const clientId: string = configService.get<string>('kafka.clientId');
     const consumerGroup: string = configService.get<string>(
@@ -25,7 +25,7 @@ export default async function (app: NestApplication) {
         ),
     };
 
-    if (kafka) {
+    if (enable) {
         app.connectMicroservice<MicroserviceOptions>({
             transport: Transport.KAFKA,
             options: {

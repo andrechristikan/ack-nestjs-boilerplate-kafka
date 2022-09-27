@@ -7,6 +7,7 @@ import serverlessExpress from '@vendia/serverless-express';
 import { DatabaseOptionsService } from 'src/common/database/services/database.options.service';
 import { Logger, VersioningType } from '@nestjs/common';
 import swaggerInit from './swagger';
+import kafkaInit from './kafka';
 
 let cachedServer: Handler;
 
@@ -45,6 +46,9 @@ async function bootstrap() {
 
     // Swagger
     await swaggerInit(app);
+
+    // Kafka
+    await kafkaInit(app);
 
     // Listen
     await app.init();

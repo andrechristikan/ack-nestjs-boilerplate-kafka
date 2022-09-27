@@ -61,7 +61,7 @@ export class KafkaProducerModule {}
 @Module({})
 export class KafkaModule {
     static register(): DynamicModule {
-        if (process.env.APP_KAFKA_ENABLE === 'true') {
+        if (process.env.KAFKA_ENABLE === 'true') {
             return {
                 module: KafkaModule,
                 controllers: [],

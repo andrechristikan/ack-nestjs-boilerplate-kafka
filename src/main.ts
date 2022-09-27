@@ -5,6 +5,7 @@ import { ConfigService } from '@nestjs/config';
 import { useContainer } from 'class-validator';
 import { DatabaseOptionsService } from 'src/common/database/services/database.options.service';
 import swaggerInit from './swagger';
+import kafkaInit from './kafka';
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule);
@@ -43,6 +44,9 @@ async function bootstrap() {
 
     // Swagger
     await swaggerInit(app);
+
+    // Kafka
+    await kafkaInit(app);
 
     // Listen
     await app.listen(port, host);
