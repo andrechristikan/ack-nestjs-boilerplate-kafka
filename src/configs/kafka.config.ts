@@ -6,6 +6,7 @@ import { Partitioners } from 'kafkajs';
 export default registerAs(
     'kafka',
     (): Record<string, any> => ({
+        enable: process.env.KAFKA_ENABLE === 'true' ? true : false,
         clientId: process.env.KAFKA_CLIENT_ID || 'KAFKA_ACK',
         brokers: process.env.KAFKA_BROKERS
             ? process.env.KAFKA_BROKERS.split(',')

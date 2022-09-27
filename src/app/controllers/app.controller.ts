@@ -8,11 +8,7 @@ import { HelperService } from 'src/common/helper/services/helper.service';
 
 import { ENUM_LOGGER_ACTION } from 'src/common/logger/constants/logger.enum.constant';
 import { Logger } from 'src/common/logger/decorators/logger.decorator';
-import {
-    RequestExcludeTimestamp,
-    RequestTimezone,
-    RequestUserAgent,
-} from 'src/common/request/decorators/request.decorator';
+import { RequestUserAgent } from 'src/common/request/decorators/request.decorator';
 import {
     Response,
     ResponseTimeout,
@@ -33,17 +29,11 @@ export class AppController {
     ) {}
 
     @Response('app.hello', { classSerialization: AppHelloSerialization })
-    @RequestExcludeTimestamp()
     @Logger(ENUM_LOGGER_ACTION.TEST, { tags: ['test'] })
     @Get('/hello')
-    async hello(
-        @RequestUserAgent() userAgent: IResult,
-        @RequestTimezone() timezone: string
-    ): Promise<IResponse> {
+    async hello(@RequestUserAgent() userAgent: IResult): Promise<IResponse> {
         const serviceName = this.configService.get<string>('app.name');
-        const newDate = this.helperDateService.create({
-            timezone: timezone,
-        });
+        const newDate = this.helperDateService.create();
 
         return {
             metadata: {
@@ -53,18 +43,14 @@ export class AppController {
             },
             userAgent,
             date: newDate,
-            format: this.helperDateService.format(newDate, {
-                timezone: timezone,
-            }),
+            format: this.helperDateService.format(newDate),
             timestamp: this.helperDateService.timestamp({
                 date: newDate,
-                timezone: timezone,
             }),
         };
     }
 
     @Response('app.helloTimeout')
-    @RequestExcludeTimestamp()
     @ResponseTimeout('10s')
     @ErrorMeta(AppController.name, 'helloTimeoutCustom')
     @Get('/hello/timeout')

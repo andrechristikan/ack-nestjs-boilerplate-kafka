@@ -23,18 +23,10 @@ ack-nestjs-mongoose-kafka is Hybrid NestJs Application. [NestJs Http][ref-nestjs
 
 > ack-nestjs-mongoose-kafka still on trial and error phase and the test will base on real projects or cases. So there will be (always) have new update and new features.
 
-If you change env value of `APP_MODE` to `secure` that will trigger more `Middleware` and `Guard`.
-
-1. `TimestampMiddleware`, tolerant 5 minutes of request.
-2. `UserAgentMiddleware`, whitelist of user agent.
-3. `ApiKeyGuard`, check api key based on database.
-
 If you change env value of `APP_ENV` to `production` that will
 
-1. Do not write into console `Database debug` even when `DATABASE_DEBUG` is `true`
-2. Do not write into console for `DebuggerService` even when `APP_DEBUG` is `true`
-3. `CorsMiddleware` on and follow the `src/configs/middleware.config.ts`.
-4. Documentation will `off`
+1. `CorsMiddleware` on and follow the `src/configs/middleware.config.ts`.
+2. Documentation will `off`
 
 You can see our `e2e testing file` or read [section environment](ack-doc-env).
 
@@ -44,10 +36,14 @@ Next development
 
 - [x] Implement Repository Design Pattern / Data Access Object Design Pattern
 - [x] Swagger for API Documentation
-- [ ] Update Documentation
+- [x] Support Serverless
+- [x] Mongoose soft delete
+- [x] Make it simple
+- [ ] Optimize Swagger
+- [ ] Add Relational Database Repository, ex: mysql, postgres
+- [ ] Update Documentation, include an diagram for easier comprehension
 - [ ] Export to excel and Import from excel add options to background process
 - [ ] AuthApi Controller
-- [ ] Basic Token as ApiKey
 - [ ] OAuth2 Client Credentials
 - [ ] Kafka Module Security
 - [ ] Optimize Kafka Module
@@ -69,41 +65,63 @@ Describes which version .
 | NPM        | v8.x     |
 | Docker     | v20.x    |
 | Docker Compose | v2.x |
+| Swagger | v6.x |
+| Aws CLI | v2.x |
 
 ## Objective
 
 ack-nestjs-mongoose-kafka have some objective.
 
-- Repository Design Pattern / Data Access Layer Design Pattern
-- Microservice Architecture
-- NestJs Habit.
-- [The Twelve-Factor App](https://12factor.net)
 - Easy to maintenance
+- NestJs Habit.
+- Repository Design Pattern / Data Access Layer Design Pattern
+- Microservice Architecture, Clean Architecture, and/or Hexagonal Architecture
+- [The Twelve-Factor App](https://12factor.net)
+- Adopt SOLID and KISS principle
 
 ## Features
 
 - NestJs v9.x 🥳
 - Typescript 🚀
-- Production Ready 🔥
-- Authentication and Authorization (JWT, API Key, Basic, Role Management) 💪
-- User Agent Awareness
-- Timezone Awareness, and Custom Timezone
-- MongoDB Integrate by Using Mongoose Package 🎉
-- Import from excel and export data into excel just with decorator
-- Database Migration (NestJs-Command)
-- Storage integration with AWS (S3)
-- Upload file single and multipart for reduce the memory usage
-- Server Side Pagination (3 Types)
-- Url Versioning
-- Request Validation Pipe with Custom Message 🛑
-- Custom Error Status Code 🤫
-- Logger (Morgan) and Debugger (Winston) 📝
-- Centralize Configuration 🤖
-- Centralize Exception Filter, and Custom Error Structure
-- Multi-language (i18n) 🗣
-- Request Timeout, and Request Custom Timeout (Override) ⌛️
-- Dynamic Setting from Database 🗿
-- Maintenance Mode on / off 🐤
+- Production ready 🔥
+- Support serverless
+- `OpenAPI 3.0 Spec` or `Swagger Spec`
+- Authentication and authorization (`JWT`, `API Key`) 💪
+- Role management system
+- MongoDB integrate by using `mongoose` 🎉
+- Support MongoDB Transaction
+- Support MongoDB Soft Delete
+- Database Migration with `NestJs-Command`
+- Storage integration with `AwsS3`
+- Upload file `single` and `multipart` to AwsS3
+- Support multi-language `i18n` 🗣
+- Request validation with `class-validation`
+- Serialization with `class-transformer`
+- Url Versioning or API versioning
+- Server Side Pagination, there has 3 types
+- Import and export data with excel by using `decorator`
+
+### Logger and Debugger
+
+- Logger `Morgan` and Debugger `Winston` 📝
+
+### Security
+
+- Apply `helmet`, `cors`, and `rate-limit`
+- Timeout awareness and can override ⌛️
+- User agent awareness, and can whitelist user agent
+
+### Setting
+
+- Support environment file
+- Centralize configuration 🤖
+- Centralize response
+- Centralize exception filter
+- Setting from database 🗿
+- Maintenance mode on / off from database 🐤
+
+### Others
+
 - Support Docker Installation
 - Support CI/CD with Github Action or Jenkins
 - Husky GitHook For Check Source Code, and Run Test Before Commit 🐶
@@ -141,7 +159,7 @@ Recommend version is LTS Version for every tool and package
 Clone ack-nestjs-mongoose with git.
 
 ```bash
-git clone https://github.com/andrechristikan/ack-nestjs-mongoose
+git clone https://github.com/andrechristikan/ack-nestjs-mongoose.git
 ```
 
 #### Install Dependencies
@@ -149,7 +167,6 @@ git clone https://github.com/andrechristikan/ack-nestjs-mongoose
 This project need some dependencies. Let's go install it.
 
 ```bash
-# yarn
 yarn install
 ```
 
@@ -237,24 +254,40 @@ Detail information about the environment
 | ---- | ---- | ---- |
 | APP\_NAME | `string` | Application name and will be subject for jwt|
 | APP\_ENV | `string` | <ul><li>production</li><li>development</li></ul> |
-| APP\_MODE | `string` | <ul><li>secure</li><li>simple</li></ul> |
 | APP\_LANGUAGE | `string` | Enum languages, separator `,` |
-| APP\_TZ | `string` | Override timezone |
-| APP\_HOST | `string` | Application serve |
-| APP\_PORT | `number` | Application serve |
-| APP\_DEBUG | `boolean` | All logs will write into console |
-| APP\_VERSIONING | `boolean` | Application url versioning |
-| APP\_VERSION | `number | string` | Application url versioning |
-| APP\_HTTP\_ON | `boolean` | Application Http turn on |
-| APP\_JOB\_ON | `boolean` | Application Job turn on |
-| APP\_KAFKA\_ON | `boolean` | Application connect with Kafka |
 
-### App Documentation
+### HTTP Environment
+
+| HTTP\_HTTP\_ENABLE | `boolean` | Application Http turn on |
+| HTTP\_HOST | `string` | Application serve |
+| HTTP\_PORT | `number` | Application serve |
+| HTTP\_VERSIONING\_ENABLE | `boolean` | Application url versioning |
+| HTTP\_VERSION | `number | string` | Application url versioning |
+
+### Debugger Environment
+
+| DEBUGGER\_HTTP\_WRITE\_INTO\_FILE | `boolean` | Http debugger write into file |
+| DEBUGGER\_SYSTEM\_WRITE\_INTO\_FILE | `boolean` | System debugger write into file |
+
+### Middleware Environment
 
 | Key | Type | Description |
 | ---- | ---- | ---- |
-| APP_DOC_NAME | `string` | Documentation tittle |
-| APP_DOC_VERSION | `number` | Documentation version |
+| MIDDLEWARE\_TIMESTAMP\_TOLERANCE | `string` | Tolerance timestamp `ApiKey`. `ms` package value |
+| MIDDLEWARE\_TIMEOUT | `string` | Request timeout. `ms` package value  |
+
+### Documentation Environment
+
+| Key | Type | Description |
+| ---- | ---- | ---- |
+| DOC\_NAME | `string` | Documentation tittle |
+| DOC\_VERSION | `number` | Documentation version |
+
+### Job Environment
+
+| Key | Type | Description |
+| ---- | ---- | ---- |
+| JOB\_ENABLE | `boolean` | Application Job turn on |
 
 ### Database Environment
 
@@ -267,18 +300,11 @@ Detail information about the environment
 | DATABASE\_DEBUG | `boolean` | Trigger database mongoose `DEBUG` |
 | DATABASE\_OPTIONS | `string` | Mongodb connect options |
 
-### Middleware Environment
-
-| Key | Type | Description |
-| ---- | ---- | ---- |
-| MIDDLEWARE\_TOLERANCE\_TIMESTAMP  | `string` | Tolerance timestamp `ApiKey`. `ms` package value |
-| MIDDLEWARE\_TIMEOUT | `string` | Request timeout. `ms` package value  |
-
 ### Auth Environment
 
 | Key | Type | Description |
 | ---- | ---- | ---- |
-| AUTH_JWT_SUBJECT | `setting` | Jwt subject |
+| AUTH\_JWT\_SUBJECT | `setting` | Jwt subject |
 | AUTH\_JWT\_AUDIENCE | `string` | Jwt audience |
 | AUTH\_JWT\_ISSUER| `string` | JWT issuer |
 | AUTH\_JWT\_ACCESS\_TOKEN\_SECRET\_KEY | `string` | Secret access token, free text. |
@@ -288,14 +314,13 @@ Detail information about the environment
 | AUTH\_JWT\_REFRESH\_TOKEN\_REMEMBER\_ME\_EXPIRED | `string` | Expiration time for refresh token when remember me is checked. `ms` package value |
 | AUTH\_JWT\_REFRESH\_TOKEN\_NOT\_BEFORE\_EXPIRATION | `string` | Token active for refresh token before `x` time. `ms` package value |
 
-### Basic Environment
-
-> Will implement as `ApiKey`
+### Serverless
 
 | Key | Type | Description |
 | ---- | ---- | ---- |
-| AUTH\_BASIC\_TOKEN\_CLIENT\_ID  | `string` | Free text |
-| AUTH\_BASIC\_TOKEN\_CLIENT\_SECRET | `string` | Free tex  |
+| SERVERLESS\_AWS\_API\_GATEWAY | `string` | AWS api gateway for deployment |
+| SERVERLESS\_AWS\_PROFILE | `string` | AWS profile for deployment |
+| SERVERLESS\_AWS\_S3\_BUCKET | `string` | AWS s3 bucket for deployment |
 
 ### AWS Environment
 
@@ -309,6 +334,7 @@ Detail information about the environment
 ### Kafka Environment
 
 | Key | Type | Description |
+| KAFKA\_ENABLE | `boolean` | Kafka integration on |
 | KAFKA\_CLIENT\_ID | `string` | Client id for microservice module from nestjs |
 | KAFKA\_ADMIN\_CLIENT\_ID | `string` | Client id for kafka module |
 | KAFKA\_BROKERS | `string` | List of brokers, separator `,` |

@@ -1,10 +1,14 @@
 import { NestApplication, NestFactory } from '@nestjs/core';
-import { Logger, VersioningType } from '@nestjs/common';
 import { AppModule } from 'src/app/app.module';
 import { ConfigService } from '@nestjs/config';
 import { useContainer } from 'class-validator';
+import { Callback, Context, Handler } from 'aws-lambda';
+import serverlessExpress from '@vendia/serverless-express';
 import { DatabaseOptionsService } from 'src/common/database/services/database.options.service';
+import { Logger, VersioningType } from '@nestjs/common';
 import swaggerInit from './swagger';
+
+let cachedServer: Handler;
 
 async function bootstrap() {
     const app: NestApplication = await NestFactory.create(AppModule);
@@ -15,8 +19,6 @@ async function bootstrap() {
     const databaseUri: string =
         databaseOptionsService.createMongooseOptions().uri;
     const env: string = configService.get<string>('app.env');
-    const host: string = configService.get<string>('app.http.host');
-    const port: number = configService.get<number>('app.http.port');
     const globalPrefix: string = configService.get<string>('app.globalPrefix');
     const versioning: boolean = configService.get<boolean>(
         'app.versioning.enable'
@@ -45,7 +47,7 @@ async function bootstrap() {
     await swaggerInit(app);
 
     // Listen
-    await app.listen(port, host);
+    await app.init();
 
     logger.log(`==========================================================`);
 
@@ -54,12 +56,21 @@ async function bootstrap() {
 
     logger.log(`==========================================================`);
 
-    logger.log(
-        `Http Server running on ${await app.getUrl()}`,
-        'NestApplication'
-    );
     logger.log(`Database uri ${databaseUri}`, 'NestApplication');
 
     logger.log(`==========================================================`);
+
+    const expressApp = app.getHttpAdapter().getInstance();
+    return serverlessExpress({ app: expressApp });
 }
-bootstrap();
+
+export const handler: Handler = async (
+    event: any,
+    context: Context,
+    callback: Callback
+) => {
+    if (!cachedServer) {
+        cachedServer = await bootstrap();
+    }
+    return cachedServer(event, context, callback);
+};

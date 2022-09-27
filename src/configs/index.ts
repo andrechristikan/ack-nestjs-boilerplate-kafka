@@ -9,6 +9,7 @@ import MiddlewareConfig from './middleware.config';
 import KafkaConfig from './kafka.config';
 import RequestConfig from './request.config';
 import DocConfig from './doc.config';
+import DebuggerConfig from './debugger.config';
 
 export default [
     AppConfig,
@@ -22,4 +23,5 @@ export default [
     FileConfig,
     KafkaConfig,
     DocConfig,
+    DebuggerConfig,
 ];
