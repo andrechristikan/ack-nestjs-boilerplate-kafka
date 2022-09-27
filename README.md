@@ -15,11 +15,7 @@
 
 # ACK NestJs Boilerplate Mongoose  🔥 🚀
 
-<<<<<<< HEAD
 ack-nestjs-mongoose-kafka is Hybrid NestJs Application. [NestJs Http][ref-nestjs] and [NestJs Microservice](ref-nestjsmicroservice).
-=======
-ack-nestjs-mongoose is a [Http NestJs](http://nestjs.com) Boilerplate.
->>>>>>> 8d2676056f5313d3c0fdea8c2407e92aaed5dda9
 
 *You can [Request Feature][ack-issues] or [Report Bug][ack-issues] with following this link*
 
