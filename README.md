@@ -200,6 +200,22 @@ For rollback
 yarn rollback
 ```
 
+#### Kafka topics
+
+Create kafka topics
+
+For create
+
+```bash
+yarn kafka:create-topics
+```
+
+For delete
+
+```bash
+yarn kafka:delete-topics
+```
+
 #### Test
 
 ack-nestjs-mongoose provide 3 automation testing `unit testing`, `integration testing`, and `e2e testing`.

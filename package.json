@@ -43,6 +43,8 @@
     "spell": "yarn spell:src && yarn spell:test",
     "spell:src": "cspell lint --config cspell.json src/**/*.ts --color --gitignore --no-must-find-files --no-summary --no-progress || true",
     "spell:test": "cspell lint --config cspell.json test/**/*.ts --color --gitignore --no-must-find-files --no-summary --no-progress || true",
+    "kafka:create-topics": "nestjs-command insert:kafka-topics",
+    "kafka:delete-topics": "nestjs-command remove:kafka-topics",
     "migrate": "yarn migrate:setting && yarn migrate:authapis && yarn migrate:permission && yarn migrate:role && yarn migrate:user",
     "migrate:setting": "nestjs-command insert:setting",
     "migrate:authapis": "nestjs-command insert:authapis",
