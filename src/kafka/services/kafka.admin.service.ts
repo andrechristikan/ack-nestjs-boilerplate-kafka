@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Admin, ITopicConfig, Kafka, KafkaConfig } from 'kafkajs';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
@@ -6,7 +6,9 @@ import { KAFKA_TOPICS, KAFKA_TOPICS_REPLY } from '../constants/kafka.constant';
 import { IKafkaAdminService } from 'src/kafka/interfaces/kafka.admin-service.interface';
 
 @Injectable()
-export class KafkaAdminService implements IKafkaAdminService, OnModuleInit {
+export class KafkaAdminService
+    implements IKafkaAdminService, OnModuleInit, OnModuleDestroy
+{
     private readonly kafka: Kafka;
     private readonly admin: Admin;
     private readonly topics: string[];
@@ -42,13 +44,22 @@ export class KafkaAdminService implements IKafkaAdminService, OnModuleInit {
 
     async onModuleInit(): Promise<void> {
         await this.connect();
-        await this.createTopics();
+    }
+
+    async onModuleDestroy(): Promise<void> {
+        await this.disconnect();
     }
 
     async connect(): Promise<void> {
         this.logger.log(`Connecting ${KafkaAdminService.name} Admin`);
         await this.admin.connect();
         this.logger.log(`${KafkaAdminService.name} Admin Connected`);
+    }
+
+    async disconnect(): Promise<void> {
+        this.logger.log(`Disconnecting ${KafkaAdminService.name} Admin`);
+        await this.admin.connect();
+        this.logger.log(`${KafkaAdminService.name} Admin Disconnected`);
     }
 
     async getAllTopic(): Promise<string[]> {
@@ -96,6 +107,34 @@ export class KafkaAdminService implements IKafkaAdminService, OnModuleInit {
         }
 
         this.logger.log(`${KafkaAdminService.name} Topic Created`);
+
+        return true;
+    }
+
+    async deleteTopics(): Promise<boolean> {
+        const currentTopic: string[] = await this.getAllTopicUnique();
+
+        const data = [];
+
+        for (const topic of this.topics) {
+            if (currentTopic.includes(topic)) {
+                data.push(topic);
+            }
+        }
+
+        for (const replyTopic of this.topicsReply) {
+            if (currentTopic.includes(replyTopic)) {
+                data.push(replyTopic);
+            }
+        }
+
+        if (data.length > 0) {
+            await this.admin.deleteTopics({
+                topics: data,
+            });
+        }
+
+        this.logger.log(`${KafkaAdminService.name} Topic Deleted`);
 
         return true;
     }

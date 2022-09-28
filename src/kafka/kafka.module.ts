@@ -58,6 +58,14 @@ import { KafkaProducerService } from './services/kafka.producer.service';
 })
 export class KafkaProducerModule {}
 
+@Module({
+    providers: [KafkaAdminService],
+    exports: [KafkaAdminService],
+    controllers: [],
+    imports: [],
+})
+export class KafkaAdminModule {}
+
 @Module({})
 export class KafkaModule {
     static register(): DynamicModule {
@@ -65,7 +73,7 @@ export class KafkaModule {
             return {
                 module: KafkaModule,
                 controllers: [],
-                providers: [KafkaAdminService],
+                providers: [],
                 exports: [],
                 imports: [KafkaRouterModule, KafkaProducerModule],
             };
