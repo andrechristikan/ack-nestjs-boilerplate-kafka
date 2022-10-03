@@ -1,4 +1,4 @@
-import { ArgumentsHost, Catch } from '@nestjs/common';
+import { ArgumentsHost, Catch, Optional } from '@nestjs/common';
 import {
     RpcArgumentsHost,
     RpcExceptionFilter,
@@ -9,7 +9,9 @@ import { DebuggerService } from 'src/common/debugger/services/debugger.service';
 
 @Catch(RpcException)
 export class KafkaErrorFilter implements RpcExceptionFilter<RpcException> {
-    constructor(private readonly debuggerService: DebuggerService) {}
+    constructor(
+        @Optional() private readonly debuggerService: DebuggerService
+    ) {}
 
     catch(exception: RpcException, host: ArgumentsHost): Observable<any> {
         const ctx: RpcArgumentsHost = host.switchToRpc();
