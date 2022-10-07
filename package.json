@@ -1,6 +1,6 @@
 {
   "name": "ack-nestjs-mongoose-kafka",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "Ack NestJs Mongoose Kafka",
   "repository": {
     "type": "git",
