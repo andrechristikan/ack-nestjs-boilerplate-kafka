@@ -1,10 +1,10 @@
 {
-  "name": "ack-nestjs-mongoose-kafka",
-  "version": "2.4.3",
-  "description": "Ack NestJs Mongoose Kafka",
+  "name": "ack-nestjs-boilerplate-kafka",
+  "version": "2.4.4",
+  "description": "Ack NestJs Boilerplate Kafka",
   "repository": {
     "type": "git",
-    "url": "https://github.com/andrechristikan/ack-nestjs-mongoose-kafka.git"
+    "url": "https://github.com/andrechristikan/ack-nestjs-boilerplate-kafka.git"
   },
   "author": {
     "name": "andrechristikan",
