@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CommandModule } from 'nestjs-command';
-import { AuthModule } from 'src/common/auth/auth.module';
+import { AuthApiModule, AuthModule } from 'src/common/auth/auth.module';
 import { CommonModule } from 'src/common/common.module';
 import { KafkaAdminModule } from 'src/kafka/kafka.module';
 import { KafkaTopicsSeed } from 'src/migration/seeds/kafka-topics.seed';
@@ -18,6 +18,7 @@ import { UserSeed } from './seeds/user.seed';
         CommonModule,
         CommandModule,
         AuthModule,
+        AuthApiModule,
         PermissionModule,
         RoleModule,
         UserModule,
