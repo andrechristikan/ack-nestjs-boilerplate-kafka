@@ -1,11 +1,7 @@
-import {
-    Controller,
-    Get,
-    InternalServerErrorException,
-    VERSION_NEUTRAL,
-} from '@nestjs/common';
+import { Controller, Get, VERSION_NEUTRAL } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiTags } from '@nestjs/swagger';
+import { AppHelloDoc, AppHelloTimeoutDoc } from 'src/app/docs/app.doc';
 import { AppHelloSerialization } from 'src/app/serializations/app.hello.serialization';
 import { ErrorMeta } from 'src/common/error/decorators/error.decorator';
 import { HelperDateService } from 'src/common/helper/services/helper.date.service';
@@ -33,6 +29,7 @@ export class AppController {
         private readonly helperService: HelperService
     ) {}
 
+    @AppHelloDoc()
     @Response('app.hello', { classSerialization: AppHelloSerialization })
     @Logger(ENUM_LOGGER_ACTION.TEST, { tags: ['test'] })
     @Get('/hello')
@@ -55,6 +52,7 @@ export class AppController {
         };
     }
 
+    @AppHelloTimeoutDoc()
     @Response('app.helloTimeout')
     @ResponseTimeout('10s')
     @ErrorMeta(AppController.name, 'helloTimeoutCustom')

@@ -19,6 +19,7 @@ import {
 } from 'src/common/request/decorators/request.decorator';
 import { Response } from 'src/common/response/decorators/response.decorator';
 import { IResponse } from 'src/common/response/interfaces/response.interface';
+import { HealthCheckDoc } from 'src/health/docs/health.doc';
 import { AwsHealthIndicator } from 'src/health/indicators/health.aws.indicator';
 import { HealthSerialization } from 'src/health/serializations/health.serialization';
 
@@ -39,6 +40,7 @@ export class HealthController {
         private readonly configService: ConfigService
     ) {}
 
+    @HealthCheckDoc()
     @Response('health.check', { classSerialization: HealthSerialization })
     @HealthCheck()
     @AuthApiKey()
@@ -51,6 +53,7 @@ export class HealthController {
         ]);
     }
 
+    @HealthCheckDoc()
     @Response('health.check', { classSerialization: HealthSerialization })
     @HealthCheck()
     @AuthApiKey()
@@ -66,6 +69,7 @@ export class HealthController {
         ]);
     }
 
+    @HealthCheckDoc()
     @Response('health.check', { classSerialization: HealthSerialization })
     @HealthCheck()
     @AuthApiKey()
@@ -82,6 +86,7 @@ export class HealthController {
         ]);
     }
 
+    @HealthCheckDoc()
     @Response('health.check', { classSerialization: HealthSerialization })
     @HealthCheck()
     @AuthApiKey()
@@ -98,6 +103,7 @@ export class HealthController {
         ]);
     }
 
+    @HealthCheckDoc()
     @Response('health.check', { classSerialization: HealthSerialization })
     @HealthCheck()
     @AuthApiKey()
