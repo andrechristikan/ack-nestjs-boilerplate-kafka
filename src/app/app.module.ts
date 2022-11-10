@@ -15,10 +15,10 @@ import { KafkaModule } from 'src/kafka/kafka.module';
         KafkaModule.register(),
 
         // Jobs
-        JobsModule.register(),
+        JobsModule.forRoot(),
 
         // Routes
-        RouterModule.register(),
+        RouterModule.forRoot(),
     ],
 })
 export class AppModule {}

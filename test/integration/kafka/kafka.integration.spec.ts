@@ -6,14 +6,14 @@ import request from 'supertest';
 import { faker } from '@faker-js/faker';
 import { INTEGRATION_KAFKA_URL } from './kafka.constant';
 import { HelperDateService } from 'src/common/helper/services/helper.date.service';
-import { AuthApiService } from 'src/common/auth/services/auth.api.service';
 import { CommonModule } from 'src/common/common.module';
 import { HealthController } from 'src/health/controllers/health.controller';
+import { ApiKeyService } from 'src/common/api-key/services/api-key.service';
 
 describe('Kafka Integration', () => {
     let app: INestApplication;
     let helperDateService: HelperDateService;
-    let authApiService: AuthApiService;
+    let apiKeyService: ApiKeyService;
 
     const apiKey = 'qwertyuiop12345zxcvbnmkjh';
     let xApiKey: string;
@@ -27,10 +27,10 @@ describe('Kafka Integration', () => {
 
         app = moduleRef.createNestApplication();
         helperDateService = app.get(HelperDateService);
-        authApiService = app.get(AuthApiService);
+        apiKeyService = app.get(ApiKeyService);
 
         timestamp = helperDateService.timestamp();
-        const apiEncryption = await authApiService.encryptApiKey(
+        const apiEncryption = await apiKeyService.encryptApiKey(
             {
                 key: apiKey,
                 timestamp,
