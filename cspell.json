@@ -39,7 +39,11 @@
         "kafkadata",
         "bitnami",
         "kafkadata",
-        "zookeeperdata"
+        "zookeeperdata",
+        "typeorm",
+        "apikeys",
+        "apikey",
+        "maxlength"
     ],
     "ignoreWords": [
         "psheon",
