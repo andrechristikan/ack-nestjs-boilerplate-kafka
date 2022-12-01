@@ -79,7 +79,7 @@
     "joi": "^17.7.0",
     "kafkajs": "^2.2.2",
     "moment": "^2.29.4",
-    "mongoose": "^6.7.2",
+    "mongoose": "^6.7.5",
     "morgan": "^1.10.0",
     "nest-winston": "^1.8.0",
     "nestjs-command": "^3.1.2",
