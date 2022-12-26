@@ -1,13 +1,12 @@
 import { Prop, SchemaFactory } from '@nestjs/mongoose';
 import { CallbackWithoutResultAndOptionalError } from 'mongoose';
-
-import { DatabaseMongoEntityAbstract } from 'src/common/database/abstracts/database.mongo-entity.abstract';
+import { DatabaseMongoUUIDEntityAbstract } from 'src/common/database/abstracts/mongo/entities/database.mongo.uuid.entity.abstract';
 import { DatabaseEntity } from 'src/common/database/decorators/database.decorator';
 
 export const ApiKeyDatabaseName = 'apikeys';
 
 @DatabaseEntity({ collection: ApiKeyDatabaseName })
-export class ApiKeyEntity extends DatabaseMongoEntityAbstract {
+export class ApiKeyEntity extends DatabaseMongoUUIDEntityAbstract {
     @Prop({
         required: true,
         index: true,
@@ -42,23 +41,6 @@ export class ApiKeyEntity extends DatabaseMongoEntityAbstract {
         type: String,
     })
     hash: string;
-
-    @Prop({
-        required: true,
-        type: String,
-        index: true,
-        trim: true,
-    })
-    encryptionKey: string;
-
-    @Prop({
-        required: true,
-        type: String,
-        minLength: 16,
-        maxLength: 16,
-        trim: true,
-    })
-    passphrase: string;
 
     @Prop({
         required: true,

@@ -16,14 +16,9 @@ export function SettingListDoc(): MethodDecorator {
         DocPaging<SettingListSerialization>('setting.list', {
             auth: {
                 jwtAccessToken: false,
-                apiKey: true,
-            },
-            requestHeader: {
-                userAgent: true,
-                timestamp: true,
             },
             response: {
-                classSerialization: SettingListSerialization,
+                serialization: SettingListSerialization,
                 availableSort: SETTING_DEFAULT_AVAILABLE_SORT,
                 availableSearch: SETTING_DEFAULT_AVAILABLE_SEARCH,
             },
@@ -36,16 +31,11 @@ export function SettingGetByNameDoc(): MethodDecorator {
         Doc<SettingGetSerialization>('setting.getByName', {
             auth: {
                 jwtAccessToken: false,
-                apiKey: true,
-            },
-            requestHeader: {
-                userAgent: true,
-                timestamp: true,
             },
             request: {
                 params: SettingDocParamsGetByName,
             },
-            response: { classSerialization: SettingGetSerialization },
+            response: { serialization: SettingGetSerialization },
         })
     );
 }
@@ -55,16 +45,11 @@ export function SettingGetDoc(): MethodDecorator {
         Doc<SettingGetSerialization>('setting.get', {
             auth: {
                 jwtAccessToken: false,
-                apiKey: true,
-            },
-            requestHeader: {
-                userAgent: true,
-                timestamp: true,
             },
             request: {
                 params: SettingDocParamsGet,
             },
-            response: { classSerialization: SettingGetSerialization },
+            response: { serialization: SettingGetSerialization },
         })
     );
 }

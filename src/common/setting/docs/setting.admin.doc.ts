@@ -8,16 +8,11 @@ export function SettingUpdateDoc(): MethodDecorator {
         Doc<ResponseIdSerialization>('setting.update', {
             auth: {
                 jwtAccessToken: true,
-                apiKey: true,
-            },
-            requestHeader: {
-                userAgent: true,
-                timestamp: true,
             },
             request: {
                 params: SettingDocParamsGet,
             },
-            response: { classSerialization: ResponseIdSerialization },
+            response: { serialization: ResponseIdSerialization },
         })
     );
 }
