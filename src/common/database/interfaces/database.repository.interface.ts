@@ -6,7 +6,6 @@ import {
     IDatabaseFindOneOptions,
     IDatabaseOptions,
     IDatabaseRestoreOptions,
-    IDatabaseRawOptions,
     IDatabaseManyOptions,
     IDatabaseRestoreManyOptions,
     IDatabaseSoftDeleteManyOptions,
@@ -41,10 +40,7 @@ export interface IDatabaseRepository<T> {
         options?: IDatabaseExistOptions<any>
     ): Promise<boolean>;
 
-    raw<N, R>(
-        rawOperation: R,
-        options?: IDatabaseRawOptions<any>
-    ): Promise<N[]>;
+    raw<N, R = any>(rawOperation: R): Promise<N[]>;
 
     create<N>(data: N, options?: IDatabaseCreateOptions<any>): Promise<T>;
 
@@ -96,7 +92,7 @@ export interface IDatabaseRepository<T> {
         options?: IDatabaseCreateManyOptions<any>
     ): Promise<boolean>;
 
-    deleteManyById(
+    deleteManyByIds(
         _id: string[],
         options?: IDatabaseManyOptions<any>
     ): Promise<boolean>;
@@ -106,7 +102,7 @@ export interface IDatabaseRepository<T> {
         options?: IDatabaseManyOptions<any>
     ): Promise<boolean>;
 
-    softDeleteManyById(
+    softDeleteManyByIds(
         _id: string[],
         options?: IDatabaseSoftDeleteManyOptions<any>
     ): Promise<boolean>;
@@ -116,7 +112,7 @@ export interface IDatabaseRepository<T> {
         options?: IDatabaseSoftDeleteManyOptions<any>
     ): Promise<boolean>;
 
-    restoreManyById(
+    restoreManyByIds(
         _id: string[],
         options?: IDatabaseRestoreManyOptions<any>
     ): Promise<boolean>;
@@ -132,5 +128,5 @@ export interface IDatabaseRepository<T> {
         options?: IDatabaseManyOptions<any>
     ): Promise<boolean>;
 
-    model<N>(): Promise<N>;
+    model<N = T>(): Promise<N>;
 }

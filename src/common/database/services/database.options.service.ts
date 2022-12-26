@@ -3,6 +3,7 @@ import { MongooseModuleOptions } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
 import { ConfigService } from '@nestjs/config';
 import { IDatabaseOptionsService } from 'src/common/database/interfaces/database.options-service.interface';
+import { ENUM_APP_ENVIRONMENT } from 'src/app/constants/app.enum.constant';
 
 @Injectable()
 export class DatabaseOptionsService implements IDatabaseOptionsService {
@@ -22,21 +23,19 @@ export class DatabaseOptionsService implements IDatabaseOptionsService {
         this.password = this.configService.get<string>('database.password');
         this.debug = this.configService.get<boolean>('database.debug');
 
-        /* istanbul ignore next */
         this.options = this.configService.get<string>('database.options')
             ? `?${this.configService.get<string>('database.options')}`
             : '';
     }
 
-    createOptions(): MongooseModuleOptions {
+    createMongoOptions(): MongooseModuleOptions {
         let uri = `${this.host}`;
 
         if (this.database) {
             uri = `${uri}/${this.database}${this.options}`;
         }
 
-        /* istanbul ignore next */
-        if (this.env !== 'production') {
+        if (this.env !== ENUM_APP_ENVIRONMENT.PRODUCTION) {
             mongoose.set('debug', this.debug);
         }
 
@@ -49,7 +48,6 @@ export class DatabaseOptionsService implements IDatabaseOptionsService {
             // useMongoClient: true,
         };
 
-        /* istanbul ignore next */
         if (this.user && this.password) {
             mongooseOptions.auth = {
                 username: this.user,

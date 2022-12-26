@@ -1,12 +1,26 @@
-import { IHelperFileExcelRows } from 'src/common/helper/interfaces/helper.interface';
+import {
+    IHelperFileWriteExcelOptions,
+    IHelperFileReadExcelOptions,
+    IHelperFileRows,
+    IHelperFileCreateExcelWorkbookOptions,
+} from 'src/common/helper/interfaces/helper.interface';
+import { WorkBook } from 'xlsx';
 
 export interface IHelperFileService {
-    writeExcel(
-        rows: IHelperFileExcelRows[],
-        options?: Record<string, any>
+    createExcelWorkbook(
+        rows: IHelperFileRows[],
+        options?: IHelperFileCreateExcelWorkbookOptions
+    ): WorkBook;
+
+    writeExcelToBuffer(
+        workbook: WorkBook,
+        options?: IHelperFileWriteExcelOptions
     ): Buffer;
 
-    readExcel(file: Buffer): IHelperFileExcelRows[];
+    readExcelFromBuffer(
+        file: Buffer,
+        options?: IHelperFileReadExcelOptions
+    ): IHelperFileRows[];
 
     convertToBytes(megabytes: string): number;
 }

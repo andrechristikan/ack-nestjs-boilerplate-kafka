@@ -4,10 +4,10 @@ import {
     SetMetadata,
     UseInterceptors,
 } from '@nestjs/common';
+import { ENUM_HELPER_FILE_TYPE } from 'src/common/helper/constants/helper.enum.constant';
 import { ENUM_PAGINATION_TYPE } from 'src/common/pagination/constants/pagination.enum.constant';
 import {
-    RESPONSE_CUSTOM_TIMEOUT_META_KEY,
-    RESPONSE_CUSTOM_TIMEOUT_VALUE_META_KEY,
+    RESPONSE_EXCEL_TYPE_META_KEY,
     RESPONSE_MESSAGE_PATH_META_KEY,
     RESPONSE_MESSAGE_PROPERTIES_META_KEY,
     RESPONSE_PAGING_TYPE_META_KEY,
@@ -31,7 +31,7 @@ export function Response<T>(
         SetMetadata(RESPONSE_MESSAGE_PATH_META_KEY, messagePath),
         SetMetadata(
             RESPONSE_SERIALIZATION_META_KEY,
-            options ? options.classSerialization : undefined
+            options ? options.serialization : undefined
         ),
         SetMetadata(
             RESPONSE_MESSAGE_PROPERTIES_META_KEY,
@@ -53,7 +53,11 @@ export function ResponseExcel(
         UseInterceptors(ResponseExcelInterceptor),
         SetMetadata(
             RESPONSE_SERIALIZATION_META_KEY,
-            options ? options.classSerialization : undefined
+            options ? options.serialization : undefined
+        ),
+        SetMetadata(
+            RESPONSE_EXCEL_TYPE_META_KEY,
+            options ? options.type : ENUM_HELPER_FILE_TYPE.CSV
         ),
         SetMetadata(
             RESPONSE_MESSAGE_PROPERTIES_META_KEY,
@@ -71,19 +75,12 @@ export function ResponsePaging<T>(
         SetMetadata(RESPONSE_MESSAGE_PATH_META_KEY, messagePath),
         SetMetadata(
             RESPONSE_SERIALIZATION_META_KEY,
-            options ? options.classSerialization : undefined
+            options ? options.serialization : undefined
         ),
         SetMetadata(
             RESPONSE_MESSAGE_PROPERTIES_META_KEY,
             options ? options.messageProperties : undefined
         )
-    );
-}
-
-export function ResponseTimeout(seconds: string): MethodDecorator {
-    return applyDecorators(
-        SetMetadata(RESPONSE_CUSTOM_TIMEOUT_META_KEY, true),
-        SetMetadata(RESPONSE_CUSTOM_TIMEOUT_VALUE_META_KEY, seconds)
     );
 }
 

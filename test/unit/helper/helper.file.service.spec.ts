@@ -1,13 +1,15 @@
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
-import { readFileSync } from 'fs';
 import { HelperModule } from 'src/common/helper/helper.module';
+import { IHelperFileRows } from 'src/common/helper/interfaces/helper.interface';
 import { HelperFileService } from 'src/common/helper/services/helper.file.service';
 import configs from 'src/configs';
+import { WorkBook } from 'xlsx';
 
 describe('HelperFileService', () => {
     let helperFileService: HelperFileService;
-    const file = readFileSync('./test/unit/helper/data/test.xlsx');
+    let workbook: WorkBook;
+    let file: Buffer;
 
     beforeEach(async () => {
         const moduleRef = await Test.createTestingModule({
@@ -24,68 +26,87 @@ describe('HelperFileService', () => {
         }).compile();
 
         helperFileService = moduleRef.get<HelperFileService>(HelperFileService);
+
+        workbook = helperFileService.createExcelWorkbook([
+            { test: 1 },
+            { test: 2 },
+        ]);
+        file = helperFileService.writeExcelToBuffer(workbook);
+    });
+
+    afterEach(async () => {
+        jest.clearAllMocks();
     });
 
     it('should be defined', () => {
         expect(helperFileService).toBeDefined();
     });
 
-    describe('writeExcel', () => {
-        it('should be called', async () => {
-            const test = jest.spyOn(helperFileService, 'writeExcel');
-
-            helperFileService.writeExcel([{ test: 1 }, { test: 2 }]);
-            expect(test).toHaveBeenCalledWith([{ test: 1 }, { test: 2 }]);
-        });
-
-        it('should be success', async () => {
-            const result = helperFileService.writeExcel([
+    describe('createExcelWorkbook', () => {
+        it('should be convert array of object to excel workbook', async () => {
+            const result: WorkBook = helperFileService.createExcelWorkbook([
                 { test: 1 },
                 { test: 2 },
             ]);
-            jest.spyOn(helperFileService, 'writeExcel').mockImplementation(
-                () => result
-            );
 
-            expect(
-                helperFileService.writeExcel([{ test: 1 }, { test: 2 }])
-            ).toBe(result);
+            jest.spyOn(
+                helperFileService,
+                'createExcelWorkbook'
+            ).mockReturnValueOnce(result);
+
+            expect(result).toBeTruthy();
+        });
+
+        it('should be convert empty array to excel workbook', async () => {
+            const result: WorkBook = helperFileService.createExcelWorkbook([]);
+
+            jest.spyOn(
+                helperFileService,
+                'createExcelWorkbook'
+            ).mockReturnValueOnce(result);
+
+            expect(result).toBeTruthy();
         });
     });
 
-    describe('readExcel', () => {
-        it('should be called', async () => {
-            const test = jest.spyOn(helperFileService, 'readExcel');
+    describe('writeExcelToBuffer', () => {
+        it('write workbook to buffer', async () => {
+            const result: Buffer =
+                helperFileService.writeExcelToBuffer(workbook);
 
-            helperFileService.readExcel(file);
-            expect(test).toHaveBeenCalledWith(file);
+            jest.spyOn(
+                helperFileService,
+                'writeExcelToBuffer'
+            ).mockReturnValueOnce(result);
+
+            expect(result).toBeTruthy();
         });
+    });
 
+    describe('readExcelFromBuffer', () => {
         it('should be success', async () => {
-            const result = helperFileService.readExcel(file);
-            jest.spyOn(helperFileService, 'readExcel').mockImplementation(
-                () => result
-            );
+            const result: IHelperFileRows[] =
+                helperFileService.readExcelFromBuffer(file);
 
-            expect(helperFileService.readExcel(file)).toBe(result);
+            jest.spyOn(
+                helperFileService,
+                'readExcelFromBuffer'
+            ).mockReturnValueOnce(result);
+
+            expect(result).toBeTruthy();
         });
     });
 
     describe('convertToBytes', () => {
-        it('should be called', async () => {
-            const result = jest.spyOn(helperFileService, 'convertToBytes');
-
-            helperFileService.convertToBytes('1mb');
-            expect(result).toHaveBeenCalledWith('1mb');
-        });
-
         it('should be success', async () => {
-            const result = helperFileService.convertToBytes('1mb');
-            jest.spyOn(helperFileService, 'convertToBytes').mockImplementation(
-                () => result
+            const result: number = helperFileService.convertToBytes('1mb');
+
+            jest.spyOn(helperFileService, 'convertToBytes').mockReturnValueOnce(
+                result
             );
 
-            expect(helperFileService.convertToBytes('1mb')).toBe(result);
+            expect(result).toBeTruthy();
+            expect(result).toBe(1048576);
         });
     });
 });
