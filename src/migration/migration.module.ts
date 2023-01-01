@@ -3,11 +3,17 @@ import { CommandModule } from 'nestjs-command';
 import { ApiKeyModule } from 'src/common/api-key/api-key.module';
 import { CommonModule } from 'src/common/common.module';
 import { KafkaAdminModule } from 'src/kafka/kafka.module';
-import { KafkaTopicsSeed } from 'src/migration/seeds/kafka-topics.seed';
+import { MigrationApiKeySeed } from 'src/migration/seeds/migration.api-key.seed';
+import { MigrationKafkaTopicsSeed } from 'src/migration/seeds/migration.kafka-topics.seed';
+import { MigrationSettingSeed } from 'src/migration/seeds/migration.setting.seed';
 
 @Module({
     imports: [CommonModule, CommandModule, ApiKeyModule, KafkaAdminModule],
-    providers: [KafkaTopicsSeed],
+    providers: [
+        MigrationKafkaTopicsSeed,
+        MigrationApiKeySeed,
+        MigrationSettingSeed,
+    ],
     exports: [],
 })
 export class MigrationModule {}

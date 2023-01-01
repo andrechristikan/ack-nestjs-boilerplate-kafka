@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { KafkaAdminService } from 'src/kafka/services/kafka.admin.service';
 
 @Injectable()
-export class KafkaTopicsSeed {
+export class MigrationKafkaTopicsSeed {
     constructor(private readonly kafkaAdminService: KafkaAdminService) {}
 
     @Command({
