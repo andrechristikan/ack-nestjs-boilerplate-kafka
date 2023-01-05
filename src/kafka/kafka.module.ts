@@ -69,14 +69,13 @@ export class KafkaAdminModule {}
 @Module({})
 export class KafkaModule {
     static register(): DynamicModule {
-        if (process.env.KAFKA_ENABLE === 'true') {
-            return {
-                module: KafkaModule,
-                controllers: [],
-                providers: [],
-                exports: [],
-                imports: [KafkaRouterModule, KafkaProducerModule],
-            };
+        const imports = [];
+        if (process.env.KAFKA_CONSUMER_ENABLE === 'true') {
+            imports.push(KafkaRouterModule);
+        }
+
+        if (process.env.KAFKA_PRODUCER_ENABLE === 'true') {
+            imports.push(KafkaProducerModule);
         }
 
         return {
@@ -84,7 +83,7 @@ export class KafkaModule {
             providers: [],
             exports: [],
             controllers: [],
-            imports: [],
+            imports,
         };
     }
 }

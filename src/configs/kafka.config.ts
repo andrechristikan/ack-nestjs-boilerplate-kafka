@@ -6,13 +6,13 @@ import { Partitioners } from 'kafkajs';
 export default registerAs(
     'kafka',
     (): Record<string, any> => ({
-        enable: process.env.KAFKA_ENABLE === 'true' ? true : false,
         clientId: process.env.KAFKA_CLIENT_ID || 'KAFKA_ACK',
         brokers: process.env.KAFKA_BROKERS
             ? process.env.KAFKA_BROKERS.split(',')
             : ['localhost:9092'],
 
         // consumer
+        consumerEnable: process.env.KAFKA_CONSUMER_ENABLE === 'true',
         consumer: {
             groupId: process.env.KAFKA_CONSUMER_GROUP || 'nestjs.ack',
             sessionTimeout: ms('30s'), // 30s
@@ -35,6 +35,7 @@ export default registerAs(
         },
 
         // producer
+        producerEnable: process.env.KAFKA_PRODUCER_ENABLE === 'true',
         producer: {
             createPartitioner: Partitioners.DefaultPartitioner,
             transactionTimeout: ms('60s'), //60s

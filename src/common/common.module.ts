@@ -151,7 +151,6 @@ import { APP_LANGUAGE } from 'src/app/constants/app.constant';
                 AWS_S3_REGION: Joi.string().allow(null, '').optional(),
                 AWS_S3_BUCKET: Joi.string().allow(null, '').optional(),
 
-                KAFKA_ENABLE: Joi.boolean().default(true).required(),
                 KAFKA_CLIENT_ID: Joi.string().default('KAFKA_ACK').required(),
                 KAFKA_ADMIN_CLIENT_ID: Joi.string()
                     .default('KAFKA_ADMIN_ACK')
@@ -159,6 +158,8 @@ import { APP_LANGUAGE } from 'src/app/constants/app.constant';
                 KAFKA_BROKERS: Joi.string()
                     .default('localhost:9092')
                     .required(),
+                    KAFKA_PRODUCER_ENABLE: Joi.boolean().default(true).required(),
+                KAFKA_CONSUMER_ENABLE: Joi.boolean().default(true).required(),
                 KAFKA_CONSUMER_GROUP: Joi.string()
                     .default('nestjs.ack')
                     .required(),

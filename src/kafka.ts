@@ -9,7 +9,7 @@ export default async function (app: NestApplication) {
     const configService = app.get(ConfigService);
     const logger = new Logger();
 
-    const enable: boolean = configService.get<boolean>('kafka.enable');
+    const enable: boolean = configService.get<boolean>('kafka.consumerEnable');
     const brokers: string[] = configService.get<string[]>('kafka.brokers');
     const clientId: string = configService.get<string>('kafka.clientId');
     const consumerGroup: string = configService.get<string>(
