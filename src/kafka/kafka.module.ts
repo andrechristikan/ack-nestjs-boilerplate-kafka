@@ -34,10 +34,22 @@ import { KafkaProducerService } from './services/kafka.producer.service';
                             brokers:
                                 configService.get<string[]>('kafka.brokers'),
                         },
-                        producer:
-                            configService.get<ProducerConfig>('kafka.producer'),
-                        consumer:
-                            configService.get<ConsumerConfig>('kafka.consumer'),
+                        producer: {
+                            ...configService.get<ProducerConfig>(
+                                'kafka.producer'
+                            ),
+                            allowAutoTopicCreation: configService.get<boolean>(
+                                'kafka.allowAutoTopicCreation'
+                            ),
+                        },
+                        consumer: {
+                            ...configService.get<ConsumerConfig>(
+                                'kafka.consumer'
+                            ),
+                            allowAutoTopicCreation: configService.get<boolean>(
+                                'kafka.allowAutoTopicCreation'
+                            ),
+                        },
                         subscribe: {
                             topics: KAFKA_TOPICS_REPLY,
                             ...configService.get<ConsumerSubscribeTopics>(

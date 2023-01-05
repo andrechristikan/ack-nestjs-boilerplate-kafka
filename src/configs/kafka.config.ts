@@ -23,7 +23,6 @@ export default registerAs(
             maxBytes: bytes('5mb'), // 5mb
             maxWaitTimeInMs: ms('5s'), // 5s
 
-            allowAutoTopicCreation: false,
             retry: {
                 maxRetryTime: ms('30s'), // 30s
                 initialRetryTime: ms('3s'), // 3s
@@ -39,7 +38,6 @@ export default registerAs(
         producer: {
             createPartitioner: Partitioners.DefaultPartitioner,
             transactionTimeout: ms('60s'), //60s
-            allowAutoTopicCreation: false,
             retry: {
                 maxRetryTime: ms('30s'), // 30s
                 initialRetryTime: ms('3s'), // 3s
@@ -49,6 +47,9 @@ export default registerAs(
         producerSend: {
             timeout: ms('30s'), // 30s
         },
+
+        // topic creation
+        allowAutoTopicCreation: true,
 
         // admin
         admin: {

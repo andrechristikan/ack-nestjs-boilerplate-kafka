@@ -18,6 +18,9 @@ export default async function (app: NestApplication) {
 
     const consumer: ConsumerConfig =
         configService.get<ConsumerConfig>('kafka.consumer');
+    const allowAutoTopicCreation: boolean = configService.get<boolean>(
+        'kafka.allowAutoTopicCreation'
+    );
     const subscribe: ConsumerSubscribeTopics = {
         topics: KAFKA_TOPICS,
         ...configService.get<ConsumerSubscribeTopics>(
@@ -34,7 +37,10 @@ export default async function (app: NestApplication) {
                     brokers,
                 },
                 subscribe,
-                consumer,
+                consumer: {
+                    ...consumer,
+                    allowAutoTopicCreation,
+                },
             },
         });
 
