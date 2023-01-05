@@ -49,7 +49,7 @@ export default registerAs(
         },
 
         // topic creation
-        allowAutoTopicCreation: true,
+        allowAutoTopicCreation: false,
 
         // admin
         admin: {
