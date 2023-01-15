@@ -19,15 +19,17 @@ export class KafkaErrorFilter implements RpcExceptionFilter<RpcException> {
         const { key } = ctx.getContext<KafkaContext>().getMessage();
 
         // Debugger
-        this.debuggerService.error(
-            key ? key.toString() : KafkaErrorFilter.name,
-            {
-                description: exception.message,
-                class: __class,
-                function: __function,
-            },
-            exception
-        );
+        try {
+            this.debuggerService.error(
+                key ? key.toString() : KafkaErrorFilter.name,
+                {
+                    description: exception.message,
+                    class: __class,
+                    function: __function,
+                },
+                exception
+            );
+        } catch (err: unknown) {}
 
         return of(JSON.stringify({ error: exception.getError() }));
     }

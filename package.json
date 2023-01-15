@@ -1,6 +1,6 @@
 {
   "name": "ack-nestjs-boilerplate-kafka",
-  "version": "3.3.2",
+  "version": "3.3.3",
   "description": "Ack NestJs Boilerplate Kafka",
   "repository": {
     "type": "git",
