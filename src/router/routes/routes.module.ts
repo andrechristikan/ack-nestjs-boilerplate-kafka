@@ -1,4 +1,3 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { TerminusModule } from '@nestjs/terminus';
 import { AwsModule } from 'src/common/aws/aws.module';
@@ -11,6 +10,6 @@ import { HealthModule } from 'src/health/health.module';
     controllers: [HealthController, SettingController, MessageController],
     providers: [],
     exports: [],
-    imports: [AwsModule, HealthModule, TerminusModule, HttpModule],
+    imports: [AwsModule, HealthModule, TerminusModule,],
 })
 export class RoutesModule {}
