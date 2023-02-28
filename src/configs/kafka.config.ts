@@ -26,7 +26,7 @@ export default registerAs(
             retry: {
                 maxRetryTime: ms('30s'), // 30s
                 initialRetryTime: ms('3s'), // 3s
-                retries: 8,
+                retries: 5,
             },
         },
         consumerSubscribe: {
@@ -36,12 +36,12 @@ export default registerAs(
         // producer
         producerEnable: process.env.KAFKA_PRODUCER_ENABLE === 'true',
         producer: {
-            createPartitioner: Partitioners.DefaultPartitioner,
+            createPartitioner: Partitioners.LegacyPartitioner,
             transactionTimeout: ms('60s'), //60s
             retry: {
                 maxRetryTime: ms('30s'), // 30s
                 initialRetryTime: ms('3s'), // 3s
-                retries: 8,
+                retries: 5,
             },
         },
         producerSend: {
