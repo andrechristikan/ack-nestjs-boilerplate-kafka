@@ -23,6 +23,7 @@ export class KafkaResponseInterceptor implements NestInterceptor<Promise<any>> {
                 if (response) {
                     delete response.__class;
                     delete response.__function;
+
                     return JSON.stringify({
                         headers,
                         key,

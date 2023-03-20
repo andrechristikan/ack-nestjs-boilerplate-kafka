@@ -38,19 +38,6 @@ import { KafkaProducerService } from './services/kafka.producer.service';
                                 'kafka.allowAutoTopicCreation'
                             ),
                         },
-                        subscribe: {
-                            topics: KAFKA_TOPICS_REPLY,
-                            ...configService.get<ConsumerSubscribeTopics>(
-                                'kafka.consumerSubscribe'
-                            ),
-                        },
-                        send: {
-                            timeout: configService.get<number>(
-                                'kafka.producerSend.timeout'
-                            ),
-                            acks: -1,
-                        },
-                        producerOnlyMode: true,
                     },
                 }),
             },

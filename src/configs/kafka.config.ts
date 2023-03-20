@@ -15,32 +15,33 @@ export default registerAs(
         consumerEnable: process.env.KAFKA_CONSUMER_ENABLE === 'true',
         consumer: {
             groupId: process.env.KAFKA_CONSUMER_GROUP || 'nestjs.ack',
-            sessionTimeout: ms('30s'), // 30s
-            rebalanceTimeout: ms('60s'), //60s
-            heartbeatInterval: ms('5s'), // 5s
+            sessionTimeout: ms('60s'), // 6000 .. 300000
+            rebalanceTimeout: ms('90s'), // 300000
+            heartbeatInterval: ms('3s'), // 3000
 
             maxBytesPerPartition: bytes('1mb'), // 1mb
-            maxBytes: bytes('5mb'), // 5mb
+            maxBytes: bytes('10mb'), // 5mb
             maxWaitTimeInMs: ms('5s'), // 5s
 
             retry: {
-                maxRetryTime: ms('30s'), // 30s
-                initialRetryTime: ms('3s'), // 3s
+                maxRetryTime: ms('60s'), // 30s
+                initialRetryTime: ms('0.3s'), // 3s
                 retries: 5,
             },
         },
         consumerSubscribe: {
-            fromBeginning: true,
+            fromBeginning: false,
         },
 
         // producer
         producerEnable: process.env.KAFKA_PRODUCER_ENABLE === 'true',
         producer: {
             createPartitioner: Partitioners.LegacyPartitioner,
-            transactionTimeout: ms('60s'), //60s
+            transactionTimeout: ms('100s'), // 30000 .. 60000
+
             retry: {
-                maxRetryTime: ms('30s'), // 30s
-                initialRetryTime: ms('3s'), // 3s
+                maxRetryTime: ms('60s'), // 30s
+                initialRetryTime: ms('0.3s'), // 3s
                 retries: 5,
             },
         },

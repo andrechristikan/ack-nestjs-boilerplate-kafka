@@ -62,7 +62,7 @@ export class KafkaProducerService
 
         const send = await firstValueFrom(
             this.clientKafka
-                .send<any, IKafkaMessage<T>>(topic, message)
+                .send<any, string>(topic, JSON.stringify(message))
                 .pipe(timeout(this.timeout))
         );
 
@@ -85,7 +85,7 @@ export class KafkaProducerService
         };
 
         this.clientKafka
-            .emit<any, IKafkaMessage<T>>(topic, message)
+            .emit<any, string>(topic, JSON.stringify(message))
             .pipe(timeout(this.timeout));
 
         return;
