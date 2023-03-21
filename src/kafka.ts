@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestApplication } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConsumerConfig, ConsumerSubscribeTopics } from 'kafkajs';
-import { KAFKA_TOPICS } from 'src/kafka/constants/kafka.constant';
+import { ENUM_KAFKA_TOPICS } from 'src/kafka/constants/kafka.topic.constant';
 
 export default async function (app: NestApplication) {
     const configService = app.get(ConfigService);
@@ -22,7 +22,7 @@ export default async function (app: NestApplication) {
         'kafka.allowAutoTopicCreation'
     );
     const subscribe: ConsumerSubscribeTopics = {
-        topics: KAFKA_TOPICS,
+        topics: Object.values(ENUM_KAFKA_TOPICS),
         ...configService.get<ConsumerSubscribeTopics>(
             'kafka.consumerSubscribe'
         ),

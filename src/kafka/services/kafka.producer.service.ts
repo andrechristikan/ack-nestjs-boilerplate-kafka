@@ -15,10 +15,8 @@ import {
     IKafkaProducerSendMessageOptions,
 } from 'src/kafka/interfaces/kafka.interface';
 import { IKafkaProducerService } from 'src/kafka/interfaces/kafka.producer-service.interface';
-import {
-    KAFKA_PRODUCER_SERVICE_NAME,
-    KAFKA_TOPICS,
-} from '../constants/kafka.constant';
+import { KAFKA_PRODUCER_SERVICE_NAME } from '../constants/kafka.constant';
+import { ENUM_KAFKA_TOPICS } from 'src/kafka/constants/kafka.topic.constant';
 
 @Injectable()
 export class KafkaProducerService
@@ -40,7 +38,7 @@ export class KafkaProducerService
     }
 
     async onApplicationBootstrap(): Promise<void> {
-        KAFKA_TOPICS.forEach((topic) =>
+        Object.values(ENUM_KAFKA_TOPICS).forEach((topic) =>
             this.clientKafka.subscribeToResponseOf(topic)
         );
 
@@ -80,6 +78,48 @@ export class KafkaProducerService
     ): void {
         const message: IKafkaMessage<T> = {
             key: this.createId(),
+            value: data,
+            headers: options && options.headers ? options.headers : undefined,
+        };
+
+        this.clientKafka
+            .emit<any, string>(topic, JSON.stringify(message))
+            .pipe(timeout(this.timeout));
+
+        return;
+    }
+
+    async sendSequential<T, N>(
+        topic: string,
+        data: T,
+        options?: IKafkaProducerSendMessageOptions
+    ): Promise<IKafkaMessage<N> | N> {
+        const message: IKafkaMessage<T> = {
+            key: `${topic}-sequential-key`,
+            value: data,
+            headers: options && options.headers ? options.headers : undefined,
+        };
+
+        const send = await firstValueFrom(
+            this.clientKafka
+                .send<any, string>(topic, JSON.stringify(message))
+                .pipe(timeout(this.timeout))
+        );
+
+        if (send.error) {
+            throw send.error;
+        }
+
+        return options && options.raw ? send : send.value;
+    }
+
+    emitSequential<T>(
+        topic: string,
+        data: T,
+        options?: IKafkaProducerMessageOptions
+    ): void {
+        const message: IKafkaMessage<T> = {
+            key: `${topic}-sequential-key`,
             value: data,
             headers: options && options.headers ? options.headers : undefined,
         };

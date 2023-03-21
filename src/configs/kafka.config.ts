@@ -23,6 +23,8 @@ export default registerAs(
             maxBytes: bytes('10mb'), // 5mb
             maxWaitTimeInMs: ms('5s'), // 5s
 
+            maxInFlightRequests: null, // set this to make customer guaranteed sequential
+
             retry: {
                 maxRetryTime: ms('60s'), // 30s
                 initialRetryTime: ms('0.3s'), // 3s

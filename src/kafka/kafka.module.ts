@@ -1,11 +1,8 @@
 import { DynamicModule, Global, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { ConsumerSubscribeTopics, ProducerConfig } from 'kafkajs';
-import {
-    KAFKA_PRODUCER_SERVICE_NAME,
-    KAFKA_TOPICS_REPLY,
-} from './constants/kafka.constant';
+import { ProducerConfig } from 'kafkajs';
+import { KAFKA_PRODUCER_SERVICE_NAME } from './constants/kafka.constant';
 import { KafkaRouterModule } from './router/kafka.router.module';
 import { KafkaAdminService } from './services/kafka.admin.service';
 import { KafkaProducerService } from './services/kafka.producer.service';

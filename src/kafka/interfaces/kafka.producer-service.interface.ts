@@ -17,5 +17,17 @@ export interface IKafkaProducerService {
         options?: IKafkaProducerMessageOptions
     ): void;
 
+    sendSequential<T, N>(
+        topic: string,
+        data: T,
+        options?: IKafkaProducerSendMessageOptions
+    ): Promise<IKafkaMessage<N> | N>;
+
+    emitSequential<T>(
+        topic: string,
+        data: T,
+        options?: IKafkaProducerMessageOptions
+    ): void;
+
     createId(): string;
 }

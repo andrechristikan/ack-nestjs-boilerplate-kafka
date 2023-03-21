@@ -1,11 +1,11 @@
+import { IKafkaCreateTopic } from 'src/kafka/interfaces/kafka.interface';
 import { ENUM_KAFKA_TOPICS } from './kafka.topic.constant';
 
 export const KAFKA_PRODUCER_SERVICE_NAME = 'KAFKA_PRODUCER_SERVICE';
 
-export const KAFKA_TOPICS: string[] = [
-    ...new Set(Object.values(ENUM_KAFKA_TOPICS)),
-];
-
-export const KAFKA_TOPICS_REPLY: string[] = [
-    ...new Set(Object.values(ENUM_KAFKA_TOPICS).map((val) => `${val}.reply`)),
-];
+export const KafkaCreateTopis: IKafkaCreateTopic[] = Object.values(
+    ENUM_KAFKA_TOPICS
+).map((val) => ({
+    topic: val,
+    topicReply: `${val}.reply`,
+}));

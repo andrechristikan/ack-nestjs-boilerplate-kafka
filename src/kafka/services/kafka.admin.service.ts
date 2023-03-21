@@ -2,8 +2,9 @@ import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { Admin, ITopicConfig, Kafka, KafkaConfig } from 'kafkajs';
 import { Logger } from '@nestjs/common/services/logger.service';
 import { ConfigService } from '@nestjs/config';
-import { KAFKA_TOPICS, KAFKA_TOPICS_REPLY } from '../constants/kafka.constant';
 import { IKafkaAdminService } from 'src/kafka/interfaces/kafka.admin-service.interface';
+import { IKafkaCreateTopic } from 'src/kafka/interfaces/kafka.interface';
+import { KafkaCreateTopis } from 'src/kafka/constants/kafka.constant';
 
 @Injectable()
 export class KafkaAdminService
@@ -11,8 +12,7 @@ export class KafkaAdminService
 {
     private readonly kafka: Kafka;
     private readonly admin: Admin;
-    private readonly topics: string[];
-    private readonly topicsReply: string[];
+    private readonly topics: IKafkaCreateTopic[];
     private readonly brokers: string[];
     private readonly clientId: string;
     private readonly kafkaOptions: KafkaConfig;
@@ -24,8 +24,7 @@ export class KafkaAdminService
         this.clientId = this.configService.get<string>('kafka.admin.clientId');
         this.brokers = this.configService.get<string[]>('kafka.brokers');
 
-        this.topics = KAFKA_TOPICS;
-        this.topicsReply = KAFKA_TOPICS_REPLY;
+        this.topics = KafkaCreateTopis;
 
         this.kafkaOptions = {
             clientId: this.clientId,
@@ -74,27 +73,30 @@ export class KafkaAdminService
 
     async createTopics(): Promise<boolean> {
         this.logger.log(`Topics ${this.topics}`);
-        this.logger.log(`Topics Reply ${this.topicsReply}`);
 
         const currentTopic: string[] = await this.getAllTopicUnique();
         const data: ITopicConfig[] = [];
 
         for (const topic of this.topics) {
-            if (!currentTopic.includes(topic)) {
+            const partition: number = topic.partition ?? this.defaultPartition;
+            const replicationFactor: number =
+                topic.replicationFactor &&
+                topic.replicationFactor <= this.brokers.length
+                    ? topic.replicationFactor
+                    : this.brokers.length;
+            if (!currentTopic.includes(topic.topic)) {
                 data.push({
-                    topic,
-                    numPartitions: this.defaultPartition,
-                    replicationFactor: this.brokers.length,
+                    topic: topic.topic,
+                    numPartitions: partition,
+                    replicationFactor: replicationFactor,
                 });
             }
-        }
 
-        for (const replyTopic of this.topicsReply) {
-            if (!currentTopic.includes(replyTopic)) {
+            if (!currentTopic.includes(topic.topicReply)) {
                 data.push({
-                    topic: replyTopic,
-                    numPartitions: this.defaultPartition,
-                    replicationFactor: this.brokers.length,
+                    topic: topic.topicReply,
+                    numPartitions: partition,
+                    replicationFactor,
                 });
             }
         }
@@ -117,14 +119,12 @@ export class KafkaAdminService
         const data = [];
 
         for (const topic of this.topics) {
-            if (currentTopic.includes(topic)) {
-                data.push(topic);
+            if (currentTopic.includes(topic.topic)) {
+                data.push(topic.topic);
             }
-        }
 
-        for (const replyTopic of this.topicsReply) {
-            if (currentTopic.includes(replyTopic)) {
-                data.push(replyTopic);
+            if (currentTopic.includes(topic.topicReply)) {
+                data.push(topic.topicReply);
             }
         }
 

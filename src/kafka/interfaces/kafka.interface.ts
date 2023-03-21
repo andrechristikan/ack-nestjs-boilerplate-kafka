@@ -26,3 +26,10 @@ export interface IKafkaErrorException {
     errors: ValidationError;
     statusHttp: HttpStatus;
 }
+
+export interface IKafkaCreateTopic {
+    topic: string;
+    topicReply: string;
+    partition?: number;
+    replicationFactor?: number;
+}
