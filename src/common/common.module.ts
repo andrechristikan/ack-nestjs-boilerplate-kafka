@@ -158,7 +158,6 @@ import { APP_LANGUAGE } from 'src/app/constants/app.constant';
                 KAFKA_BROKERS: Joi.string()
                     .default('localhost:9092')
                     .required(),
-                    KAFKA_PRODUCER_ENABLE: Joi.boolean().default(true).required(),
                 KAFKA_CONSUMER_ENABLE: Joi.boolean().default(true).required(),
                 KAFKA_CONSUMER_GROUP: Joi.string()
                     .default('nestjs.ack')

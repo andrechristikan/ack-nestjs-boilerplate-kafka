@@ -5,8 +5,8 @@ import {
     OnApplicationBootstrap,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ClientKafka } from '@nestjs/microservices';
-import { firstValueFrom, timeout } from 'rxjs';
+import { ClientKafka, KafkaContext } from '@nestjs/microservices';
+import { Observable, firstValueFrom, timeout } from 'rxjs';
 import { HelperDateService } from 'src/common/helper/services/helper.date.service';
 import { HelperStringService } from 'src/common/helper/services/helper.string.service';
 import {
@@ -14,20 +14,23 @@ import {
     IKafkaProducerMessageOptions,
     IKafkaProducerSendMessageOptions,
 } from 'src/kafka/interfaces/kafka.interface';
-import { IKafkaProducerService } from 'src/kafka/interfaces/kafka.producer-service.interface';
-import { KAFKA_PRODUCER_SERVICE_NAME } from '../constants/kafka.constant';
+import { IKafkaService } from 'src/kafka/interfaces/kafka.service.interface';
 import { ENUM_KAFKA_TOPICS } from 'src/kafka/constants/kafka.topic.constant';
+import { KAFKA_SERVICE_NAME } from 'src/kafka/constants/kafka.constant';
+
+// note:
+// if we want create sequential execution
+// key must same, maxInFlightRequests set to 1
+// and topic mush created with 1 partition and 1 replication
 
 @Injectable()
-export class KafkaProducerService
-    implements IKafkaProducerService, OnApplicationBootstrap
-{
+export class KafkaService implements IKafkaService, OnApplicationBootstrap {
     private readonly timeout: number;
-    protected logger = new Logger(KafkaProducerService.name);
+    protected logger = new Logger(KafkaService.name);
 
     constructor(
         private readonly helperStringService: HelperStringService,
-        @Inject(KAFKA_PRODUCER_SERVICE_NAME)
+        @Inject(KAFKA_SERVICE_NAME)
         private readonly clientKafka: ClientKafka,
         private readonly configService: ConfigService,
         private readonly helperDateService: HelperDateService
@@ -47,7 +50,7 @@ export class KafkaProducerService
         this.logger.log('Kafka Client Connected');
     }
 
-    async send<T, N>(
+    async produceSend<T, N>(
         topic: string,
         data: T,
         options?: IKafkaProducerSendMessageOptions
@@ -71,29 +74,27 @@ export class KafkaProducerService
         return options && options.raw ? send : send.value;
     }
 
-    emit<T>(
+    produceEmit<T, N>(
         topic: string,
         data: T,
         options?: IKafkaProducerMessageOptions
-    ): void {
+    ): Observable<N> {
         const message: IKafkaMessage<T> = {
             key: this.createId(),
             value: data,
             headers: options && options.headers ? options.headers : undefined,
         };
 
-        this.clientKafka
+        return this.clientKafka
             .emit<any, string>(topic, JSON.stringify(message))
             .pipe(timeout(this.timeout));
-
-        return;
     }
 
-    async sendSequential<T, N>(
+    async produceSendSequential<T, N = any>(
         topic: string,
         data: T,
         options?: IKafkaProducerSendMessageOptions
-    ): Promise<IKafkaMessage<N> | N> {
+    ): Promise<N> {
         const message: IKafkaMessage<T> = {
             key: `${topic}-sequential-key`,
             value: data,
@@ -113,27 +114,36 @@ export class KafkaProducerService
         return options && options.raw ? send : send.value;
     }
 
-    emitSequential<T>(
+    produceEmitSequential<T, N = any>(
         topic: string,
         data: T,
         options?: IKafkaProducerMessageOptions
-    ): void {
+    ): Observable<N> {
         const message: IKafkaMessage<T> = {
             key: `${topic}-sequential-key`,
             value: data,
             headers: options && options.headers ? options.headers : undefined,
         };
 
-        this.clientKafka
+        return this.clientKafka
             .emit<any, string>(topic, JSON.stringify(message))
             .pipe(timeout(this.timeout));
-
-        return;
     }
 
     createId(): string {
         const rand: string = this.helperStringService.random(10);
         const timestamp = `${this.helperDateService.timestamp()}`;
         return `${timestamp}-${rand}`;
+    }
+
+    async commitOffsets(context: KafkaContext): Promise<void> {
+        const originalMessage = context.getMessage();
+        const kafkaTopic = context.getTopic();
+        const kafkaPartition = context.getPartition();
+        const { offset } = originalMessage;
+
+        return this.clientKafka.commitOffsets([
+            { topic: kafkaTopic, partition: kafkaPartition, offset },
+        ]);
     }
 }

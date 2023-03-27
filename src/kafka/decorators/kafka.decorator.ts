@@ -16,6 +16,7 @@ import { KafkaErrorFilter } from '../error/filters/kafka.error.filter';
 import { KafkaResponseInterceptor } from '../interceptors/kafka.response.interceptor';
 import { KafkaResponseTimeoutInterceptor } from '../interceptors/kafka.response.timeout.interceptor';
 import { KafkaValidationPipe } from '../pipes/kafka.validation.pipe';
+import { KafkaCommitOffsetFirstInterceptor } from 'src/kafka/interceptors/kafka.commit-offset-first.interceptor';
 
 export function MessageTopic(topic: string): any {
     return applyDecorators(
@@ -46,3 +47,7 @@ export const MessageKey = createParamDecorator<string>(
         return key;
     }
 );
+
+export function MessageCommitOffsetInFirstRunning(): any {
+    return applyDecorators(UseInterceptors(KafkaCommitOffsetFirstInterceptor));
+}

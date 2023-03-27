@@ -36,7 +36,6 @@ export default registerAs(
         },
 
         // producer
-        producerEnable: process.env.KAFKA_PRODUCER_ENABLE === 'true',
         producer: {
             createPartitioner: Partitioners.LegacyPartitioner,
             transactionTimeout: ms('100s'), // 30000 .. 60000

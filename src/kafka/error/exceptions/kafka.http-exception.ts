@@ -2,7 +2,7 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 import { ENUM_ERROR_STATUS_CODE_ERROR } from 'src/common/error/constants/error.status-code.constant';
 import { IKafkaErrorException } from 'src/kafka/interfaces/kafka.interface';
 
-export class KafkaException extends HttpException {
+export class KafkaHttpException extends HttpException {
     constructor(exception: IKafkaErrorException) {
         if (
             'message' in exception &&

@@ -1,33 +1,36 @@
+import { KafkaContext } from '@nestjs/microservices';
 import {
     IKafkaMessage,
     IKafkaProducerMessageOptions,
     IKafkaProducerSendMessageOptions,
 } from 'src/kafka/interfaces/kafka.interface';
 
-export interface IKafkaProducerService {
-    send<T, N>(
+export interface IKafkaService {
+    produceSend<T, N>(
         topic: string,
         data: T,
         options?: IKafkaProducerSendMessageOptions
     ): Promise<IKafkaMessage<N> | N>;
 
-    emit<T>(
+    produceEmit<T>(
         topic: string,
         data: T,
         options?: IKafkaProducerMessageOptions
     ): void;
 
-    sendSequential<T, N>(
+    produceSendSequential<T, N>(
         topic: string,
         data: T,
         options?: IKafkaProducerSendMessageOptions
     ): Promise<IKafkaMessage<N> | N>;
 
-    emitSequential<T>(
+    produceEmitSequential<T>(
         topic: string,
         data: T,
         options?: IKafkaProducerMessageOptions
     ): void;
 
     createId(): string;
+
+    commitOffsets(context: KafkaContext): Promise<void>;
 }
