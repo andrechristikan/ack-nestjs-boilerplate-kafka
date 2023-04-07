@@ -44,7 +44,7 @@ export class KafkaTestController {
             }
         );
 
-        return response;
+        return { data: response };
     }
 
     @Response('test.helloKafkaError')
@@ -74,7 +74,7 @@ export class KafkaTestController {
                 { raw: true }
             );
 
-            return response;
+            return { data: response };
         } catch (err: any) {
             throw new KafkaHttpException(err);
         }

@@ -7,7 +7,6 @@ import {
 import { RpcArgumentsHost } from '@nestjs/common/interfaces';
 import { KafkaContext } from '@nestjs/microservices';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { KafkaService } from 'src/kafka/services/kafka.service';
 
 @Injectable()

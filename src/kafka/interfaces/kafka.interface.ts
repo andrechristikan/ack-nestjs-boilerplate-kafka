@@ -1,6 +1,8 @@
 import { HttpStatus } from '@nestjs/common';
 import { ValidationError } from 'class-validator';
 
+export type IKafkaResponse = Record<string, any>;
+
 export interface IKafkaMessageHeader {
     user?: string;
 }

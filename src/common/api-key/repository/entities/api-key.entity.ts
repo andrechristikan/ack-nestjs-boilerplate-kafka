@@ -2,11 +2,18 @@ import { Prop, SchemaFactory } from '@nestjs/mongoose';
 import { CallbackWithoutResultAndOptionalError } from 'mongoose';
 import { DatabaseMongoUUIDEntityAbstract } from 'src/common/database/abstracts/mongo/entities/database.mongo.uuid.entity.abstract';
 import { DatabaseEntity } from 'src/common/database/decorators/database.decorator';
+import { Document } from 'mongoose';
 
 export const ApiKeyDatabaseName = 'apikeys';
 
 @DatabaseEntity({ collection: ApiKeyDatabaseName })
 export class ApiKeyEntity extends DatabaseMongoUUIDEntityAbstract {
+    @Prop({
+        required: true,
+        index: true,
+    })
+    user: string;
+
     @Prop({
         required: true,
         index: true,
@@ -63,6 +70,8 @@ export class ApiKeyEntity extends DatabaseMongoUUIDEntityAbstract {
 }
 
 export const ApiKeySchema = SchemaFactory.createForClass(ApiKeyEntity);
+
+export type ApiKeyDoc = ApiKeyEntity & Document<string>;
 
 ApiKeySchema.pre(
     'save',
